@@ -3,7 +3,13 @@
  */
 package us.miui.toolbox;
 
+import java.io.IOException;
+import java.util.List;
+
+import android.app.ActivityManager;
+import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
@@ -53,6 +59,7 @@ public class StatusbarPrefFragment extends PreferenceFragment {
 			Settings.System.putInt(mCR, SINGLE_SIGNAL_BARS, 0);
 		}
 		
+		// need to update system settings with the new value for CENTER_CLOCK
 		mCenterClock.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 			
 			@Override
@@ -60,10 +67,12 @@ public class StatusbarPrefFragment extends PreferenceFragment {
 				
 				Settings.System.putInt(mCR, CENTER_CLOCK, 
 						(Boolean)newValue.equals(Boolean.TRUE) ? 1:0);
+				restartSystemUI();
 				return true;
 			}
 		});
 		
+		// need to update system settings with the new value for CENTER_CLOCK
 		mSingleBars.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 			
 			@Override
@@ -73,5 +82,28 @@ public class StatusbarPrefFragment extends PreferenceFragment {
 				return true;
 			}
 		});
+	}
+	
+	/**
+	 * Method to find the PID for com.android.system ui and kill it.
+	 * SystemUI will restart so this works out for us.
+	 */
+	private void restartSystemUI() {
+		ActivityManager am = (ActivityManager)getActivity().
+				getSystemService(Context.ACTIVITY_SERVICE);
+		
+		List<ActivityManager.RunningAppProcessInfo> apps = am.getRunningAppProcesses();
+		for(RunningAppProcessInfo app : apps) {
+			if (app.processName.equals("com.android.systemui")) {
+				int pid = app.pid;
+				try {
+					RootUtils.execute("kill " + pid + "\n", Runtime.getRuntime());
+					return;
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 }
