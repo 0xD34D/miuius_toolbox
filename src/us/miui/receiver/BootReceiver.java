@@ -38,8 +38,7 @@ public class BootReceiver extends BroadcastReceiver {
 				Log.i(TAG, "Setting governor to " + gov);
 				CPUHelper.setGovernor(gov);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Log.e(TAG, "Unable to restore CPU settings.");
 			}
 		}
 	}
