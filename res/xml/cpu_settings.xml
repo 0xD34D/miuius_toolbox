@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:miuius="http://schemas.android.com/apk/res/us.miui.toolbox"
+    android:fragment="us.miui.toolbox.CPUPrefFragment"
+    android:key="@string/cpu_prefs_key" >
+
+    <us.miui.widget.CPUGovernorListPreference
+        android:key="pref_key_cpugovernor"
+        android:summary="@string/pref_cpugovernor_summary"
+        android:title="@string/pref_cpugovernor_title" />
+
+    <us.miui.widget.CPUSeekBarPreference
+        android:dialogMessage="Min. Freq."
+        android:enabled="true"
+        miuius:isMax="false"
+        android:key="min_cpu_freq"
+        android:summary="Minimum CPU frequency to scale down to."
+        android:text="MHz"
+        android:title="Minimum frequency" />
+
+    <us.miui.widget.CPUSeekBarPreference
+        android:dialogMessage="Max. Freq."
+        android:enabled="true"
+        miuius:isMax="true"
+        android:key="max_cpu_freq"
+        android:summary="Maximum CPU frequency to scale up to."
+        android:text="MHz"
+        android:title="Maximum frequency" />
+    <CheckBoxPreference android:key="restore_cpu_onboot" android:title="@string/pref_cpu_restore_title" android:summary="@string/pref_cpu_restore_summary" android:defaultValue="false"/>
+
+</PreferenceScreen>

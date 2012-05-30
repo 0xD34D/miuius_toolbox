@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <SwitchPreference
+        android:key="pre_key_centerclock"
+        android:summary="@string/pref_centerclock_summary"
+        android:switchTextOff="@string/pref_centerclock_off_text"
+        android:switchTextOn="@string/pref_centerclock_on_text"
+        android:title="@string/pref_centerclock_title" />
+    <SwitchPreference
+        android:key="pref_key_signalbars"
+        android:summary="@string/pref_signalbars_summary"
+        android:switchTextOff="@string/pref_signalbars_off_text"
+        android:switchTextOn="@string/pref_signalbars_on_text"
+        android:title="@string/pref_signalbars_title" />
+
+</PreferenceScreen>

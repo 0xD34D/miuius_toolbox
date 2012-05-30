@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, MIUIToolboxActivity!</string>
+    <string name="app_name">MIUI.us Toolbox</string>
+    <string name="pref_statusbar_settings_title">Status Bar Mods</string>
+    <string name="pref_centerclock_on_text">On</string>
+    <string name="pref_centerclock_off_text">Off</string>
+    <string name="pref_centerclock_title">Center clock</string>
+    <string name="pref_centerclock_summary">Display the clock in the center of the status bar</string>
+    <string name="pref_signalbars_on_text">On</string>
+    <string name="pref_signalbars_off_text">Off</string>
+    <string name="pref_signalbars_title">Single signal bars</string>
+    <string name="pref_signalbars_summary">Display single signal bars for CDMA devices</string>
+    <string name="statusbar_prefs_key">statusbar_prefs_key</string>
+    <string name="pref_cpugovernor_title">CPU Governor</string>
+    <string name="pref_cpugovernor_summary">Select the CPU governor to use.</string>
+    <string name="cpu_prefs_key">cpu_prefs_key</string>
+    <string name="pref_cpu_settings_title">CPU Settings</string>
+    <string name="pref_cpu_min_freq_title">Min frequency</string>
+    <string name="pref_cpu_max_freq_title">Max frequency</string>
+    <string name="pref_cpu_restore_title">Restore on boot</string>
+    <string name="pref_cpu_restore_summary">Restore cpu settings after device boots</string>
+    
+</resources>
