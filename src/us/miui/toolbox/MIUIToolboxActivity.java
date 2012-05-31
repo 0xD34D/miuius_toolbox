@@ -1,6 +1,7 @@
 package us.miui.toolbox;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
 public class MIUIToolboxActivity extends Activity {

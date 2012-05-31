@@ -26,5 +26,11 @@
     <string name="pref_use_custom_carrier_title">Custom carrier label</string>
     <string name="pref_use_custom_carrier_summary">Use a custom carrier lable when enabled.</string>
     <string name="pref_custom_carrier_label_title">Custom label</string>
+    <string name="home_prefs_key">home_prefs_key</string>
+    <string name="pref_home_settings_title">Miui Launcher Settings</string>
+    <string name="pref_hidestatusbar_title">Hide status bar</string>
+    <string name="pref_hidestatusbar_summary">Hides the status bar in MIUI launcher</string>
+    <string name="pref_allowrotation_title">Allow rotation</string>
+    <string name="pref_allowrotation_summary">Allows MIUI launcher to rotate into landscape orientation.</string>
     
 </resources>

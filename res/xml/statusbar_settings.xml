@@ -1,21 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <PreferenceCategory android:title="@string/pref_statusbar_settings_title">
-        
-    </PreferenceCategory><SwitchPreference
+    <PreferenceCategory android:title="@string/pref_statusbar_settings_title" >
+    </PreferenceCategory>
+
+    <CheckBoxPreference
         android:key="pref_key_centerclock"
         android:summary="@string/pref_centerclock_summary"
-        android:switchTextOff="@string/pref_centerclock_off_text"
-        android:switchTextOn="@string/pref_centerclock_on_text"
         android:title="@string/pref_centerclock_title" />
-    <SwitchPreference
+    
+    <CheckBoxPreference
         android:key="pref_key_signalbars"
         android:summary="@string/pref_signalbars_summary"
-        android:switchTextOff="@string/pref_signalbars_off_text"
-        android:switchTextOn="@string/pref_signalbars_on_text"
         android:title="@string/pref_signalbars_title" />
-    <CheckBoxPreference android:key="pref_key_use_custom_label" android:title="@string/pref_use_custom_carrier_title" android:summary="@string/pref_use_custom_carrier_summary"/><EditTextPreference android:key="pref_key_custom_carrier_label" android:title="@string/pref_custom_carrier_label_title"/>
-    
+
+    <CheckBoxPreference
+        android:key="pref_key_use_custom_label"
+        android:summary="@string/pref_use_custom_carrier_summary"
+        android:title="@string/pref_use_custom_carrier_title" />
+
+    <EditTextPreference
+        android:key="pref_key_custom_carrier_label"
+        android:title="@string/pref_custom_carrier_label_title" />
 
 </PreferenceScreen>

@@ -20,6 +20,7 @@ public class Toolbox {
 	public final static String USE_CUSTOM_CARRIER = "use_custom_carrier";
 	public final static String CUSTOM_CARRIER_TEXT = "custom_carrier_text";
 	public final static String HIDE_STATUS_BAR = "hide_status_bar";
+	public final static String ALLOW_LAUNCHER_ROTATION = "allow_launcher_rotation";
 
 	/**
 	 * Retrieves the system setting for CENTER_CLOCK
@@ -107,6 +108,25 @@ public class Toolbox {
 		try {
 			hide = (Settings.System.getInt(cr,
 					HIDE_STATUS_BAR) == 1);
+		} catch (SettingNotFoundException e) {
+			hide = false;
+		}
+		
+		return hide;
+	}
+
+	/**
+	 * Retrieves the system setting for ALLOW_LAUNCHER_ROTATION
+	 * @param context context used to get a ContentResolver
+	 * @return true if launcher should rotate into landscape orientation
+	 */
+	public static boolean rotateMiuiHome(Context context) {
+		boolean hide = false;
+		ContentResolver cr = context.getContentResolver();
+		
+		try {
+			hide = (Settings.System.getInt(cr,
+					ALLOW_LAUNCHER_ROTATION) == 1);
 		} catch (SettingNotFoundException e) {
 			hide = false;
 		}

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="@string/pref_home_settings_title" >
+    </PreferenceCategory>
+
+    <CheckBoxPreference
+        android:key="pref_key_hidestatusbar"
+        android:summary="@string/pref_hidestatusbar_summary"
+        android:title="@string/pref_hidestatusbar_title" />
+
+    <CheckBoxPreference
+        android:key="pref_key_allowrotation"
+        android:summary="@string/pref_allowrotation_summary"
+        android:title="@string/pref_allowrotation_title" />
+
+</PreferenceScreen>

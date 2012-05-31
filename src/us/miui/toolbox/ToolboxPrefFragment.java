@@ -42,6 +42,15 @@ public class ToolboxPrefFragment extends PreferenceFragment {
 					.addToBackStack(null).commit();
 			return true;
 		}
+		if (pref.getKey().equals(
+				getActivity().getResources().getString(
+						R.string.home_prefs_key))) {
+			// Display the fragment as the main content.
+			getFragmentManager().beginTransaction()
+					.replace(android.R.id.content, new MiuiHomePrefFragment())
+					.addToBackStack(null).commit();
+			return true;
+		}
 		return false;
 	}
 }

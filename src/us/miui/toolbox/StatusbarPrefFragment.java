@@ -32,10 +32,9 @@ public class StatusbarPrefFragment extends PreferenceFragment {
 	public final static String SINGLE_SIGNAL_BARS = "single_signal_bars";
 	public final static String USE_CUSTOM_CARRIER = "use_custom_carrier";
 	public final static String CUSTOM_CARRIER_TEXT = "custom_carrier_text";
-	public final static String HIDE_STATUS_BAR = "hide_status_bar";
 
-	private SwitchPreference mCenterClock;
-	private SwitchPreference mSingleBars;
+	private CheckBoxPreference mCenterClock;
+	private CheckBoxPreference mSingleBars;
 	private CheckBoxPreference mUseCustomCarrier;
 	private EditTextPreference mCustomCarrierLabel;
 	private ContentResolver mCR;
@@ -47,8 +46,8 @@ public class StatusbarPrefFragment extends PreferenceFragment {
 		addPreferencesFromResource(R.xml.statusbar_settings);
 
 		mCR = getActivity().getContentResolver();
-		mCenterClock = (SwitchPreference) findPreference("pref_key_centerclock");
-		mSingleBars = (SwitchPreference) findPreference("pref_key_signalbars");
+		mCenterClock = (CheckBoxPreference) findPreference("pref_key_centerclock");
+		mSingleBars = (CheckBoxPreference) findPreference("pref_key_signalbars");
 		mUseCustomCarrier = (CheckBoxPreference) findPreference("pref_key_use_custom_label");
 		mCustomCarrierLabel = (EditTextPreference) findPreference("pref_key_custom_carrier_label");
 

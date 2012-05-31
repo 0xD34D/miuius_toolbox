@@ -6,12 +6,22 @@
         android:key="@string/statusbar_prefs_key"
         android:title="@string/pref_statusbar_settings_title" >
     </PreferenceScreen>
-
+    
     <PreferenceScreen
         android:fragment="us.miui.toolbox.CPUBarPrefFragment"
         android:key="@string/cpu_prefs_key"
         android:title="@string/pref_cpu_settings_title" >
     </PreferenceScreen>
-    <Preference android:key="pref_key_credits" android:title="@string/pref_credits_title" android:summary="@string/pref_credits_summary"/>
+
+    <PreferenceScreen
+        android:fragment="us.miui.toolbox.MiuiHomePrefFragment"
+        android:key="@string/home_prefs_key"
+        android:title="@string/pref_home_settings_title" >
+    </PreferenceScreen>
+
+    <Preference
+        android:key="pref_key_credits"
+        android:summary="@string/pref_credits_summary"
+        android:title="@string/pref_credits_title" />
 
 </PreferenceScreen>
