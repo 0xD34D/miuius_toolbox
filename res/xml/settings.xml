@@ -12,5 +12,6 @@
         android:key="@string/cpu_prefs_key"
         android:title="@string/pref_cpu_settings_title" >
     </PreferenceScreen>
+    <Preference android:key="pref_key_credits" android:title="@string/pref_credits_title" android:summary="@string/pref_credits_summary"/>
 
 </PreferenceScreen>
