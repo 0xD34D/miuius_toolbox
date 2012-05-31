@@ -11,6 +11,8 @@ import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
+import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceFragment;
@@ -28,9 +30,14 @@ public class StatusbarPrefFragment extends PreferenceFragment {
 	// Strings for retreiving settings using Settings.System.getXXXX
 	public final static String CENTER_CLOCK = "center_clock";
 	public final static String SINGLE_SIGNAL_BARS = "single_signal_bars";
+	public final static String USE_CUSTOM_CARRIER = "use_custom_carrier";
+	public final static String CUSTOM_CARRIER_TEXT = "custom_carrier_text";
+	public final static String HIDE_STATUS_BAR = "hide_status_bar";
 
 	private SwitchPreference mCenterClock;
 	private SwitchPreference mSingleBars;
+	private CheckBoxPreference mUseCustomCarrier;
+	private EditTextPreference mCustomCarrierLabel;
 	private ContentResolver mCR;
 
 	@Override
@@ -42,6 +49,8 @@ public class StatusbarPrefFragment extends PreferenceFragment {
 		mCR = getActivity().getContentResolver();
 		mCenterClock = (SwitchPreference) findPreference("pref_key_centerclock");
 		mSingleBars = (SwitchPreference) findPreference("pref_key_signalbars");
+		mUseCustomCarrier = (CheckBoxPreference) findPreference("pref_key_use_custom_label");
+		mCustomCarrierLabel = (EditTextPreference) findPreference("pref_key_custom_carrier_label");
 
 		// Try to read the CENTER_CLOCK setting and if we get a
 		// SettingNotFoundException
@@ -65,6 +74,24 @@ public class StatusbarPrefFragment extends PreferenceFragment {
 			Settings.System.putInt(mCR, SINGLE_SIGNAL_BARS, 0);
 		}
 
+		// Try to read the USE_CUSTOM_CARRIER setting and if we get a
+		// SettingNotFoundException
+		// we need to create it.
+		try {
+			mUseCustomCarrier.setChecked(Settings.System.getInt(mCR,
+					USE_CUSTOM_CARRIER) == 1);
+		} catch (SettingNotFoundException e) {
+			mSingleBars.setChecked(false);
+			Settings.System.putInt(mCR, USE_CUSTOM_CARRIER, 0);
+		}
+
+		String label = Settings.System.getString(mCR, CUSTOM_CARRIER_TEXT);
+		if (label == null)
+			label = "";
+		mCustomCarrierLabel.setText(label);
+		mCustomCarrierLabel.setSummary(label);
+		mCustomCarrierLabel.setEnabled(mUseCustomCarrier.isChecked());
+		
 		// need to update system settings with the new value for CENTER_CLOCK
 		mCenterClock
 				.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
@@ -93,6 +120,36 @@ public class StatusbarPrefFragment extends PreferenceFragment {
 										SINGLE_SIGNAL_BARS,
 										(Boolean) newValue.equals(Boolean.TRUE) ? 1
 												: 0);
+						restartSystemUI();
+						return true;
+					}
+				});
+		
+		mUseCustomCarrier
+				.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+					
+					@Override
+					public boolean onPreferenceChange(Preference preference, Object newValue) {
+						boolean enabled = (Boolean) newValue.equals(Boolean.TRUE);
+						Settings.System
+						.putInt(mCR,
+								USE_CUSTOM_CARRIER,
+								enabled ? 1 : 0);
+						mCustomCarrierLabel.setEnabled(enabled);
+						
+						restartSystemUI();
+						return true;
+					}
+				});
+		
+		mCustomCarrierLabel
+				.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+					
+					@Override
+					public boolean onPreferenceChange(Preference preference, Object newValue) {
+						Settings.System.putString(mCR, CUSTOM_CARRIER_TEXT, (String) newValue);
+						mCustomCarrierLabel.setSummary((String) newValue);
+						
 						restartSystemUI();
 						return true;
 					}

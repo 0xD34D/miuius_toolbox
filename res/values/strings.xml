@@ -23,5 +23,8 @@
     <string name="pref_cpu_restore_summary">Restore cpu settings after device boots</string>
     <string name="pref_credits_title">Credits</string>
     <string name="pref_credits_summary">See who helped make this all possible.</string>
+    <string name="pref_use_custom_carrier_title">Custom carrier label</string>
+    <string name="pref_use_custom_carrier_summary">Use a custom carrier lable when enabled.</string>
+    <string name="pref_custom_carrier_label_title">Custom label</string>
     
 </resources>
