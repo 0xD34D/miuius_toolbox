@@ -9,10 +9,18 @@
         android:summary="@string/pref_centerclock_summary"
         android:title="@string/pref_centerclock_title" />
     
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+        android:key="pref_key_clock_color"
+        android:title="Clock color"
+        android:defaultValue="#FFFFFFFF" />
+    
     <CheckBoxPreference
         android:key="pref_key_signalbars"
         android:summary="@string/pref_signalbars_summary"
         android:title="@string/pref_signalbars_title" />
+
+    <PreferenceCategory android:title="@string/carrier_label_settings_title" >
+    </PreferenceCategory>
 
     <CheckBoxPreference
         android:key="pref_key_use_custom_label"
@@ -23,4 +31,9 @@
         android:key="pref_key_custom_carrier_label"
         android:title="@string/pref_custom_carrier_label_title" />
 
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+        android:key="pref_key_carrier_color"
+        android:title="Label color"
+        android:defaultValue="#FFFFFFFF" />
+    
 </PreferenceScreen>

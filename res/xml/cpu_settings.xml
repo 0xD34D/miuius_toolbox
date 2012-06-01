@@ -4,6 +4,9 @@
     android:fragment="us.miui.toolbox.CPUPrefFragment"
     android:key="@string/cpu_prefs_key" >
 
+    <PreferenceCategory android:title="@string/pref_cpu_settings_title" >
+    </PreferenceCategory>
+
     <us.miui.widget.CPUGovernorListPreference
         android:key="pref_key_cpugovernor"
         android:summary="@string/pref_cpugovernor_summary"

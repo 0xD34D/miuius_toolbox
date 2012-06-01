@@ -21,6 +21,8 @@ public class Toolbox {
 	public final static String CUSTOM_CARRIER_TEXT = "custom_carrier_text";
 	public final static String HIDE_STATUS_BAR = "hide_status_bar";
 	public final static String ALLOW_LAUNCHER_ROTATION = "allow_launcher_rotation";
+	public final static String CUSTOM_CLOCK_COLOR = "custom_clock_color";
+	public final static String CUSTOM_CARRIER_COLOR = "custom_carrier_color";
 
 	/**
 	 * Retrieves the system setting for CENTER_CLOCK
@@ -132,5 +134,63 @@ public class Toolbox {
 		}
 		
 		return hide;
+	}
+
+	public static boolean useCustomClockColor(Context context) {
+		boolean use = false;
+		ContentResolver cr = context.getContentResolver();
+		
+		try {
+			Settings.System.getInt(cr,
+					CUSTOM_CLOCK_COLOR);
+			use = true;
+		} catch (SettingNotFoundException e) {
+			use = false;
+		}
+		
+		return use;
+	}
+
+	public static int getCustomClockColor(Context context) {
+		int color = 0xFFFFFFFF;
+		ContentResolver cr = context.getContentResolver();
+		
+		try {
+			color = Settings.System.getInt(cr,
+					CUSTOM_CLOCK_COLOR);
+		} catch (SettingNotFoundException e) {
+			color = 0xFFFFFFFF;
+		}
+		
+		return color;
+	}
+
+	public static boolean useCustomCarrierColor(Context context) {
+		boolean use = false;
+		ContentResolver cr = context.getContentResolver();
+		
+		try {
+			Settings.System.getInt(cr,
+					CUSTOM_CARRIER_COLOR);
+			use = true;
+		} catch (SettingNotFoundException e) {
+			use = false;
+		}
+		
+		return use;
+	}
+
+	public static int getCustomCarrierColor(Context context) {
+		int color = 0xFFFFFFFF;
+		ContentResolver cr = context.getContentResolver();
+		
+		try {
+			color = Settings.System.getInt(cr,
+					CUSTOM_CARRIER_COLOR);
+		} catch (SettingNotFoundException e) {
+			color = 0xFFFFFFFF;
+		}
+		
+		return color;
 	}
 }

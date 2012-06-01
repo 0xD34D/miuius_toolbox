@@ -32,5 +32,16 @@
     <string name="pref_hidestatusbar_summary">Hides the status bar in MIUI launcher</string>
     <string name="pref_allowrotation_title">Allow rotation</string>
     <string name="pref_allowrotation_summary">Allows MIUI launcher to rotate into landscape orientation.</string>
+    <string name="carrier_label_settings_title">Carrier label settings</string>
     
+    <!-- Color Picker -->
+    <string name="dialog_color_picker">Color Picker</string>
+    <string name="press_color_to_apply">Press on Color to apply</string>
+    <string name="arrow_right">→</string>
+    <string name="arrow_down">↓</string>
+    <string name="hex">Hex:</string>
+    <string name="hex_hint">#FF000000</string>
+    <string name="set">Set</string>
+    <string name="ics_color">!!!</string>
+
 </resources>
