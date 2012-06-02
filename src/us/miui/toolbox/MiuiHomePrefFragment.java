@@ -114,8 +114,7 @@ public class MiuiHomePrefFragment extends PreferenceFragment {
 			if (app.processName.equals("com.miui.home")) {
 				int pid = app.pid;
 				try {
-					RootUtils.execute("kill " + pid + "\n",
-							Runtime.getRuntime());
+					RootUtils.execute("kill " + pid + "\n");
 					return;
 				} catch (IOException e) {
 					// TODO Auto-generated catch block

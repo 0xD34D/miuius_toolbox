@@ -10,6 +10,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import us.miui.toolbox.RootUtils;
+
 /**
  * @author Clark Scheff
  *
@@ -64,9 +66,7 @@ public class CPUHelper {
 
 	public static void setMinFrequency(String frequency) {
 		try {
-			FileWriter out = new FileWriter("/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq", false);
-			out.write(frequency);
-			out.close();
+			RootUtils.execute("echo " + frequency + " > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq\n");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -75,9 +75,7 @@ public class CPUHelper {
 
 	public static void setMaxFrequency(String frequency) {
 		try {
-			FileWriter out = new FileWriter("/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq", false);
-			out.write(frequency);
-			out.close();
+			RootUtils.execute("echo " + frequency + " > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq\n");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -116,9 +114,7 @@ public class CPUHelper {
 	
 	public static void setGovernor(String governor) {
 		try {
-			FileWriter out = new FileWriter("/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor", false);
-			out.write(governor);
-			out.close();
+			RootUtils.execute("echo " + governor + " > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor\n");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

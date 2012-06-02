@@ -35,6 +35,15 @@ public class ToolboxPrefFragment extends PreferenceFragment {
 		}
 		if (pref.getKey().equals(
 				getActivity().getResources().getString(
+						R.string.colors_prefs_key))) {
+			// Display the fragment as the main content.
+			getFragmentManager().beginTransaction()
+					.replace(android.R.id.content, new CustomColorsPrefFragment())
+					.addToBackStack(null).commit();
+			return true;
+		}
+		if (pref.getKey().equals(
+				getActivity().getResources().getString(
 						R.string.cpu_prefs_key))) {
 			// Display the fragment as the main content.
 			getFragmentManager().beginTransaction()

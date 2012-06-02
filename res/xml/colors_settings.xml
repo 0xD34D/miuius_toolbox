@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="@string/pref_colors_settings_title" >
+    </PreferenceCategory>
+
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+        android:key="pref_key_clock_color"
+        android:title="Clock color"
+        android:defaultValue="#FFFFFFFF" />
+    
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+        android:key="pref_key_carrier_color"
+        android:title="Carrier Label color"
+        android:defaultValue="#FFFFFFFF" />
+    
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+        android:key="pref_key_signal_color"
+        android:title="Signal bar color"
+        android:defaultValue="#FFFFFFFF" />
+    
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+        android:key="pref_key_battery_color"
+        android:title="Battery icon color"
+        android:defaultValue="#FFFFFFFF" />
+    
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+        android:key="pref_key_navbar_color"
+        android:title="Navigation bar color"
+        android:defaultValue="#FFFFFFFF" />
+    
+</PreferenceScreen>

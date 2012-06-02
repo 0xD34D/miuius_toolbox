@@ -23,6 +23,9 @@ public class Toolbox {
 	public final static String ALLOW_LAUNCHER_ROTATION = "allow_launcher_rotation";
 	public final static String CUSTOM_CLOCK_COLOR = "custom_clock_color";
 	public final static String CUSTOM_CARRIER_COLOR = "custom_carrier_color";
+	public final static String CUSTOM_SIGNAL_COLOR = "custom_signal_color";
+	public final static String CUSTOM_NAVBAR_COLOR = "custom_navbar_color";
+	public final static String CUSTOM_BATTERY_COLOR = "custom_battery_color";
 
 	/**
 	 * Retrieves the system setting for CENTER_CLOCK
@@ -136,6 +139,11 @@ public class Toolbox {
 		return hide;
 	}
 
+	/**
+	 * Retrieves the system setting for CUSTOM_CLOCK_COLOR
+	 * @param context context used to get a ContentResolver
+	 * @return true if a custom clock color has been selected
+	 */
 	public static boolean useCustomClockColor(Context context) {
 		boolean use = false;
 		ContentResolver cr = context.getContentResolver();
@@ -151,6 +159,11 @@ public class Toolbox {
 		return use;
 	}
 
+	/**
+	 * Retrieves the custom color selected for CUSTOM_CLOCK_COLOR
+	 * @param context context used to get a ContentResolver
+	 * @return the ARGB color selected by the user
+	 */
 	public static int getCustomClockColor(Context context) {
 		int color = 0xFFFFFFFF;
 		ContentResolver cr = context.getContentResolver();
@@ -165,6 +178,11 @@ public class Toolbox {
 		return color;
 	}
 
+	/**
+	 * Retrieves the system setting for CUSTOM_CARRIER_COLOR
+	 * @param context context used to get a ContentResolver
+	 * @return true if a custom carrier color has been selected
+	 */
 	public static boolean useCustomCarrierColor(Context context) {
 		boolean use = false;
 		ContentResolver cr = context.getContentResolver();
@@ -180,6 +198,11 @@ public class Toolbox {
 		return use;
 	}
 
+	/**
+	 * Retrieves the custom color selected for CUSTOM_CARRIER_COLOR
+	 * @param context context used to get a ContentResolver
+	 * @return the ARGB color selected by the user
+	 */
 	public static int getCustomCarrierColor(Context context) {
 		int color = 0xFFFFFFFF;
 		ContentResolver cr = context.getContentResolver();
@@ -187,6 +210,123 @@ public class Toolbox {
 		try {
 			color = Settings.System.getInt(cr,
 					CUSTOM_CARRIER_COLOR);
+		} catch (SettingNotFoundException e) {
+			color = 0xFFFFFFFF;
+		}
+		
+		return color;
+	}
+
+	/**
+	 * Retrieves the system setting for CUSTOM_SIGNAL_COLOR
+	 * @param context context used to get a ContentResolver
+	 * @return true if a custom signal color has been selected
+	 */
+	public static boolean useCustomSignalColor(Context context) {
+		boolean use = false;
+		ContentResolver cr = context.getContentResolver();
+		
+		try {
+			Settings.System.getInt(cr,
+					CUSTOM_SIGNAL_COLOR);
+			use = true;
+		} catch (SettingNotFoundException e) {
+			use = false;
+		}
+		
+		return use;
+	}
+
+	/**
+	 * Retrieves the custom color selected for CUSTOM_SIGNAL_COLOR
+	 * @param context context used to get a ContentResolver
+	 * @return the ARGB color selected by the user
+	 */
+	public static int getCustomSignalColor(Context context) {
+		int color = 0xFFFFFFFF;
+		ContentResolver cr = context.getContentResolver();
+		
+		try {
+			color = Settings.System.getInt(cr,
+					CUSTOM_SIGNAL_COLOR);
+		} catch (SettingNotFoundException e) {
+			color = 0xFFFFFFFF;
+		}
+		
+		return color;
+	}
+
+	/**
+	 * Retrieves the system setting for CUSTOM_NAVBAR_COLOR
+	 * @param context context used to get a ContentResolver
+	 * @return true if a custom navbar color has been selected
+	 */
+	public static boolean useCustomNavbarColor(Context context) {
+		boolean use = false;
+		ContentResolver cr = context.getContentResolver();
+		
+		try {
+			Settings.System.getInt(cr,
+					CUSTOM_NAVBAR_COLOR);
+			use = true;
+		} catch (SettingNotFoundException e) {
+			use = false;
+		}
+		
+		return use;
+	}
+
+	/**
+	 * Retrieves the custom color selected for CUSTOM_NAVBAR_COLOR
+	 * @param context context used to get a ContentResolver
+	 * @return the ARGB color selected by the user
+	 */
+	public static int getCustomNavbarColor(Context context) {
+		int color = 0xFFFFFFFF;
+		ContentResolver cr = context.getContentResolver();
+		
+		try {
+			color = Settings.System.getInt(cr,
+					CUSTOM_NAVBAR_COLOR);
+		} catch (SettingNotFoundException e) {
+			color = 0xFFFFFFFF;
+		}
+		
+		return color;
+	}
+
+	/**
+	 * Retrieves the system setting for CUSTOM_BATTERY_COLOR
+	 * @param context context used to get a ContentResolver
+	 * @return true if a custom battery color has been selected
+	 */
+	public static boolean useCustomBatteryColor(Context context) {
+		boolean use = false;
+		ContentResolver cr = context.getContentResolver();
+		
+		try {
+			Settings.System.getInt(cr,
+					CUSTOM_BATTERY_COLOR);
+			use = true;
+		} catch (SettingNotFoundException e) {
+			use = false;
+		}
+		
+		return use;
+	}
+
+	/**
+	 * Retrieves the custom color selected for CUSTOM_BATTERY_COLOR
+	 * @param context context used to get a ContentResolver
+	 * @return the ARGB color selected by the user
+	 */
+	public static int getCustomBatteryColor(Context context) {
+		int color = 0xFFFFFFFF;
+		ContentResolver cr = context.getContentResolver();
+		
+		try {
+			color = Settings.System.getInt(cr,
+					CUSTOM_BATTERY_COLOR);
 		} catch (SettingNotFoundException e) {
 			color = 0xFFFFFFFF;
 		}

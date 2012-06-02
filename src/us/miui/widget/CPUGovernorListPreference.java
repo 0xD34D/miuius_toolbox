@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import us.miui.helpers.CPUHelper;
 import us.miui.toolbox.R;
+import us.miui.toolbox.RootUtils;
 
 import android.content.Context;
 import android.preference.ListPreference;
@@ -100,6 +101,7 @@ public class CPUGovernorListPreference extends ListPreference
 		if ( index < 0 || index >= getEntries().length )
 			index = 0;
 		mCurrent.setText(this.getEntries()[index]);
+		CPUHelper.setGovernor((String) newValue);
 		return true;
 	}
 }

@@ -8,15 +8,21 @@
     </PreferenceScreen>
     
     <PreferenceScreen
-        android:fragment="us.miui.toolbox.CPUBarPrefFragment"
-        android:key="@string/cpu_prefs_key"
-        android:title="@string/pref_cpu_settings_title" >
+        android:fragment="us.miui.toolbox.CustomColorsPrefFragment"
+        android:key="@string/colors_prefs_key"
+        android:title="@string/pref_colors_settings_title" >
     </PreferenceScreen>
-
+    
     <PreferenceScreen
         android:fragment="us.miui.toolbox.MiuiHomePrefFragment"
         android:key="@string/home_prefs_key"
         android:title="@string/pref_home_settings_title" >
+    </PreferenceScreen>
+
+    <PreferenceScreen
+        android:fragment="us.miui.toolbox.CPUBarPrefFragment"
+        android:key="@string/cpu_prefs_key"
+        android:title="@string/pref_cpu_settings_title" >
     </PreferenceScreen>
 
 <!--    

@@ -7,9 +7,10 @@ import java.io.IOException;
 import android.util.Log;
 
 public class RootUtils {
-	public static boolean requestRoot(Runtime r) {
+	public static boolean requestRoot() {
 		boolean retval = false;
 		Process p;
+		Runtime r = Runtime.getRuntime();
 		try {
 			p = r.exec("su");
 			DataOutputStream os = new DataOutputStream(p.getOutputStream());
@@ -54,9 +55,10 @@ public class RootUtils {
 		return retval;
 	}
 	
-	public static void execute(String commands, Runtime r) 
+	public static void execute(String commands) 
 		throws IOException {
 	    Process p;
+	    Runtime r = Runtime.getRuntime();
 		p = r.exec("su");
 		DataOutputStream os = new DataOutputStream(p.getOutputStream());
 		os.writeBytes(commands);
