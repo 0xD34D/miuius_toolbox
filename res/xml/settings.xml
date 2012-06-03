@@ -26,9 +26,9 @@
     </PreferenceScreen>
 
     <PreferenceScreen
-        android:fragment="us.miui.toolbox.CPUBarPrefFragment"
-        android:key="@string/cpu_prefs_key"
-        android:title="@string/pref_cpu_settings_title" >
+        android:fragment="us.miui.toolbox.PerformancPrefFragment"
+        android:key="@string/performance_prefs_key"
+        android:title="@string/pref_performance_title" >
     </PreferenceScreen>
 
 <!--    

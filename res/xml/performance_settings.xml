@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" android:key="pref_key_main_settings">
+
+    <Preference
+        android:key="@string/calibration_prefs_key"
+        android:title="@string/calibration_settings_title" >
+	</Preference>
+
+    <PreferenceScreen
+        android:fragment="us.miui.toolbox.CPUBarPrefFragment"
+        android:key="@string/cpu_prefs_key"
+        android:title="@string/pref_cpu_settings_title" >
+    </PreferenceScreen>
+
+</PreferenceScreen>

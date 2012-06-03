@@ -4,11 +4,8 @@
 package us.miui.toolbox;
 
 import us.miui.helpers.SystemHelper;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
-import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 
@@ -54,10 +51,10 @@ public class ToolboxPrefFragment extends PreferenceFragment {
 		}
 		if (pref.getKey().equals(
 				getActivity().getResources().getString(
-						R.string.cpu_prefs_key))) {
+						R.string.performance_prefs_key))) {
 			// Display the fragment as the main content.
 			getFragmentManager().beginTransaction()
-					.replace(android.R.id.content, new CPUPrefFragment())
+					.replace(android.R.id.content, new PerformancePrefFragment())
 					.addToBackStack(null).commit();
 			return true;
 		}

@@ -82,6 +82,10 @@ public class NavbarPrefFragment extends PreferenceFragment {
 				return true;
 			}
 		});
+		
+		// hide the navbar order preference until I figure out how to implement
+		// this into MiuiSystemUI
+		getPreferenceScreen().removePreference(mNavbarOrder);
 	}
 
 	private void restartSystemUI() {

@@ -41,6 +41,11 @@
     <string name="pref_showsearch_summary">Include a search button in the navigation bar</string>
     <string name="pref_navbar_order_title">Navbar button order</string>
     <string name="pref_navbar_order_summary">Customize the layout order of the buttons in the navbar</string>
+    <string name="performance_prefs_key">performance_prefs_key</string>
+    <string name="pref_performance_title">Performance settings</string>
+    <string name="calibration_prefs_key">calibration_prefs_key</string>
+    <string name="calibration_settings_title">Battery calibration</string>
+    
     
     <!-- Color Picker -->
     <string name="dialog_color_picker">Color Picker</string>
@@ -51,5 +56,13 @@
     <string name="hex_hint">#FF000000</string>
     <string name="set">Set</string>
     <string name="ics_color">!!!</string>
+
+    <!--  Battery calibration -->
+    <string name="battery_calibration_step1">1) Plug device into charger</string>
+    <string name="battery_calibration_step2">2) Allow battery to charge to 100%</string>
+    <string name="battery_calibration_step3">3) Click \'Calibrate Battery\' button</string>
+    <string name="battery_calibration_step4">4) Unplug your device</string>
+    <string name="button_calibrate_battery">Calibrate Batery</string>
+    <string name="battery_info_text">Battery: </string>
 
 </resources>
