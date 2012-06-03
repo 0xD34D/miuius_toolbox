@@ -3,8 +3,12 @@
  */
 package us.miui.toolbox;
 
+import us.miui.helpers.SystemHelper;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
+import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 
@@ -18,6 +22,12 @@ public class ToolboxPrefFragment extends PreferenceFragment {
 		super.onCreate(savedInstanceState);
 		// Load the preferences from an XML resource
 		addPreferencesFromResource(R.xml.settings);
+		
+		PreferenceScreen ps = (PreferenceScreen)findPreference("pref_key_main_settings");
+		if (!SystemHelper.hasNavigationBar(getActivity().getApplicationContext())) {
+			PreferenceScreen navbar = (PreferenceScreen)findPreference("navbar_prefs_key");
+			ps.removePreference(navbar);
+		}
 	}
 
 	@Override
@@ -57,6 +67,15 @@ public class ToolboxPrefFragment extends PreferenceFragment {
 			// Display the fragment as the main content.
 			getFragmentManager().beginTransaction()
 					.replace(android.R.id.content, new MiuiHomePrefFragment())
+					.addToBackStack(null).commit();
+			return true;
+		}
+		if (pref.getKey().equals(
+				getActivity().getResources().getString(
+						R.string.navbar_prefs_key))) {
+			// Display the fragment as the main content.
+			getFragmentManager().beginTransaction()
+					.replace(android.R.id.content, new NavbarPrefFragment())
 					.addToBackStack(null).commit();
 			return true;
 		}

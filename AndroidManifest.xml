@@ -21,6 +21,11 @@
             </intent-filter>
         </activity>
         
+        <activity
+            android:name=".NavbarOrderSelector"
+            android:label="@string/app_name" >
+        </activity>
+        
         <receiver android:name="us.miui.receiver.BootReceiver"
             android:enabled="true"
             android:exported="true"

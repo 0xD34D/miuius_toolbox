@@ -99,7 +99,7 @@ public class StatusbarPrefFragment extends PreferenceFragment {
 		TelephonyManager tm = (TelephonyManager) getActivity()
 				.getSystemService(Context.TELEPHONY_SERVICE);
 		if(tm.getPhoneType() != TelephonyManager.PHONE_TYPE_CDMA)
-			mSingleBars.setEnabled(false);
+			getPreferenceScreen().removePreference(mSingleBars);
 	}
 	
 	OnPreferenceChangeListener mListener = new OnPreferenceChangeListener() {

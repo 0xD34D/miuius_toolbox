@@ -26,6 +26,11 @@ public class Toolbox {
 	public final static String CUSTOM_SIGNAL_COLOR = "custom_signal_color";
 	public final static String CUSTOM_NAVBAR_COLOR = "custom_navbar_color";
 	public final static String CUSTOM_BATTERY_COLOR = "custom_battery_color";
+	public final static String CUSTOM_WIFI_COLOR = "custom_wifi_color";
+	public final static String CUSTOM_BLUETOOTH_COLOR = "custom_bluetooth_color";
+	public final static String CUSTOM_GPS_COLOR = "custom_bluetooth_color";
+	public final static String USE_NAVBAR_SEARCH = "use_navbar_search";
+	public final static String CUSTOM_NAVBAR_ORDER = "custom_navbar_order";
 
 	/**
 	 * Retrieves the system setting for CENTER_CLOCK
@@ -332,5 +337,152 @@ public class Toolbox {
 		}
 		
 		return color;
+	}
+
+	/**
+	 * Retrieves the system setting for CUSTOM_WIFI_COLOR
+	 * @param context context used to get a ContentResolver
+	 * @return true if a custom wifi color has been selected
+	 */
+	public static boolean useCustomWifiColor(Context context) {
+		boolean use = false;
+		ContentResolver cr = context.getContentResolver();
+		
+		try {
+			Settings.System.getInt(cr,
+					CUSTOM_WIFI_COLOR);
+			use = true;
+		} catch (SettingNotFoundException e) {
+			use = false;
+		}
+		
+		return use;
+	}
+
+	/**
+	 * Retrieves the custom color selected for CUSTOM_WIFI_COLOR
+	 * @param context context used to get a ContentResolver
+	 * @return the ARGB color selected by the user
+	 */
+	public static int getCustomWifiColor(Context context) {
+		int color = 0xFFFFFFFF;
+		ContentResolver cr = context.getContentResolver();
+		
+		try {
+			color = Settings.System.getInt(cr,
+					CUSTOM_WIFI_COLOR);
+		} catch (SettingNotFoundException e) {
+			color = 0xFFFFFFFF;
+		}
+		
+		return color;
+	}
+
+	/**
+	 * Retrieves the system setting for CUSTOM_BLUETOOTH_COLOR
+	 * @param context context used to get a ContentResolver
+	 * @return true if a custom bluetooth color has been selected
+	 */
+	public static boolean useCustomBluetoothColor(Context context) {
+		boolean use = false;
+		ContentResolver cr = context.getContentResolver();
+		
+		try {
+			Settings.System.getInt(cr,
+					CUSTOM_BLUETOOTH_COLOR);
+			use = true;
+		} catch (SettingNotFoundException e) {
+			use = false;
+		}
+		
+		return use;
+	}
+
+	/**
+	 * Retrieves the custom color selected for CUSTOM_BLUETOOTH_COLOR
+	 * @param context context used to get a ContentResolver
+	 * @return the ARGB color selected by the user
+	 */
+	public static int getCustomBluetoothColor(Context context) {
+		int color = 0xFFFFFFFF;
+		ContentResolver cr = context.getContentResolver();
+		
+		try {
+			color = Settings.System.getInt(cr,
+					CUSTOM_BLUETOOTH_COLOR);
+		} catch (SettingNotFoundException e) {
+			color = 0xFFFFFFFF;
+		}
+		
+		return color;
+	}
+
+	/**
+	 * Retrieves the system setting for CUSTOM_GPS_COLOR
+	 * @param context context used to get a ContentResolver
+	 * @return true if a custom gps color has been selected
+	 */
+	public static boolean useCustomGpsColor(Context context) {
+		boolean use = false;
+		ContentResolver cr = context.getContentResolver();
+		
+		try {
+			Settings.System.getInt(cr,
+					CUSTOM_GPS_COLOR);
+			use = true;
+		} catch (SettingNotFoundException e) {
+			use = false;
+		}
+		
+		return use;
+	}
+
+	/**
+	 * Retrieves the custom color selected for CUSTOM_GPS_COLOR
+	 * @param context context used to get a ContentResolver
+	 * @return the ARGB color selected by the user
+	 */
+	public static int getCustomGpsColor(Context context) {
+		int color = 0xFFFFFFFF;
+		ContentResolver cr = context.getContentResolver();
+		
+		try {
+			color = Settings.System.getInt(cr,
+					CUSTOM_GPS_COLOR);
+		} catch (SettingNotFoundException e) {
+			color = 0xFFFFFFFF;
+		}
+		
+		return color;
+	}
+
+	/**
+	 * Retrieves the system setting for USE_NAVBAR_SEARCH
+	 * @param context context used to get a ContentResolver
+	 * @return true if search button should be shown in navbar
+	 */
+	public static boolean useNavbarSearch(Context context) {
+		boolean use = false;
+		ContentResolver cr = context.getContentResolver();
+		
+		try {
+			use = (Settings.System.getInt(cr,
+					USE_NAVBAR_SEARCH) == 1);
+		} catch (SettingNotFoundException e) {
+			use = false;
+		}
+		
+		return use;
+	}
+
+	public static String[] getNavbarOrder(Context context) {
+		ContentResolver cr = context.getContentResolver();
+		String[] order = {"menu", "home", "recents", "back", "search"};
+		String tmp = Settings.System.getString(cr, CUSTOM_NAVBAR_ORDER);
+		if (tmp != null) {
+			order = tmp.split(" ");
+		}
+		
+		return order;
 	}
 }

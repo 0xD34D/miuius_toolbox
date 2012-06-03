@@ -35,6 +35,12 @@
     <string name="carrier_label_settings_title">Carrier label settings</string>
     <string name="colors_prefs_key">home_prefs_key</string>
     <string name="pref_colors_settings_title">Custom Color Settings</string>
+    <string name="navbar_prefs_key">navbar_prefs_key</string>
+    <string name="pref_navbar_settings_title">Navigation bar settings</string>
+    <string name="pref_showsearch_title">Search button</string>
+    <string name="pref_showsearch_summary">Include a search button in the navigation bar</string>
+    <string name="pref_navbar_order_title">Navbar button order</string>
+    <string name="pref_navbar_order_summary">Customize the layout order of the buttons in the navbar</string>
     
     <!-- Color Picker -->
     <string name="dialog_color_picker">Color Picker</string>
