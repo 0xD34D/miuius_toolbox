@@ -6,6 +6,7 @@ package us.miui;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
 
@@ -31,6 +32,43 @@ public class Toolbox {
 	public final static String CUSTOM_GPS_COLOR = "custom_bluetooth_color";
 	public final static String USE_NAVBAR_SEARCH = "use_navbar_search";
 	public final static String CUSTOM_NAVBAR_ORDER = "custom_navbar_order";
+	
+	// names for navbar buttons
+	public final static String HOME = "home";
+	public final static String BACK = "back";
+	public final static String RECENTS = "recents";
+	public final static String MENU = "menu";
+	public final static String SEARCH = "search";
+	
+	// resource IDs for navbar button images
+	public final static int IC_SYSBAR_MENU = 0x7f02003d;
+	public final static int IC_SYSBAR_MENU_LAND = 0x7f02003e;
+	public final static int IC_SYSBAR_HOME = 0x7f020036;
+	public final static int IC_SYSBAR_HOME_LAND = 0x7f020037;
+	public final static int IC_SYSBAR_BACK = 0x7f02002e;
+	public final static int IC_SYSBAR_BACK_LAND = 0x7f020032;
+	public final static int IC_SYSBAR_RECENTS = 0x7f020040;
+	public final static int IC_SYSBAR_RECENTS_LAND = 0x7f020041;
+	public final static int IC_SYSBAR_SEARCH = 0x7f02019c;
+	public final static int IC_SYSBAR_SEARCH_LAND = 0x7f02019d;
+	
+	// keycodes for the navbar buttons
+	public final static int KEYCODE_SYSBAR_MENU = 82;
+	public final static int KEYCODE_SYSBAR_HOME = 3;
+	public final static int KEYCODE_SYSBAR_BACK = 4;
+	public final static int KEYCODE_SYSBAR_RECENTS = 0;
+	public final static int KEYCODE_SYSBAR_SEARCH = 84;
+	
+	// resource IDs for the navbar button views
+	public final static int SYSBAR_SLOT1 = 0;
+	public final static int SYSBAR_SLOT2 = 0;
+	public final static int SYSBAR_SLOT3 = 0;
+	public final static int SYSBAR_SLOT4 = 0;
+	public final static int SYSBAR_SLOT5 = 0;
+	
+	// NxN grid size to use in MiuiHome based on device type
+	public final static int HOME_TABLET_ROWS = 6;
+	public final static int HOME_PHONE_ROWS = 4;
 
 	/**
 	 * Retrieves the system setting for CENTER_CLOCK
@@ -475,6 +513,11 @@ public class Toolbox {
 		return use;
 	}
 
+	/**
+	 * Retrieves an array with the button order for the navbar
+	 * @param context context used to get a ContentResolver
+	 * @return an array with the order of the navbar buttons
+	 */
 	public static String[] getNavbarOrder(Context context) {
 		ContentResolver cr = context.getContentResolver();
 		String[] order = {"menu", "home", "recents", "back", "search"};
@@ -484,5 +527,48 @@ public class Toolbox {
 		}
 		
 		return order;
+	}
+	
+	/**
+	 * Get the resource ID for a navbar button based on its name
+	 * @param context context used to get a ContentResolver
+	 * @param name the name of the button
+	 * @return the resource ID for the drawable to use with this button
+	 */
+	public static int getNavbarButtonResID(Context context, String name) {
+		boolean isPortrait = (context.getResources()
+				.getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT);
+		if (name.equals(HOME))
+			return (isPortrait ? IC_SYSBAR_HOME : IC_SYSBAR_HOME_LAND);
+		else if (name.equals(MENU))
+			return (isPortrait ? IC_SYSBAR_MENU : IC_SYSBAR_MENU_LAND);
+		else if (name.equals(BACK))
+			return (isPortrait ? IC_SYSBAR_BACK : IC_SYSBAR_BACK_LAND);
+		else if (name.equals(SEARCH))
+			return (isPortrait ? IC_SYSBAR_SEARCH : IC_SYSBAR_SEARCH_LAND);
+		else if (name.equals(RECENTS))
+			return (isPortrait ? IC_SYSBAR_RECENTS : IC_SYSBAR_RECENTS_LAND);
+		
+		return 0;
+	}
+	
+	/**
+	 * Get the keycode for a navbar button based on its name
+	 * @param name the name of the button
+	 * @return the keycode associated with this button
+	 */
+	public static int getNavbarButtonKeycode(String name) {
+		if (name.equals(HOME))
+			return KEYCODE_SYSBAR_HOME;
+		else if (name.equals(MENU))
+			return KEYCODE_SYSBAR_MENU;
+		else if (name.equals(BACK))
+			return KEYCODE_SYSBAR_BACK;
+		else if (name.equals(SEARCH))
+			return KEYCODE_SYSBAR_SEARCH;
+		else if (name.equals(RECENTS))
+			return KEYCODE_SYSBAR_RECENTS;
+		
+		return 0;
 	}
 }

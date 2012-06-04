@@ -10,6 +10,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
 import android.os.BatteryManager;
 import android.os.Bundle;
 import android.view.View;
@@ -34,6 +36,7 @@ public class BatteryCalibrationActivity extends Activity {
 	private CheckBox mStep2;
 	private CheckBox mStep3;
 	private CheckBox mStep4;
+	private CheckBox mPlayAlarm;
 	private TextView mCharge;
 	private Button mCalibrate;
 	@Override
@@ -46,6 +49,7 @@ public class BatteryCalibrationActivity extends Activity {
 		mStep2 = (CheckBox) findViewById(R.id.step2);
 		mStep3 = (CheckBox) findViewById(R.id.step3);
 		mStep4 = (CheckBox) findViewById(R.id.step4);
+		mPlayAlarm = (CheckBox) findViewById(R.id.play_alarm);
 		mStep1.setClickable(false);
 		mStep2.setClickable(false);
 		mStep3.setClickable(false);
@@ -114,6 +118,13 @@ public class BatteryCalibrationActivity extends Activity {
 				mStep2.setChecked(true);
 				mStep3.setEnabled(true);
 				mCalibrate.setEnabled(true);
+				if (mPlayAlarm.isChecked()) {
+					Ringtone ringtone = RingtoneManager.getRingtone(this, 
+							RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM));
+					if (ringtone != null) {
+						ringtone.play();
+					}
+				}
 			} else if (status == BatteryManager.BATTERY_STATUS_NOT_CHARGING ||
 					status == BatteryManager.BATTERY_STATUS_DISCHARGING) {
 				mState = STATE_STEP1;
