@@ -2,6 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" android:key="@string/colors_prefs_key">
 
     <PreferenceCategory android:title="@string/pref_colors_settings_title" >
+        
     </PreferenceCategory>
 
     <net.margaritov.preference.colorpicker.ColorPickerPreference
@@ -37,6 +38,6 @@
     <net.margaritov.preference.colorpicker.ColorPickerPreference
         android:defaultValue="#FFFFFFFF"
         android:key="pref_key_navbar_color"
-        android:title="Navigation bar color" />
+        android:title="Navigation bar color" /><Preference android:key="pref_key_reset_colors" android:title="Reset colors" android:summary="Reset all colors to their default values"/>
 
 </PreferenceScreen>

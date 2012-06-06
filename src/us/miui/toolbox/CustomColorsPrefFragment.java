@@ -20,6 +20,7 @@ import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
+import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
 import android.preference.SwitchPreference;
 import android.provider.Settings;
@@ -38,6 +39,7 @@ public class CustomColorsPrefFragment extends PreferenceFragment {
 	private ColorPickerPreference mNavbarColor;
 	private ColorPickerPreference mBatteryColor;
 	private ColorPickerPreference mWifiColor;
+	private Preference mResetColors;
 	//private ColorPickerPreference mBluetoothColor;
 	//private ColorPickerPreference mGpsColor;
 	private ContentResolver mCR;
@@ -54,8 +56,10 @@ public class CustomColorsPrefFragment extends PreferenceFragment {
 		mNavbarColor = (ColorPickerPreference) findPreference("pref_key_navbar_color");
 		mBatteryColor = (ColorPickerPreference) findPreference("pref_key_battery_color");
 		mWifiColor = (ColorPickerPreference) findPreference("pref_key_wifi_color");
+		mResetColors = (Preference) findPreference("pref_key_reset_colors");
 		//mBluetoothColor = (ColorPickerPreference) findPreference("pref_key_bluetooth_color");
 		//mGpsColor = (ColorPickerPreference) findPreference("pref_key_gps_color");
+		setStoredColors();
 
 		mCarrierColor.setAlphaSliderEnabled(true);
 		mClockColor.setAlphaSliderEnabled(true);
@@ -73,6 +77,7 @@ public class CustomColorsPrefFragment extends PreferenceFragment {
 		mNavbarColor.setOnPreferenceChangeListener(mListener);
 		mBatteryColor.setOnPreferenceChangeListener(mListener);
 		mWifiColor.setOnPreferenceChangeListener(mListener);
+		
 		//mBluetoothColor.setOnPreferenceChangeListener(mListener);
 		//mGpsColor.setOnPreferenceChangeListener(mListener);
 		
@@ -80,6 +85,16 @@ public class CustomColorsPrefFragment extends PreferenceFragment {
 		if(!SystemHelper.hasNavigationBar(getActivity().getApplicationContext())) {
 			getPreferenceScreen().removePreference(mNavbarColor);
 		}
+		
+		mResetColors.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+			
+			@Override
+			public boolean onPreferenceClick(Preference preference) {
+				resetColors();
+				//restartSystemUI();
+				return true;
+			}
+		});
 	}
 	
 	OnPreferenceChangeListener mListener = new OnPreferenceChangeListener() {
@@ -143,5 +158,41 @@ public class CustomColorsPrefFragment extends PreferenceFragment {
 				}
 			}
 		}
+	}
+	
+	private void setStoredColors() {
+		try {
+			mClockColor.onColorChanged(Settings.System.getInt(mCR, Toolbox.CUSTOM_CLOCK_COLOR));
+		} catch (SettingNotFoundException e) {}
+		try {
+			mCarrierColor.onColorChanged(Settings.System.getInt(mCR, Toolbox.CUSTOM_CARRIER_COLOR));
+		} catch (SettingNotFoundException e) {}
+		try {
+			mBatteryColor.onColorChanged(Settings.System.getInt(mCR, Toolbox.CUSTOM_BATTERY_COLOR));
+		} catch (SettingNotFoundException e) {}
+		try {
+			mNavbarColor.onColorChanged(Settings.System.getInt(mCR, Toolbox.CUSTOM_NAVBAR_COLOR));
+		} catch (SettingNotFoundException e) {}
+		try {
+			mSignalColor.onColorChanged(Settings.System.getInt(mCR, Toolbox.CUSTOM_SIGNAL_COLOR));
+		} catch (SettingNotFoundException e) {}
+		try {
+			mWifiColor.onColorChanged(Settings.System.getInt(mCR, Toolbox.CUSTOM_WIFI_COLOR));
+		} catch (SettingNotFoundException e) {}
+	}
+	
+	private void resetColors() {
+		mClockColor.onColorChanged(0xFF000000);
+		Settings.System.putInt(mCR, Toolbox.CUSTOM_CLOCK_COLOR, 0);
+		mCarrierColor.onColorChanged(0xFF000000);
+		Settings.System.putInt(mCR, Toolbox.CUSTOM_CARRIER_COLOR, 0);
+		mBatteryColor.onColorChanged(0xFF000000);
+		Settings.System.putInt(mCR, Toolbox.CUSTOM_BATTERY_COLOR, 0);
+		mNavbarColor.onColorChanged(0xFF000000);
+		Settings.System.putInt(mCR, Toolbox.CUSTOM_NAVBAR_COLOR, 0);
+		mSignalColor.onColorChanged(0xFF000000);
+		Settings.System.putInt(mCR, Toolbox.CUSTOM_SIGNAL_COLOR, 0);
+		mWifiColor.onColorChanged(0xFF000000);
+		Settings.System.putInt(mCR, Toolbox.CUSTOM_WIFI_COLOR, 0);
 	}
 }

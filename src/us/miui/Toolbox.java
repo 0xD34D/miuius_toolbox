@@ -6,15 +6,19 @@ package us.miui;
 
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
+import android.util.Log;
 
 /**
  * @author Clark Scheff
  *
  */
 public class Toolbox {
+	private final static String TAG = "Toolbox";
+	
 	// Strings for retreiving settings using Settings.System.getXXXX
 	public final static String CENTER_CLOCK = "center_clock";
 	public final static String SINGLE_SIGNAL_BARS = "single_signal_bars";
@@ -60,15 +64,17 @@ public class Toolbox {
 	public final static int KEYCODE_SYSBAR_SEARCH = 84;
 	
 	// resource IDs for the navbar button views
-	public final static int SYSBAR_SLOT1 = 0;
-	public final static int SYSBAR_SLOT2 = 0;
-	public final static int SYSBAR_SLOT3 = 0;
-	public final static int SYSBAR_SLOT4 = 0;
-	public final static int SYSBAR_SLOT5 = 0;
+	public final static int SYSBAR_SLOT1 = 0x7f100015; // menu
+	public final static int SYSBAR_SLOT2 = 0x7f100016; // home
+	public final static int SYSBAR_SLOT3 = 0x7f100017; // recents
+	public final static int SYSBAR_SLOT4 = 0x7f100018; // back
+	public final static int SYSBAR_SLOT5 = 0x7f1000c8; // search
 	
 	// NxN grid size to use in MiuiHome based on device type
-	public final static int HOME_TABLET_ROWS = 6;
+	public final static int HOME_TABLET_ROWS = 8;
 	public final static int HOME_PHONE_ROWS = 4;
+	public final static int HOME_TABLET_COLS = 6;
+	public final static int HOME_PHONE_COLS = 4;
 
 	/**
 	 * Retrieves the system setting for CENTER_CLOCK
@@ -192,9 +198,9 @@ public class Toolbox {
 		ContentResolver cr = context.getContentResolver();
 		
 		try {
-			Settings.System.getInt(cr,
+			int color = Settings.System.getInt(cr,
 					CUSTOM_CLOCK_COLOR);
-			use = true;
+			use = (color != 0);
 		} catch (SettingNotFoundException e) {
 			use = false;
 		}
@@ -229,11 +235,10 @@ public class Toolbox {
 	public static boolean useCustomCarrierColor(Context context) {
 		boolean use = false;
 		ContentResolver cr = context.getContentResolver();
-		
 		try {
-			Settings.System.getInt(cr,
+			int color = Settings.System.getInt(cr,
 					CUSTOM_CARRIER_COLOR);
-			use = true;
+			use = (color != 0);
 		} catch (SettingNotFoundException e) {
 			use = false;
 		}
@@ -309,9 +314,9 @@ public class Toolbox {
 		ContentResolver cr = context.getContentResolver();
 		
 		try {
-			Settings.System.getInt(cr,
+			int color = Settings.System.getInt(cr,
 					CUSTOM_NAVBAR_COLOR);
-			use = true;
+			use = (color != 0);
 		} catch (SettingNotFoundException e) {
 			use = false;
 		}
@@ -348,9 +353,9 @@ public class Toolbox {
 		ContentResolver cr = context.getContentResolver();
 		
 		try {
-			Settings.System.getInt(cr,
+			int color =Settings.System.getInt(cr,
 					CUSTOM_BATTERY_COLOR);
-			use = true;
+			use = (color != 0);
 		} catch (SettingNotFoundException e) {
 			use = false;
 		}
@@ -387,9 +392,9 @@ public class Toolbox {
 		ContentResolver cr = context.getContentResolver();
 		
 		try {
-			Settings.System.getInt(cr,
+			int color = Settings.System.getInt(cr,
 					CUSTOM_WIFI_COLOR);
-			use = true;
+			use = (color != 0);
 		} catch (SettingNotFoundException e) {
 			use = false;
 		}
@@ -426,9 +431,9 @@ public class Toolbox {
 		ContentResolver cr = context.getContentResolver();
 		
 		try {
-			Settings.System.getInt(cr,
+			int color = Settings.System.getInt(cr,
 					CUSTOM_BLUETOOTH_COLOR);
-			use = true;
+			use = (color != 0);
 		} catch (SettingNotFoundException e) {
 			use = false;
 		}
@@ -465,9 +470,9 @@ public class Toolbox {
 		ContentResolver cr = context.getContentResolver();
 		
 		try {
-			Settings.System.getInt(cr,
+			int color = Settings.System.getInt(cr,
 					CUSTOM_GPS_COLOR);
-			use = true;
+			use = (color != 0);
 		} catch (SettingNotFoundException e) {
 			use = false;
 		}
@@ -526,6 +531,7 @@ public class Toolbox {
 			order = tmp.split(" ");
 		}
 		
+		Log.i(TAG, "getNavbarOrder()=" + order[0] + order[1] + order[2] + order[3] + order[4]);
 		return order;
 	}
 	
@@ -535,21 +541,21 @@ public class Toolbox {
 	 * @param name the name of the button
 	 * @return the resource ID for the drawable to use with this button
 	 */
-	public static int getNavbarButtonResID(Context context, String name) {
-		boolean isPortrait = (context.getResources()
-				.getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT);
+	public static int getNavbarButtonResID(boolean isPortrait, String name) {
+		int resID = 0;
 		if (name.equals(HOME))
-			return (isPortrait ? IC_SYSBAR_HOME : IC_SYSBAR_HOME_LAND);
+			resID = (isPortrait ? IC_SYSBAR_HOME : IC_SYSBAR_HOME_LAND);
 		else if (name.equals(MENU))
-			return (isPortrait ? IC_SYSBAR_MENU : IC_SYSBAR_MENU_LAND);
+			resID = (isPortrait ? IC_SYSBAR_MENU : IC_SYSBAR_MENU_LAND);
 		else if (name.equals(BACK))
-			return (isPortrait ? IC_SYSBAR_BACK : IC_SYSBAR_BACK_LAND);
+			resID = (isPortrait ? IC_SYSBAR_BACK : IC_SYSBAR_BACK_LAND);
 		else if (name.equals(SEARCH))
-			return (isPortrait ? IC_SYSBAR_SEARCH : IC_SYSBAR_SEARCH_LAND);
+			resID = (isPortrait ? IC_SYSBAR_SEARCH : IC_SYSBAR_SEARCH_LAND);
 		else if (name.equals(RECENTS))
-			return (isPortrait ? IC_SYSBAR_RECENTS : IC_SYSBAR_RECENTS_LAND);
+			resID = (isPortrait ? IC_SYSBAR_RECENTS : IC_SYSBAR_RECENTS_LAND);
 		
-		return 0;
+		Log.i(TAG, "getNavbarButtonResID(" + name + ", " + isPortrait + ")=" + resID);
+		return resID;
 	}
 	
 	/**
@@ -568,7 +574,75 @@ public class Toolbox {
 			return KEYCODE_SYSBAR_SEARCH;
 		else if (name.equals(RECENTS))
 			return KEYCODE_SYSBAR_RECENTS;
-		
 		return 0;
+	}
+	
+	public static String getButtonName(Context context, int id) {
+		String[] order = getNavbarOrder(context);
+		String name = "";
+		switch(id) {
+		case SYSBAR_SLOT1:
+			name = order[0];
+			break;
+		case SYSBAR_SLOT2:
+			name = order[1];
+			break;
+		case SYSBAR_SLOT3:
+			name = order[2];
+			break;
+		case SYSBAR_SLOT4:
+			name = order[3];
+			break;
+		case SYSBAR_SLOT5:
+			name = order[4];
+			break;
+		}
+		Log.i(TAG, "getButtonName(" + id + ")=" + name);
+		return name;
+	}
+	
+	public static int getNavbarButtonResID(Context context, boolean isPortrait, int id) {
+		int newID = getNavbarButtonResID(isPortrait, getButtonName(context, id));
+		
+		Log.i(TAG, "getNavbarButtonResID(" + id + ")=" + newID);
+		return newID;
+	}
+	
+	public static int getNavbarButtonKeycode(Context context, int id) {
+		return getNavbarButtonKeycode(getButtonName(context, id));
+	}
+	
+	public static Drawable getNavbarButtonDrawable(Context context, boolean isPortrait, int id) {
+		Resources res = context.getResources();
+		return res.getDrawable(getNavbarButtonResID(context, isPortrait, id));
+	}
+	
+	public static int getNewNavbarButtonID(Context context, int id) {
+		String name = getButtonName(context, id);
+		if (name.equals(MENU))
+			return SYSBAR_SLOT1;
+		if (name.equals(HOME))
+			return SYSBAR_SLOT2;
+		if (name.equals(RECENTS))
+			return SYSBAR_SLOT3;
+		if (name.equals(BACK))
+			return SYSBAR_SLOT4;
+		if (name.equals(SEARCH))
+			return SYSBAR_SLOT5;
+		
+		return id;
+	}
+	
+	public static boolean isTablet(Context context) {
+		return (context.getResources().getConfiguration()
+				.smallestScreenWidthDp >= 600);
+	}
+	
+	public static int getMiuiHomeRows(Context context) {
+		return (isTablet(context) ? HOME_TABLET_ROWS : HOME_PHONE_ROWS);
+	}
+
+	public static int getMiuiHomeCols(Context context) {
+		return (isTablet(context) ? HOME_TABLET_COLS : HOME_PHONE_COLS);
 	}
 }

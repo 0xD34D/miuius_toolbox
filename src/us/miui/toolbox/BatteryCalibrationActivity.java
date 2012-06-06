@@ -5,6 +5,8 @@ package us.miui.toolbox;
 
 import java.io.IOException;
 
+import us.miui.toolbox.SimpleDialogs.OnYesNoResponse;
+
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -39,6 +41,7 @@ public class BatteryCalibrationActivity extends Activity {
 	private CheckBox mPlayAlarm;
 	private TextView mCharge;
 	private Button mCalibrate;
+	private Button mOverride;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -55,6 +58,7 @@ public class BatteryCalibrationActivity extends Activity {
 		mStep3.setClickable(false);
 		mStep4.setClickable(false);
 		mCalibrate = (Button) findViewById(R.id.calibrate);
+		mOverride = (Button) findViewById(R.id.override);
 		mCharge = (TextView) findViewById(R.id.charge_info);
 		
 		IntentFilter filter = new IntentFilter();
@@ -77,7 +81,34 @@ public class BatteryCalibrationActivity extends Activity {
 				}
 			}
 		});
+
+		mOverride.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if (mState == STATE_STEP2) {
+					SimpleDialogs.displayYesNoDialog("YES", "NO", 
+							"Are you sure?", 
+							"Overriding this step may not yield the best results.\n\n" +
+							"Are you sure you would like to overide step 2?", 
+							BatteryCalibrationActivity.this, overrideConfirmation);
+				}
+			}
+		});
 	}
+	
+	OnYesNoResponse overrideConfirmation = new OnYesNoResponse() {
+		
+		@Override
+		public void onYesNoResponse(boolean isYes) {
+			if (isYes) {
+				mState = STATE_STEP3;
+				mStep2.setChecked(true);
+				mStep3.setEnabled(true);
+				mCalibrate.setEnabled(true);
+			}
+		}
+	};
 
 	private BroadcastReceiver mBatInfoReceiver = new BroadcastReceiver() {
 
@@ -102,6 +133,8 @@ public class BatteryCalibrationActivity extends Activity {
 					mState = STATE_STEP2;
 					mStep1.setChecked(true);
 					mStep2.setEnabled(true);
+					if (level >= 90)
+						mOverride.setEnabled(true);
 				} else {
 					mState = STATE_STEP3;
 					mStep1.setChecked(true);
@@ -130,6 +163,9 @@ public class BatteryCalibrationActivity extends Activity {
 				mState = STATE_STEP1;
 				mStep1.setChecked(false);
 				mStep2.setEnabled(false);
+				mOverride.setEnabled(false);
+			} else if (level >= 90) {
+				mOverride.setEnabled(true);
 			}
 			break;
 		case STATE_STEP3:
@@ -141,6 +177,7 @@ public class BatteryCalibrationActivity extends Activity {
 				mStep2.setEnabled(false);
 				mStep3.setEnabled(false);
 				mCalibrate.setEnabled(false);
+				mOverride.setEnabled(false);
 			}
 			break;
 		case STATE_STEP4:

@@ -85,7 +85,7 @@ public class NavbarPrefFragment extends PreferenceFragment {
 		
 		// hide the navbar order preference until I figure out how to implement
 		// this into MiuiSystemUI
-		getPreferenceScreen().removePreference(mNavbarOrder);
+		//getPreferenceScreen().removePreference(mNavbarOrder);
 	}
 
 	private void restartSystemUI() {

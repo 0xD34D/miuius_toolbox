@@ -45,7 +45,16 @@
             android:text="@string/button_calibrate_battery"
             android:textStyle="bold"
             android:enabled="false" />
-    </LinearLayout>
+        
+        <Button
+            android:id="@+id/override"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/button_override"
+            android:textStyle="bold"
+            android:enabled="false" />
+        </LinearLayout>
     
     <CheckBox
         android:id="@+id/play_alarm"

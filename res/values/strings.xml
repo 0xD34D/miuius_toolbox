@@ -63,6 +63,7 @@
     <string name="battery_calibration_step3">3) Click \'Calibrate Battery\' button</string>
     <string name="battery_calibration_step4">4) Unplug your device</string>
     <string name="button_calibrate_battery">Calibrate Batery</string>
+    <string name="button_override">Step 2 Overide</string>
     <string name="battery_info_text">Battery: </string>
 
 </resources>
