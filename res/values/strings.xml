@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="hello">Hello World, MIUIToolboxActivity!</string>
     <string name="app_name">MIUI.us Toolbox</string>
+
+    <!-- Status bar settings -->
     <string name="pref_statusbar_settings_title">Status Bar Mods</string>
     <string name="pref_centerclock_on_text">On</string>
     <string name="pref_centerclock_off_text">Off</string>
@@ -12,7 +13,13 @@
     <string name="pref_signalbars_off_text">Off</string>
     <string name="pref_signalbars_title">Single signal bars</string>
     <string name="pref_signalbars_summary">Display single signal bars for CDMA devices</string>
+    <string name="pref_use_custom_carrier_title">Custom carrier label</string>
+    <string name="pref_use_custom_carrier_summary">Use a custom carrier lable when enabled.</string>
+    <string name="pref_custom_carrier_label_title">Custom label</string>
+    <string name="carrier_label_settings_title">Carrier label settings</string>
     <string name="statusbar_prefs_key">statusbar_prefs_key</string>
+
+    <!-- CPU settings -->
     <string name="pref_cpugovernor_title">CPU Governor</string>
     <string name="pref_cpugovernor_summary">Select the CPU governor to use.</string>
     <string name="cpu_prefs_key">cpu_prefs_key</string>
@@ -23,16 +30,14 @@
     <string name="pref_cpu_restore_summary">Restore cpu settings after device boots</string>
     <string name="pref_credits_title">Credits</string>
     <string name="pref_credits_summary">See who helped make this all possible.</string>
-    <string name="pref_use_custom_carrier_title">Custom carrier label</string>
-    <string name="pref_use_custom_carrier_summary">Use a custom carrier lable when enabled.</string>
-    <string name="pref_custom_carrier_label_title">Custom label</string>
+
+    <!-- MiuiHome settings -->
     <string name="home_prefs_key">home_prefs_key</string>
     <string name="pref_home_settings_title">Miui Launcher Settings</string>
     <string name="pref_hidestatusbar_title">Hide status bar</string>
     <string name="pref_hidestatusbar_summary">Hides the status bar in MIUI launcher</string>
     <string name="pref_allowrotation_title">Allow rotation</string>
     <string name="pref_allowrotation_summary">Allows MIUI launcher to rotate into landscape orientation.</string>
-    <string name="carrier_label_settings_title">Carrier label settings</string>
     <string name="colors_prefs_key">colors_prefs_key</string>
     <string name="pref_colors_settings_title">Custom Color Settings</string>
     <string name="navbar_prefs_key">navbar_prefs_key</string>
@@ -42,7 +47,7 @@
     <string name="pref_navbar_order_title">Navbar button order</string>
     <string name="pref_navbar_order_summary">Customize the layout order of the buttons in the navbar</string>
     <string name="performance_prefs_key">performance_prefs_key</string>
-    <string name="pref_performance_title">Performance settings</string>
+    <string name="pref_performance_title">System settings</string>
     <string name="calibration_prefs_key">calibration_prefs_key</string>
     <string name="calibration_settings_title">Battery calibration</string>
     
@@ -65,5 +70,22 @@
     <string name="button_calibrate_battery">Calibrate Batery</string>
     <string name="button_override">Step 2 Overide</string>
     <string name="battery_info_text">Battery: </string>
+    
+    <!-- Android ID Activity -->
+    <string name="android_id_prefs_key">android_id_pref_key</string>
+    <string name="android_id_settings_title">Android ID tool</string>
+    <string name="error_copying_binary">There was an error trying to copy the sqlite3 binary.</string>
+    <string name="dialog_root_required_title">Root Required</string>
+    <string name="dialog_root_required_body">Root permissions are required in order for this app to perform it\'s functions.  Root permissions were not granted or root is not possible on this device.</string>
+    <string name="dialog_update_id_failure_title">Update failure</string>
+    <string name="dialog_update_id_failure_body">Unfortunately the updating of the ID was not successful. Please contact the developer.</string>
+    <string name="id_backup_exists">No backup exists</string>
+    <string name="android_id_title">Current ID</string>
+    <string name="android_backup_id_title">Saved ID</string>
+    <string name="button_backup_id">Save current ID</string>
+    <string name="button_restore_id">Restore saved ID</string>
+    
+    <string name="media_scanner_prefs_key">media_scanner_pref_key</string>
+    <string name="media_scanner_settings_title">Invoke media scanner</string>
 
 </resources>

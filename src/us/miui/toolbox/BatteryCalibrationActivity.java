@@ -61,10 +61,6 @@ public class BatteryCalibrationActivity extends Activity {
 		mOverride = (Button) findViewById(R.id.override);
 		mCharge = (TextView) findViewById(R.id.charge_info);
 		
-		IntentFilter filter = new IntentFilter();
-		filter.addAction(Intent.ACTION_BATTERY_CHANGED);
-		registerReceiver(mBatInfoReceiver, filter);
-		
 		mCalibrate.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -109,6 +105,22 @@ public class BatteryCalibrationActivity extends Activity {
 			}
 		}
 	};
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		
+		IntentFilter filter = new IntentFilter();
+		filter.addAction(Intent.ACTION_BATTERY_CHANGED);
+		registerReceiver(mBatInfoReceiver, filter);
+	}
+	
+	@Override
+	public void onPause() {
+		super.onPause();
+		
+		unregisterReceiver(mBatInfoReceiver);
+	}
 
 	private BroadcastReceiver mBatInfoReceiver = new BroadcastReceiver() {
 
@@ -119,7 +131,7 @@ public class BatteryCalibrationActivity extends Activity {
 			int status = intent.getIntExtra(BatteryManager.EXTRA_STATUS, BatteryManager.BATTERY_STATUS_UNKNOWN);
 			int plugged = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, 0);
 			
-			mCharge.setText("" + level + "%, " + voltage + "mV");
+			mCharge.setText("" + level + "% @ " + voltage + "mV");
 			
 			updateState(level, status, plugged);
 		}

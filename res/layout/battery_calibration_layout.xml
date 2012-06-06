@@ -37,11 +37,17 @@
             android:enabled="false"
             android:text="@string/battery_calibration_step4" />
 
+        <LinearLayout
+            android:id="@+id/buttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
         <Button
             android:id="@+id/calibrate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_weight="1.0"
             android:text="@string/button_calibrate_battery"
             android:textStyle="bold"
             android:enabled="false" />
@@ -51,10 +57,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_weight="1.0"
             android:text="@string/button_override"
             android:textStyle="bold"
             android:enabled="false" />
+            
         </LinearLayout>
+        
+    </LinearLayout>
     
     <CheckBox
         android:id="@+id/play_alarm"

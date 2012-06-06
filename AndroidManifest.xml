@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="us.miui.toolbox"
-    android:versionCode="3"
-    android:versionName="1.0.2" >
+    android:versionCode="7"
+    android:versionName="1.1.1" >
 
     <uses-sdk android:minSdkVersion="15" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:icon="@drawable/icon"
@@ -28,6 +29,11 @@
         
         <activity
             android:name=".BatteryCalibrationActivity"
+            android:label="@string/app_name" >
+        </activity>
+        
+        <activity
+            android:name=".AndroidIDToolActivity"
             android:label="@string/app_name" >
         </activity>
         

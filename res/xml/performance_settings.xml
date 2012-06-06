@@ -12,4 +12,14 @@
         android:title="@string/pref_cpu_settings_title" >
     </PreferenceScreen>
 
+    <Preference
+        android:key="@string/android_id_prefs_key"
+        android:title="@string/android_id_settings_title" >
+	</Preference>
+
+    <Preference
+        android:key="@string/media_scanner_prefs_key"
+        android:title="@string/media_scanner_settings_title" >
+	</Preference>
+
 </PreferenceScreen>
