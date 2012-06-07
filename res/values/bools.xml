@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="bool" name="enable_adb_wifi_default">false</item>
+    
+</resources>

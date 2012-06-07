@@ -3,8 +3,11 @@
  */
 package us.miui.toolbox;
 
+import us.miui.Toolbox;
+import us.miui.helpers.SystemHelper;
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -13,26 +16,35 @@ import android.media.MediaScannerConnection.MediaScannerConnectionClient;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.CheckBoxPreference;
 import android.preference.Preference;
+import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
+import android.provider.Settings;
+import android.provider.Settings.SettingNotFoundException;
 import android.widget.Toast;
 
 /**
  * @author Clark Scheff
  * 
  */
-public class PerformancePrefFragment extends PreferenceFragment
+public class SystemSettingsPrefFragment extends PreferenceFragment
 		implements MediaScannerConnectionClient {
 	private Preference mBatteryCalibration;
 	private Preference mAndroidID;
 	private Preference mMediaScanner;
+	private CheckBoxPreference mEnableNavbar;
 	private MediaScannerConnection mMsc;
+	private ContentResolver mCR;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Resources res = this.getResources();
+		mCR = getActivity().getContentResolver();
+
 		// Load the preferences from an XML resource
 		addPreferencesFromResource(R.xml.performance_settings);
 		
@@ -44,6 +56,32 @@ public class PerformancePrefFragment extends PreferenceFragment
 		
 		mMediaScanner = findPreference(res.getString(R.string.media_scanner_prefs_key));
 		mMediaScanner.setOnPreferenceClickListener(mListener);
+		
+		mEnableNavbar = (CheckBoxPreference) findPreference(res.getString(R.string.enable_navbar_prefs_key));
+		// Try to read the ENABLE_NAVBAR setting and if we get a
+		// SettingNotFoundException we need to create it.
+		try {
+			mEnableNavbar
+					.setChecked(Settings.System.getInt(mCR, Toolbox.ENABLE_NAVBAR) == 1);
+		} catch (SettingNotFoundException e) {
+			mEnableNavbar.setChecked(false);
+			Settings.System.putInt(mCR, Toolbox.ENABLE_NAVBAR, 0);
+		}
+		mEnableNavbar.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+			
+			@Override
+			public boolean onPreferenceChange(Preference preference, Object newValue) {
+				Settings.System
+				.putInt(mCR, Toolbox.ENABLE_NAVBAR, (Boolean) newValue
+						.equals(Boolean.TRUE) ? 1 : 0);
+				SystemHelper.restartSystemUI(getActivity().getApplicationContext());
+				return true;
+			}
+		});
+
+		// hide the Enable navbar preference until I find a way to make it work
+		// or decide it is not worth the trouble :)
+		getPreferenceScreen().removePreference(mEnableNavbar);
 	}
 	
 	private OnPreferenceClickListener mListener = new OnPreferenceClickListener() {
@@ -62,7 +100,7 @@ public class PerformancePrefFragment extends PreferenceFragment
 				Context ctx = getActivity().getApplicationContext();
 				ctx.sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, 
 						Uri.parse("file://" + Environment.getExternalStorageDirectory())));
-				Toast.makeText(ctx, "The edia scanner has been started.", Toast.LENGTH_LONG).show();
+				Toast.makeText(ctx, "The media scanner has been started.", Toast.LENGTH_LONG).show();
 				return true;
 			}
 			return false;
@@ -79,6 +117,15 @@ public class PerformancePrefFragment extends PreferenceFragment
 			// Display the fragment as the main content.
 			getFragmentManager().beginTransaction()
 					.replace(android.R.id.content, new CPUPrefFragment())
+					.addToBackStack(null).commit();
+			return true;
+		}
+		if (pref.getKey().equals(
+				getActivity().getResources().getString(
+						R.string.adb_wifi_prefs_key))) {
+			// Display the fragment as the main content.
+			getFragmentManager().beginTransaction()
+					.replace(android.R.id.content, new AdbWifiPrefFragment())
 					.addToBackStack(null).commit();
 			return true;
 		}

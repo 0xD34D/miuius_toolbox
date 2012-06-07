@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" android:key="pref_key_main_settings">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="pref_key_system_settings" >
 
     <Preference
         android:key="@string/calibration_prefs_key"
         android:title="@string/calibration_settings_title" >
-	</Preference>
+    </Preference>
 
     <PreferenceScreen
         android:fragment="us.miui.toolbox.CPUBarPrefFragment"
@@ -15,11 +16,32 @@
     <Preference
         android:key="@string/android_id_prefs_key"
         android:title="@string/android_id_settings_title" >
-	</Preference>
-
+    </Preference>
     <Preference
         android:key="@string/media_scanner_prefs_key"
         android:title="@string/media_scanner_settings_title" >
-	</Preference>
+    </Preference>
+
+    <PreferenceScreen
+        android:fragment="us.miui.toolbox.CPUBarPrefFragment"
+        android:key="@string/adb_wifi_prefs_key"
+        android:title="@string/adb_wifi_prefs_title" >
+    </PreferenceScreen>
+
+    <!--
+	<us.miui.widget.ColorTuningPreference
+   		android:key="color_tuning"
+   		android:title="@string/color_tuning_title_head"
+   		android:summary="@string/color_tuning_summary_head" />
+	<us.miui.widget.GammaTuningPreference
+   		android:key="gamma_tuning"
+   		android:title="@string/gamma_tuning_title_head"
+   		android:summary="@string/gamma_tuning_summary_head" />
+    -->
+    
+    <CheckBoxPreference
+        android:key="@string/enable_navbar_prefs_key"
+        android:summary="@string/pref_enable_navbar_summary"
+        android:title="@string/pref_enable_navbar_title" />
 
 </PreferenceScreen>

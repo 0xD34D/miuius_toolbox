@@ -54,7 +54,7 @@ public class ToolboxPrefFragment extends PreferenceFragment {
 						R.string.performance_prefs_key))) {
 			// Display the fragment as the main content.
 			getFragmentManager().beginTransaction()
-					.replace(android.R.id.content, new PerformancePrefFragment())
+					.replace(android.R.id.content, new SystemSettingsPrefFragment())
 					.addToBackStack(null).commit();
 			return true;
 		}

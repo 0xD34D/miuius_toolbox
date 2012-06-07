@@ -34,12 +34,17 @@
     <!-- MiuiHome settings -->
     <string name="home_prefs_key">home_prefs_key</string>
     <string name="pref_home_settings_title">Miui Launcher Settings</string>
+    <string name="hide_statusbar_pref_key">pref_key_hidestatusbar</string>
     <string name="pref_hidestatusbar_title">Hide status bar</string>
     <string name="pref_hidestatusbar_summary">Hides the status bar in MIUI launcher</string>
+    <string name="hide_shortcut_text_pref_key">pref_key_shortcut_text</string>
+    <string name="pref_hide_shortuct_text_title">Hide icon text labels</string>
+    <string name="pref_hide_shortuct_text_summary">Hides the text labels used for shortucts on the homescreen</string>
+    <string name="allow_rotation_pref_key">pref_key_allow_rotation</string>
     <string name="pref_allowrotation_title">Allow rotation</string>
     <string name="pref_allowrotation_summary">Allows MIUI launcher to rotate into landscape orientation.</string>
-    <string name="colors_prefs_key">colors_prefs_key</string>
-    <string name="pref_colors_settings_title">Custom Color Settings</string>
+    
+    <!-- Navbar settings -->
     <string name="navbar_prefs_key">navbar_prefs_key</string>
     <string name="pref_navbar_settings_title">Navigation bar settings</string>
     <string name="pref_showsearch_title">Search button</string>
@@ -48,11 +53,13 @@
     <string name="pref_navbar_order_summary">Customize the layout order of the buttons in the navbar</string>
     <string name="performance_prefs_key">performance_prefs_key</string>
     <string name="pref_performance_title">System settings</string>
-    <string name="calibration_prefs_key">calibration_prefs_key</string>
-    <string name="calibration_settings_title">Battery calibration</string>
-    
+    <string name="enable_navbar_prefs_key">enable_navbar_pref_key</string>
+    <string name="pref_enable_navbar_title">Enable navbar</string>
+    <string name="pref_enable_navbar_summary">Enable the navbar on devices that normally do not need it</string>
     
     <!-- Color Picker -->
+    <string name="colors_prefs_key">colors_prefs_key</string>
+    <string name="pref_colors_settings_title">Custom Color Settings</string>
     <string name="dialog_color_picker">Color Picker</string>
     <string name="press_color_to_apply">Press on Color to apply</string>
     <string name="arrow_right">→</string>
@@ -63,6 +70,8 @@
     <string name="ics_color">!!!</string>
 
     <!--  Battery calibration -->
+    <string name="calibration_prefs_key">calibration_prefs_key</string>
+    <string name="calibration_settings_title">Battery calibration</string>
     <string name="battery_calibration_step1">1) Plug device into charger</string>
     <string name="battery_calibration_step2">2) Allow battery to charge to 100%</string>
     <string name="battery_calibration_step3">3) Click \'Calibrate Battery\' button</string>
@@ -88,4 +97,35 @@
     <string name="media_scanner_prefs_key">media_scanner_pref_key</string>
     <string name="media_scanner_settings_title">Invoke media scanner</string>
 
+    <!--  Kernel Tweaks -->
+    <string name="pt_fast_charge_boot">Fast Charge</string>
+    <string name="ps_fast_charge_boot">Enable fast charge at boot</string>
+    <string name="fast_charge_warning">YOU WILL NOT BE ABLE TO CONNECT TO YOUR PC AFTER EACH REBOOT!\n\nThis setting will set fast charge ON after each reboot. While fast charge is on, you can *only* charge your phone!</string>
+    <string name="fast_charge_notification_title">Fast Charge is ON!</string>
+    <string name="fast_charge_notification_message">Phone is in charge-only mode!</string>
+
+    <string name="kernel">Kernel Tweaks (if supported)</string>
+    <string name="color_tuning_title_head">Color Multipliers Tuning</string>
+    <string name="color_tuning_summary_head">Calibrate multipliers screen color</string>
+    <string name="gamma_tuning_title_head">Color Gamma Tuning</string>
+    <string name="gamma_tuning_summary_head">Calibrate gamma color correction</string>
+    <string name="color_red_title">Red</string>
+    <string name="color_green_title">Green</string>
+    <string name="color_blue_title">Blue</string>
+    <string name="reset_defaults">Reset to Defaults</string>
+    
+    <!-- ADB over wifi settings -->
+    <string name="adb_wifi_prefs_key">adb_wifi_prefs_key</string>
+    <string name="adb_wifi_prefs_title">ADB over WiFi settings</string>
+    <string name="pref_key_enable_adb_wifi">pref_key_enable_adb_wifi</string>
+    <string name="pref_enable_adb_wifi_title">ADB over WiFi</string>
+    <string name="pref_eanble_adb_wifi_summary">Enables connecting to device using adb via WiFi</string>
+    <string name="pref_key_adb_port">pref_key_adb_port</string>
+    <string name="pref_adb_port_title">Port number</string>
+    <string name="pref_adb_port_summary">Port number to use to connect to adbd on device.</string>
+    <string name="default_adb_port">5555</string>
+    <string name="pref_key_instructions">pref_key_instructions</string>
+    <string name="pref_adb_instructions_title">How-to</string>
+    <string name="pref_adb_instructions_summary">To connect use:\nadb connect %1$s:%2$d</string>
+    
 </resources>

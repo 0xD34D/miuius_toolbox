@@ -65,4 +65,19 @@ public class RootUtils {
 		os.writeBytes("exit\n");
 		os.flush();
 	}
+
+	public static String executeWithResult(String commands) 
+		throws IOException {
+		String result = null;
+		    Process p;
+		    Runtime r = Runtime.getRuntime();
+			p = r.exec("su");
+			DataOutputStream os = new DataOutputStream(p.getOutputStream());
+			DataInputStream is = new DataInputStream(p.getInputStream());
+			os.writeBytes(commands);
+			os.writeBytes("exit\n");
+			os.flush();
+			result = is.readLine();
+			return result;
+		}
 }

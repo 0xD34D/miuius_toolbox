@@ -5,12 +5,17 @@
     </PreferenceCategory>
 
     <CheckBoxPreference
-        android:key="pref_key_hidestatusbar"
+        android:key="@string/hide_statusbar_pref_key"
         android:summary="@string/pref_hidestatusbar_summary"
         android:title="@string/pref_hidestatusbar_title" />
 
     <CheckBoxPreference
-        android:key="pref_key_allowrotation"
+        android:key="@string/hide_shortcut_text_pref_key"
+        android:summary="@string/pref_hide_shortuct_text_summary"
+        android:title="@string/pref_hide_shortuct_text_title" />
+
+    <CheckBoxPreference
+        android:key="@string/allow_rotation_pref_key"
         android:summary="@string/pref_allowrotation_summary"
         android:title="@string/pref_allowrotation_title" />
 

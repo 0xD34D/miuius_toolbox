@@ -3,6 +3,12 @@
  */
 package us.miui.helpers;
 
+import java.io.IOException;
+import java.util.List;
+
+import us.miui.toolbox.RootUtils;
+import android.app.ActivityManager;
+import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.Context;
 
 /**
@@ -24,5 +30,33 @@ public class SystemHelper {
 	public static boolean isTablet(Context context) {
 		return (context.getResources().getConfiguration()
 				.smallestScreenWidthDp >= 600);
+	}
+
+	public static void restartApp(Context context, String packageName) {
+		ActivityManager am = (ActivityManager) context.getSystemService(
+				Context.ACTIVITY_SERVICE);
+
+		List<ActivityManager.RunningAppProcessInfo> apps = am
+				.getRunningAppProcesses();
+		for (RunningAppProcessInfo app : apps) {
+			if (app.processName.equals(packageName)) {
+				int pid = app.pid;
+				try {
+					RootUtils.execute("kill " + pid + "\n");
+					return;
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public static void restartSystemUI(Context context) {
+		restartApp(context, "com.android.systemui");
+	}
+
+	public static void restartMiuiHome(Context context) {
+		restartApp(context, "com.miui.home");
 	}
 }

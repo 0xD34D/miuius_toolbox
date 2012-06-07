@@ -26,6 +26,7 @@ public class Toolbox {
 	public final static String CUSTOM_CARRIER_TEXT = "custom_carrier_text";
 	public final static String HIDE_STATUS_BAR = "hide_status_bar";
 	public final static String ALLOW_LAUNCHER_ROTATION = "allow_launcher_rotation";
+	public final static String HIDE_SHORTCUT_TEXT = "hide_shortcut_text";
 	public final static String CUSTOM_CLOCK_COLOR = "custom_clock_color";
 	public final static String CUSTOM_CARRIER_COLOR = "custom_carrier_color";
 	public final static String CUSTOM_SIGNAL_COLOR = "custom_signal_color";
@@ -36,6 +37,7 @@ public class Toolbox {
 	public final static String CUSTOM_GPS_COLOR = "custom_bluetooth_color";
 	public final static String USE_NAVBAR_SEARCH = "use_navbar_search";
 	public final static String CUSTOM_NAVBAR_ORDER = "custom_navbar_order";
+	public final static String ENABLE_NAVBAR = "enable_navbar";
 	
 	// names for navbar buttons
 	public final static String HOME = "home";
@@ -69,6 +71,12 @@ public class Toolbox {
 	public final static int SYSBAR_SLOT3 = 0x7f100017; // recents
 	public final static int SYSBAR_SLOT4 = 0x7f100018; // back
 	public final static int SYSBAR_SLOT5 = 0x7f1000c8; // search
+	public final static int SYSBAR_SLOT1_LAND = 0x7f1000cc; // menu
+	public final static int SYSBAR_SLOT2_LAND = 0x7f1000cb; // home
+	public final static int SYSBAR_SLOT3_LAND = 0x7f1000ca; // recents
+	public final static int SYSBAR_SLOT4_LAND = 0x7f1000c9; // back
+	public final static int SYSBAR_SLOT5_LAND = 0x7f1000cd; // search
+	
 	
 	// NxN grid size to use in MiuiHome based on device type
 	public final static int HOME_TABLET_ROWS = 8;
@@ -162,6 +170,25 @@ public class Toolbox {
 		try {
 			hide = (Settings.System.getInt(cr,
 					HIDE_STATUS_BAR) == 1);
+		} catch (SettingNotFoundException e) {
+			hide = false;
+		}
+		
+		return hide;
+	}
+
+	/**
+	 * Retrieves the system setting for HIDE_SHORTCUT_TEXT
+	 * @param context context used to get a ContentResolver
+	 * @return true if shortcut text label is to be hidden in MiuiHome
+	 */
+	public static boolean hideShortcutText(Context context) {
+		boolean hide = false;
+		ContentResolver cr = context.getContentResolver();
+		
+		try {
+			hide = (Settings.System.getInt(cr,
+					HIDE_SHORTCUT_TEXT) == 1);
 		} catch (SettingNotFoundException e) {
 			hide = false;
 		}
@@ -519,6 +546,25 @@ public class Toolbox {
 	}
 
 	/**
+	 * Retrieves the system setting for ENABLE_NAVBAR
+	 * @param context context used to get a ContentResolver
+	 * @return true if navbar should be enabled
+	 */
+	public static boolean enableNavbar(Context context) {
+		boolean use = false;
+		ContentResolver cr = context.getContentResolver();
+		
+		try {
+			use = (Settings.System.getInt(cr,
+					ENABLE_NAVBAR) == 1);
+		} catch (SettingNotFoundException e) {
+			use = false;
+		}
+		
+		return use;
+	}
+
+	/**
 	 * Retrieves an array with the button order for the navbar
 	 * @param context context used to get a ContentResolver
 	 * @return an array with the order of the navbar buttons
@@ -582,18 +628,23 @@ public class Toolbox {
 		String name = "";
 		switch(id) {
 		case SYSBAR_SLOT1:
+		case SYSBAR_SLOT1_LAND:
 			name = order[0];
 			break;
 		case SYSBAR_SLOT2:
+		case SYSBAR_SLOT2_LAND:
 			name = order[1];
 			break;
 		case SYSBAR_SLOT3:
+		case SYSBAR_SLOT3_LAND:
 			name = order[2];
 			break;
 		case SYSBAR_SLOT4:
+		case SYSBAR_SLOT4_LAND:
 			name = order[3];
 			break;
 		case SYSBAR_SLOT5:
+		case SYSBAR_SLOT5_LAND:
 			name = order[4];
 			break;
 		}

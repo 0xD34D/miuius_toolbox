@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <CheckBoxPreference
+        android:defaultValue="@bool/enable_adb_wifi_default"
+        android:key="@string/pref_key_enable_adb_wifi"
+        android:summary="@string/pref_eanble_adb_wifi_summary"
+        android:title="@string/pref_enable_adb_wifi_title" />
+
+    <EditTextPreference
+        android:defaultValue="@string/default_adb_port"
+        android:key="@string/pref_key_adb_port"
+        android:summary="@string/pref_adb_port_summary"
+        android:title="@string/pref_adb_port_title" />
+
+    <Preference
+        android:summary="@string/pref_adb_instructions_summary"
+        android:title="@string/pref_adb_instructions_title" android:key="@string/pref_key_instructions"/>
+
+</PreferenceScreen>
