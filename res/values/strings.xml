@@ -127,5 +127,8 @@
     <string name="pref_key_instructions">pref_key_instructions</string>
     <string name="pref_adb_instructions_title">How-to</string>
     <string name="pref_adb_instructions_summary">To connect use:\nadb connect %1$s:%2$d</string>
+    <string name="pref_key_adb_wifi_on_boot">pref_key_adb_wifi_on_boot</string>
+    <string name="pref_adb_on_boot_title">Enable on boot</string>
+    <string name="pref_adb_on_boot_summary">Enables ADB via WiFi when device boots.</string>
     
 </resources>

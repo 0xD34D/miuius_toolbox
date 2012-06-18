@@ -17,4 +17,10 @@
         android:summary="@string/pref_adb_instructions_summary"
         android:title="@string/pref_adb_instructions_title" android:key="@string/pref_key_instructions"/>
 
+    <CheckBoxPreference
+        android:defaultValue="@bool/restore_adb_wifi_on_boot"
+        android:key="@string/pref_key_adb_wifi_on_boot"
+        android:summary="@string/pref_adb_on_boot_summary"
+        android:title="@string/pref_adb_on_boot_title" />
+
 </PreferenceScreen>

@@ -6,6 +6,7 @@ package us.miui.receiver;
 import java.io.IOException;
 
 import us.miui.helpers.CPUHelper;
+import us.miui.service.AdbWifiService;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -40,6 +41,15 @@ public class BootReceiver extends BroadcastReceiver {
 			} catch (IOException e) {
 				Log.e(TAG, "Unable to restore CPU settings.");
 			}
+		}
+		if (prefs.getBoolean("pref_key_enable_adb_wifi", false) &&
+				prefs.getBoolean("pref_key_adb_wifi_on_boot", false)) {
+			int port = Integer.parseInt(prefs.getString("pref_key_adb_port", "5555"));
+			Intent i = new Intent(context, AdbWifiService.class);
+			i.setAction(AdbWifiService.ACTION_ENABLE);
+			i.putExtra("port_num", port);
+			context.startService(i);
+			Log.i(TAG, String.format("Resotring ADB via WiFi settings on port %d.", port));
 		}
 	}
 

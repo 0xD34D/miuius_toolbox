@@ -46,6 +46,19 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+<!--        
+        <receiver android:name="us.miui.service.AdbWifiService$WifiStateChangeReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:label="WifiStateChangeReceiver" >
+            <intent-filter>
+                <action android:name="android.net.wifi.STATE_CHANGE" />
+            </intent-filter>
+        </receiver>
+-->        
+        <service android:name="us.miui.service.AdbWifiService"
+        	android:enabled="true" />
+        
+        
     </application>
-
 </manifest>

@@ -6,6 +6,8 @@ package us.miui.toolbox;
 import java.io.IOException;
 import java.util.List;
 
+import us.miui.service.AdbWifiService;
+
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -50,10 +52,18 @@ public class AdbWifiPrefFragment extends PreferenceFragment {
 			@Override
 			public boolean onPreferenceChange(Preference preference, Object newValue) {
 				boolean enabled = ((Boolean)newValue.equals(Boolean.TRUE));
-				if (enabled)
-					enableAdbWifi();
-				else
+				if (enabled) {
+					Intent i = new Intent(getActivity().getApplicationContext(), AdbWifiService.class);
+					i.setAction(AdbWifiService.ACTION_ENABLE);
+					i.putExtra("port_num", mCurrentPort);
+					getActivity().startService(i);
+					//enableAdbWifi();
+				} else {
+					Intent i = new Intent(getActivity().getApplicationContext(), AdbWifiService.class);
+					i.setAction(AdbWifiService.ACTION_DISABLE);
+					getActivity().startService(i);
 					disableAdbWifi();
+				}
 				return true;
 			}
 		});
@@ -80,7 +90,11 @@ public class AdbWifiPrefFragment extends PreferenceFragment {
 				}
 				if (mCurrentPort != port && isEnabled()) {
 					mCurrentPort = port;
-					enableAdbWifi();
+					Intent i = new Intent(getActivity().getApplicationContext(), AdbWifiService.class);
+					i.setAction(AdbWifiService.ACTION_ENABLE);
+					i.putExtra("port_num", mCurrentPort);
+					getActivity().startService(i);
+					//enableAdbWifi();
 				}
 				mPortNumber.setText(Integer.toString(mCurrentPort));
 				mPortNumber.setSummary(res.getString(R.string.pref_adb_port_summary) + "\n" + mCurrentPort);
@@ -101,12 +115,12 @@ public class AdbWifiPrefFragment extends PreferenceFragment {
 		try {
 			prop = RootUtils.executeWithResult("getprop service.adb.tcp.port\n");
 		} catch (IOException e) {
-			prop = "-1";
+			prop = "";
 		}
 		if (prop == null) {
 			return false;
 		}
-		return !(prop.equals("-1"));
+		return !(prop.equals("") || prop.equals("-1"));
 	}
 	
 	private void enableAdbWifi() {
@@ -128,9 +142,9 @@ public class AdbWifiPrefFragment extends PreferenceFragment {
 		nb.setContentTitle("ADB via WiFi enabled");
 		nb.setContentText("Connect to " + connection);
 		nb.setSmallIcon(R.drawable.stat_sys_adb);
-		if (alreadyEnabled) 
-			nb.setTicker("ADB via WiFi re-enabled on " + connection);
-		else
+//		if (alreadyEnabled) 
+//			nb.setTicker("ADB via WiFi re-enabled on " + connection);
+//		else
 			nb.setTicker("ADB via WiFi enabled on " + connection);
 		nb.setAutoCancel(false);
 		nb.setWhen(System.currentTimeMillis());

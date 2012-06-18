@@ -26,7 +26,12 @@ public class CPUHelper {
 		String line = br.readLine();
 		in.close();
 		freqs = line.split(" ");
-		
+		int[] iFreqs = new int[freqs.length];
+		for (int i = 0; i < iFreqs.length; i++)
+			iFreqs[i] = Integer.parseInt(freqs[i]);
+		java.util.Arrays.sort(iFreqs);
+		for (int i = 0; i < iFreqs.length; i++)
+			freqs[i] = Integer.toString(iFreqs[i]);
 		return freqs;
 	}
 	

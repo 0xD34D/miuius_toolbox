@@ -59,4 +59,17 @@ public class SystemHelper {
 	public static void restartMiuiHome(Context context) {
 		restartApp(context, "com.miui.home");
 	}
+
+	public static boolean isAdbWifiEnabled() {
+		String prop = null;
+		try {
+			prop = RootUtils.executeWithResult("getprop service.adb.tcp.port\n");
+		} catch (IOException e) {
+			prop = "";
+		}
+		if (prop == null) {
+			return false;
+		}
+		return !(prop.equals("") || prop.equals("-1"));
+	}
 }
