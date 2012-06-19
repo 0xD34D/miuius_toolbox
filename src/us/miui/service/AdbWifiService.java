@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.List;
 
 import us.miui.helpers.SystemHelper;
+import us.miui.provider.AdbWifiWidgetProvider;
 import us.miui.toolbox.MIUIToolboxActivity;
 import us.miui.toolbox.R;
 import us.miui.toolbox.RootUtils;
@@ -34,6 +35,7 @@ public class AdbWifiService extends Service {
 	private static final String TAG = "ADB_WIFI_SERVICE";
 	public static final String ACTION_ENABLE = "adb_wifi_enable";
 	public static final String ACTION_DISABLE = "adb_wifi_disable";
+	public static final String ACTION_ADB_WIFI_STATE_CHANGED = "us.miui.toolbox.ADB_WIFI_STATE_CHANGED";
 	private boolean mEnabled = false;
 	private BroadcastReceiver mWifiStateReceiver;
 
@@ -52,6 +54,9 @@ public class AdbWifiService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i(TAG, "Received start id " + startId + ": " + intent + ", " + intent.getAction());
     	String action = intent.getAction();
+    	Intent i = new Intent();
+    	i.setAction(ACTION_ADB_WIFI_STATE_CHANGED);
+    	sendBroadcast(i);    		
     	if (action.equals(ACTION_ENABLE)) {
 /*
     		mWifiStateReceiver = new BroadcastReceiver() {
@@ -76,7 +81,7 @@ public class AdbWifiService extends Service {
 */
         	int port = intent.getIntExtra("port_num", 5555);
         	enableAdbWifi(this, port);
-    		return START_STICKY;
+        	return START_STICKY;
     	} else if (action.equals(ACTION_DISABLE)) {
     		disableAdbWifi(this);
     		return START_NOT_STICKY;

@@ -65,6 +65,7 @@
             android:label="ADB WiFi Widget" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="us.miui.toolbox.ADB_WIFI_STATE_CHANGED" />
             </intent-filter>
 
             <meta-data

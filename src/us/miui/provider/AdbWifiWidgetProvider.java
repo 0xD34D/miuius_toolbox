@@ -10,6 +10,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 import us.miui.helpers.SystemHelper;
@@ -17,6 +18,7 @@ import us.miui.service.AdbWifiService;
 import us.miui.toolbox.R;
 
 public class AdbWifiWidgetProvider extends AppWidgetProvider {
+	private static final String TAG = "AdbWifiWidgetProvider";
 	public static String ACTION_WIDGET_RECEIVER = "ActionReceiverWidget";
 	public static AdbWifiWidgetProvider mWidget = null;
 	public static Context mContext;
@@ -58,8 +60,6 @@ public class AdbWifiWidgetProvider extends AppWidgetProvider {
 		super.onReceive(context, intent);
 		final String action = intent.getAction();
 		if (action.equals(ACTION_WIDGET_RECEIVER)) {
-			RemoteViews remoteViews = new RemoteViews(context.getPackageName(),
-					R.layout.widget_adb_wifi);
 			if (!SystemHelper.isAdbWifiEnabled()) {
 				SharedPreferences prefs = context.getSharedPreferences("us.miui.toolbox_preferences", 0);
 				int port = Integer.parseInt(prefs.getString("pref_key_adb_port", "5555"));
@@ -67,15 +67,14 @@ public class AdbWifiWidgetProvider extends AppWidgetProvider {
 				i.setAction(AdbWifiService.ACTION_ENABLE);
 				i.putExtra("port_num", port);
 				context.startService(i);
-				setStatusIcon(remoteViews, true);
 			} else {
 				Intent i = new Intent(context, AdbWifiService.class);
 				i.setAction(AdbWifiService.ACTION_DISABLE);
 				context.startService(i);
-				setStatusIcon(remoteViews, false);
 			}
-			mAWM.updateAppWidget(mIDs[0], remoteViews);
-			setAlarm(context);
+		} else if (action.equals(AdbWifiService.ACTION_ADB_WIFI_STATE_CHANGED)) {
+			Log.d(TAG, "Received ADB_WIFI_STATE_CHANGED");
+			mWidget.onUpdate(null, null, null);
 		}
 	}
 
