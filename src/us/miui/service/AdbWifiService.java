@@ -6,8 +6,8 @@ package us.miui.service;
 import java.io.IOException;
 import java.util.List;
 
+import us.miui.Toolbox;
 import us.miui.helpers.SystemHelper;
-import us.miui.provider.AdbWifiWidgetProvider;
 import us.miui.toolbox.MIUIToolboxActivity;
 import us.miui.toolbox.R;
 import us.miui.toolbox.RootUtils;
@@ -15,11 +15,10 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.Binder;
@@ -36,8 +35,11 @@ public class AdbWifiService extends Service {
 	public static final String ACTION_ENABLE = "adb_wifi_enable";
 	public static final String ACTION_DISABLE = "adb_wifi_disable";
 	public static final String ACTION_ADB_WIFI_STATE_CHANGED = "us.miui.toolbox.ADB_WIFI_STATE_CHANGED";
-	private boolean mEnabled = false;
-	private BroadcastReceiver mWifiStateReceiver;
+	public static final String PREF_KEY_ENABLE_ADB_WIFI = "pref_key_enable_adb_wifi";
+	public static final String PREF_KEY_ADB_PORT = "pref_key_adb_port";
+	public static final String EXTRAS_PORT_NUMBER = "port_num";
+	public static final String EXTRAS_IP_ADDR = "ip_addr";
+	public static final String EXTRAS_ENABLED = "enabled";
 
     /**
      * Class for clients to access.  Because we know this service always
@@ -56,34 +58,20 @@ public class AdbWifiService extends Service {
     	String action = intent.getAction();
     	Intent i = new Intent();
     	i.setAction(ACTION_ADB_WIFI_STATE_CHANGED);
-    	sendBroadcast(i);    		
     	if (action.equals(ACTION_ENABLE)) {
-/*
-    		mWifiStateReceiver = new BroadcastReceiver() {
-
-        		@Override
-        		public void onReceive(Context context, Intent intent) {
-        			if (context == null || intent == null)
-        				return;
-        			if (intent.getAction().equals(WifiManager.NETWORK_STATE_CHANGED_ACTION)) {
-        				String wifiState = intent.getParcelableExtra(WifiManager.EXTRA_NEW_STATE);
-        				if (wifiState.equals(WifiManager.WIFI_STATE_ENABLED)) {
-        					SharedPreferences prefs = context.getSharedPreferences("us.miui.toolbox_preferences", 0);
-        					int port = Integer.parseInt(prefs.getString("pref_key_adb_port", "5555"));
-        					updateNotification(context, port);
-        				} else if (wifiState.equals(WifiManager.WIFI_STATE_DISABLED)) {
-        					removeNotification(context);
-        				}
-        			}
-        		}
-            	
-            };
-*/
         	int port = intent.getIntExtra("port_num", 5555);
         	enableAdbWifi(this, port);
+        	savePreference(true);
+        	i.putExtra(EXTRAS_PORT_NUMBER, port);
+        	i.putExtra(EXTRAS_IP_ADDR, getLocalIpAddress(this));
+        	i.putExtra(EXTRAS_ENABLED, true);
+        	sendBroadcast(i);
         	return START_STICKY;
     	} else if (action.equals(ACTION_DISABLE)) {
     		disableAdbWifi(this);
+        	savePreference(false);
+        	i.putExtra(EXTRAS_ENABLED, false);
+        	sendBroadcast(i);
     		return START_NOT_STICKY;
     	}
     	
@@ -146,30 +134,22 @@ public class AdbWifiService extends Service {
 		nm.cancel(42);
 	}
 
-	public static String getLocalIpAddress(Context ctx) {
-		WifiManager wm = (WifiManager) ctx.getSystemService(Context.WIFI_SERVICE);
+	public static String getLocalIpAddress(Context context) {
+		WifiManager wm = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
 		List<WifiConfiguration> l = wm.getConfiguredNetworks();
 		
 		return Formatter.formatIpAddress(wm.getConnectionInfo().getIpAddress());
 	}
 	
-	public static class WifiStateChangeReceiver extends BroadcastReceiver {
-
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			if (context == null || intent == null || !SystemHelper.isAdbWifiEnabled())
-				return;
-			if (intent.getAction().equals(WifiManager.NETWORK_STATE_CHANGED_ACTION)) {
-				String wifiState = intent.getParcelableExtra(WifiManager.EXTRA_NEW_STATE);
-				if (wifiState.equals(WifiManager.WIFI_STATE_ENABLED)) {
-					SharedPreferences prefs = context.getSharedPreferences("us.miui.toolbox_preferences", 0);
-					int port = Integer.parseInt(prefs.getString("pref_key_adb_port", "5555"));
-					updateNotification(context, port);
-				} else if (wifiState.equals(WifiManager.WIFI_STATE_DISABLED)) {
-					removeNotification(context);
-				}
-			}
-		}
-		
+	public static String getPort(Context context) {
+		SharedPreferences prefs = context.getSharedPreferences(Toolbox.PREFS, 0);
+		return prefs.getString(PREF_KEY_ADB_PORT, "5555");
+	}
+	
+	private void savePreference(boolean enabled) {
+		SharedPreferences prefs = this.getSharedPreferences(Toolbox.PREFS, 0);
+		Editor e = prefs.edit();
+		e.putBoolean(PREF_KEY_ENABLE_ADB_WIFI, enabled);
+		e.commit();
 	}
 }

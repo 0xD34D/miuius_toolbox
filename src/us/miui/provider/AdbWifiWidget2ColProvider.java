@@ -1,8 +1,5 @@
 package us.miui.provider;
 
-import java.util.Calendar;
-
-import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -17,10 +14,10 @@ import us.miui.helpers.SystemHelper;
 import us.miui.service.AdbWifiService;
 import us.miui.toolbox.R;
 
-public class AdbWifiWidgetProvider extends AppWidgetProvider {
+public class AdbWifiWidget2ColProvider extends AppWidgetProvider {
 	private static final String TAG = "AdbWifiWidgetProvider";
 	public static String ACTION_WIDGET_RECEIVER = "ActionReceiverWidget";
-	public static AdbWifiWidgetProvider mWidget = null;
+	public static AdbWifiWidget2ColProvider mWidget = null;
 	public static Context mContext;
 	public static AppWidgetManager mAWM;
 	public static int mIDs[];
@@ -74,8 +71,13 @@ public class AdbWifiWidgetProvider extends AppWidgetProvider {
 			}
 		} else if (action.equals(AdbWifiService.ACTION_ADB_WIFI_STATE_CHANGED)) {
 			Log.d(TAG, "Received ADB_WIFI_STATE_CHANGED");
-			if (mWidget != null)
-				mWidget.onUpdate(null, null, null);
+			String addr = intent.getStringExtra(AdbWifiService.EXTRAS_IP_ADDR);
+			String port = Integer.toString(intent.getIntExtra(AdbWifiService.EXTRAS_PORT_NUMBER, 5555));
+			if (addr == null) {
+				addr = "";
+				port = "";
+			}
+			updateInfo(context, addr, port);
 		}
 	}
 
@@ -85,29 +87,39 @@ public class AdbWifiWidgetProvider extends AppWidgetProvider {
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager,
 			int[] appWidgetIds) {
-		if(null == context) context = AdbWifiWidgetProvider.mContext;
-		if(null == appWidgetManager) appWidgetManager = AdbWifiWidgetProvider.mAWM;
-		if(null == appWidgetIds) appWidgetIds = AdbWifiWidgetProvider.mIDs;
+		if(null == context) context = AdbWifiWidget2ColProvider.mContext;
+		if(null == appWidgetManager) appWidgetManager = AdbWifiWidget2ColProvider.mAWM;
+		if(null == appWidgetIds) appWidgetIds = AdbWifiWidget2ColProvider.mIDs;
 		
-		AdbWifiWidgetProvider.mWidget = this;
-		AdbWifiWidgetProvider.mContext = context;
-		AdbWifiWidgetProvider.mAWM = appWidgetManager;
-		AdbWifiWidgetProvider.mIDs = appWidgetIds;
+		AdbWifiWidget2ColProvider.mWidget = this;
+		AdbWifiWidget2ColProvider.mContext = context;
+		AdbWifiWidget2ColProvider.mAWM = appWidgetManager;
+		AdbWifiWidget2ColProvider.mIDs = appWidgetIds;
 		
 		// Get all ids
 		ComponentName thisWidget = new ComponentName(context,
-				AdbWifiWidgetProvider.class);
+				AdbWifiWidget2ColProvider.class);
 		int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
 		for (int widgetId : allWidgetIds) {
 			RemoteViews remoteViews = new RemoteViews(context.getPackageName(),
-					R.layout.widget_adb_wifi);
-			Intent active = new Intent(context, AdbWifiWidgetProvider.class);
+					R.layout.widget_adb_wifi_2col);
+			Intent active = new Intent(context, AdbWifiWidget2ColProvider.class);
 			active.setAction(ACTION_WIDGET_RECEIVER);
 			
 			PendingIntent actionPendingIntent = PendingIntent.getBroadcast(context, 0, active, 0);
 			remoteViews.setOnClickPendingIntent(R.id.status_icon, actionPendingIntent);
 
 			setStatusIcon(remoteViews);
+			
+			String addr = "";
+			String port = "";
+			if (SystemHelper.isAdbWifiEnabled()) {
+				addr = AdbWifiService.getLocalIpAddress(context);
+				port = AdbWifiService.getPort(context);
+			}
+			
+			remoteViews.setTextViewText(R.id.ip_addr, addr);
+			remoteViews.setTextViewText(R.id.port_num, port);
 			appWidgetManager.updateAppWidget(widgetId, remoteViews);
 		}
 	}
@@ -118,22 +130,15 @@ public class AdbWifiWidgetProvider extends AppWidgetProvider {
 		else
 			remoteViews.setImageViewResource(R.id.status_icon, R.drawable.widget_adb_off);
 	}
-
-	private void setStatusIcon(RemoteViews remoteViews, boolean enabled) {
-		if (enabled)
-			remoteViews.setImageViewResource(R.id.status_icon, R.drawable.widget_adb_on);
-		else
-			remoteViews.setImageViewResource(R.id.status_icon, R.drawable.widget_adb_off);
-	}
-
-	private void setAlarm(Context context) {
-		Intent update = new Intent(context, AdbWifiWidgetProvider.class);
-		update.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-		PendingIntent updatePendingIntent = PendingIntent.getBroadcast(context, 0, update, 0);
-		AlarmManager am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-		Calendar c = Calendar.getInstance();
-		c.setTimeInMillis(System.currentTimeMillis());
-		c.add(Calendar.SECOND, 2);
-		am.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), updatePendingIntent);
+	
+	private void updateInfo(Context context, String addr, String port) {
+		for (int widgetId : AdbWifiWidget2ColProvider.mIDs) {
+			RemoteViews remoteViews = new RemoteViews(context.getPackageName(),
+					R.layout.widget_adb_wifi_2col);
+			remoteViews.setTextViewText(R.id.ip_addr, addr);
+			remoteViews.setTextViewText(R.id.port_num, port);
+			setStatusIcon(remoteViews);
+			AdbWifiWidget2ColProvider.mAWM.updateAppWidget(widgetId, remoteViews);
+		}
 	}
 }

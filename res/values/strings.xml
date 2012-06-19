@@ -130,5 +130,7 @@
     <string name="pref_key_adb_wifi_on_boot">pref_key_adb_wifi_on_boot</string>
     <string name="pref_adb_on_boot_title">Enable on boot</string>
     <string name="pref_adb_on_boot_summary">Enables ADB via WiFi when device boots.</string>
+    <string name="adb_widget_addr_text">addr:</string>
+    <string name="adb_widget_port_text">port:</string>
     
 </resources>

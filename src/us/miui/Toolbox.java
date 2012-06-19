@@ -18,6 +18,7 @@ import android.util.Log;
  */
 public class Toolbox {
 	private final static String TAG = "Toolbox";
+	public static final String PREFS = "us.miui.toolbox_preferences";
 	
 	// Strings for retreiving settings using Settings.System.getXXXX
 	public final static String CENTER_CLOCK = "center_clock";

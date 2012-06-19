@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="us.miui.toolbox"
-    android:versionCode="8"
-    android:versionName="1.1.3" >
+    android:versionCode="13"
+    android:versionName="1.1.7" >
 
     <uses-sdk android:minSdkVersion="15" />
 
@@ -45,16 +45,7 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-        <!--
-        <receiver android:name="us.miui.service.AdbWifiService$WifiStateChangeReceiver"
-            android:enabled="true"
-            android:exported="true"
-            android:label="WifiStateChangeReceiver" >
-            <intent-filter>
-                <action android:name="android.net.wifi.STATE_CHANGE" />
-            </intent-filter>
-        </receiver>
-        -->
+
         <service
             android:name="us.miui.service.AdbWifiService"
             android:enabled="true" />
@@ -72,6 +63,21 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/adb_widget_info" />
         </receiver>
+
+        <receiver
+            android:name="us.miui.provider.AdbWifiWidget2ColProvider"
+            android:icon="@drawable/widget_adb_on"
+            android:label="ADB WiFi Detailed" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="us.miui.toolbox.ADB_WIFI_STATE_CHANGED" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/adb_widget_info_2col" />
+        </receiver>
+        
     </application>
 
 </manifest>
