@@ -61,7 +61,7 @@
 
         <receiver
             android:name="us.miui.provider.AdbWifiWidgetProvider"
-            android:icon="@drawable/icon"
+            android:icon="@drawable/widget_adb_on"
             android:label="ADB WiFi Widget" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
