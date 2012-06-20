@@ -9,6 +9,9 @@
     <string name="pref_centerclock_off_text">Off</string>
     <string name="pref_centerclock_title">Center clock</string>
     <string name="pref_centerclock_summary">Display the clock in the center of the status bar</string>
+    <string name="pref_key_hide_ampm">pref_key_hide_ampm</string>
+    <string name="pref_hide_ampm_title">Hide am/pm</string>
+    <string name="pref_hide_ampm_summary">Hides the am/pm text when using 12H clock format</string>
     <string name="pref_signalbars_on_text">On</string>
     <string name="pref_signalbars_off_text">Off</string>
     <string name="pref_signalbars_title">Single signal bars</string>
@@ -18,7 +21,9 @@
     <string name="pref_custom_carrier_label_title">Custom label</string>
     <string name="carrier_label_settings_title">Carrier label settings</string>
     <string name="statusbar_prefs_key">statusbar_prefs_key</string>
-
+    <string name="pref_use_carrier_logo_title">Custom carrier logo</string>
+    <string name="pref_use_carrier_logo_summary">Use a custom image as a carrier logo when enabled.</string>
+    
     <!-- CPU settings -->
     <string name="pref_cpugovernor_title">CPU Governor</string>
     <string name="pref_cpugovernor_summary">Select the CPU governor to use.</string>
@@ -53,6 +58,12 @@
     <string name="pref_navbar_order_summary">Customize the layout order of the buttons in the navbar</string>
     <string name="performance_prefs_key">performance_prefs_key</string>
     <string name="pref_performance_title">System settings</string>
+    <string name="pref_key_lockscreen_show_home">pref_key_lockscreen_show_home</string>
+    <string name="pref_lockscreen_show_home_title">Lockscreen home button</string>
+    <string name="pref_lockscreen_show_home_summary">Enable the home button on the lockscreen</string>
+    <string name="pref_key_remove_recents">pref_key_remove_recents</string>
+    <string name="pref_remove_recents_title">Remove recents button</string>
+    <string name="pref_remove_recents_summary">Remove recents button, using long pressing of home button instead.</string>
     <string name="enable_navbar_prefs_key">enable_navbar_pref_key</string>
     <string name="pref_enable_navbar_title">Enable navbar</string>
     <string name="pref_enable_navbar_summary">Enable the navbar on devices that normally do not need it</string>
@@ -132,5 +143,9 @@
     <string name="pref_adb_on_boot_summary">Enables ADB via WiFi when device boots.</string>
     <string name="adb_widget_addr_text">addr:</string>
     <string name="adb_widget_port_text">port:</string>
+    
+    <!-- Carrier logo dialog -->
+    <string name="default_button_text">Default</string>
+    <string name="custom_button_text">Custom</string>
     
 </resources>

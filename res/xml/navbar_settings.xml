@@ -9,6 +9,16 @@
         android:summary="@string/pref_showsearch_summary"
         android:title="@string/pref_showsearch_title" />
 
+    <CheckBoxPreference
+        android:key="@string/pref_key_lockscreen_show_home"
+        android:summary="@string/pref_lockscreen_show_home_summary"
+        android:title="@string/pref_lockscreen_show_home_title" android:defaultValue="@bool/lockscreen_show_home_default"/>
+
+    <CheckBoxPreference
+        android:key="@string/pref_key_remove_recents"
+        android:summary="@string/pref_remove_recents_summary"
+        android:title="@string/pref_remove_recents_title" android:defaultValue="@bool/remove_recents_default"/>
+
     <Preference
         android:key="pref_key_navbar_order"
         android:summary="@string/pref_navbar_order_summary"

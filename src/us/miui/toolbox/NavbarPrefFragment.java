@@ -32,6 +32,8 @@ import android.telephony.TelephonyManager;
 public class NavbarPrefFragment extends PreferenceFragment {
 
 	private CheckBoxPreference mShowSearch;
+	private CheckBoxPreference mLockscreenHome;
+	private CheckBoxPreference mRemoveRecents;
 	private Preference mNavbarOrder;
 	private ContentResolver mCR;
 
@@ -43,9 +45,11 @@ public class NavbarPrefFragment extends PreferenceFragment {
 
 		mCR = getActivity().getContentResolver();
 		mShowSearch = (CheckBoxPreference) findPreference("pref_key_showsearch");
+		mLockscreenHome = (CheckBoxPreference) findPreference("pref_key_lockscreen_show_home");
+		mRemoveRecents = (CheckBoxPreference) findPreference("pref_key_remove_recents");
 		
 
-		// Try to read the HIDE_STATUS_BAR setting and if we get a
+		// Try to read the USE_NAVBAR_SEARCH setting and if we get a
 		// SettingNotFoundException
 		// we need to create it.
 		try {
@@ -56,7 +60,29 @@ public class NavbarPrefFragment extends PreferenceFragment {
 			Settings.System.putInt(mCR, Toolbox.USE_NAVBAR_SEARCH, 0);
 		}
 
-		// need to update system settings with the new value for HIDE_STATUS_BAR
+		// Try to read the LOCKSCREEN_SHOW_HOME setting and if we get a
+		// SettingNotFoundException
+		// we need to create it.
+		try {
+			mLockscreenHome
+					.setChecked(Settings.System.getInt(mCR, Toolbox.LOCKSCREEN_SHOW_HOME) == 1);
+		} catch (SettingNotFoundException e) {
+			mLockscreenHome.setChecked(false);
+			Settings.System.putInt(mCR, Toolbox.LOCKSCREEN_SHOW_HOME, 0);
+		}
+
+		// Try to read the REMOVE_RECENTS setting and if we get a
+		// SettingNotFoundException
+		// we need to create it.
+		try {
+			mRemoveRecents
+					.setChecked(Settings.System.getInt(mCR, Toolbox.REMOVE_RECENTS) == 1);
+		} catch (SettingNotFoundException e) {
+			mRemoveRecents.setChecked(false);
+			Settings.System.putInt(mCR, Toolbox.REMOVE_RECENTS, 0);
+		}
+
+		// need to update system settings with the new value for USE_NAVBAR_SEARCH
 		mShowSearch
 				.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 
@@ -66,6 +92,38 @@ public class NavbarPrefFragment extends PreferenceFragment {
 
 						Settings.System
 								.putInt(mCR, Toolbox.USE_NAVBAR_SEARCH, (Boolean) newValue
+										.equals(Boolean.TRUE) ? 1 : 0);
+						restartSystemUI();
+						return true;
+					}
+				});
+		
+		// need to update system settings with the new value for LOCKSCREEN_SHOW_HOME
+		mLockscreenHome
+				.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+
+					@Override
+					public boolean onPreferenceChange(Preference preference,
+							Object newValue) {
+
+						Settings.System
+								.putInt(mCR, Toolbox.LOCKSCREEN_SHOW_HOME, (Boolean) newValue
+										.equals(Boolean.TRUE) ? 1 : 0);
+						//restartSystemUI();
+						return true;
+					}
+				});
+		
+		// need to update system settings with the new value for REMOVE_RECENTS
+		mRemoveRecents
+				.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+
+					@Override
+					public boolean onPreferenceChange(Preference preference,
+							Object newValue) {
+
+						Settings.System
+								.putInt(mCR, Toolbox.REMOVE_RECENTS, (Boolean) newValue
 										.equals(Boolean.TRUE) ? 1 : 0);
 						restartSystemUI();
 						return true;

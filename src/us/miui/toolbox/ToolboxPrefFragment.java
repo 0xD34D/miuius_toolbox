@@ -14,6 +14,7 @@ import android.preference.PreferenceScreen;
  * 
  */
 public class ToolboxPrefFragment extends PreferenceFragment {
+	private static final String TAG_STATUS_BAR = "status_bar";
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -36,7 +37,7 @@ public class ToolboxPrefFragment extends PreferenceFragment {
 						R.string.statusbar_prefs_key))) {
 			// Display the fragment as the main content.
 			getFragmentManager().beginTransaction()
-					.replace(android.R.id.content, new StatusbarPrefFragment())
+					.replace(android.R.id.content, new StatusbarPrefFragment(), TAG_STATUS_BAR)
 					.addToBackStack(null).commit();
 			return true;
 		}

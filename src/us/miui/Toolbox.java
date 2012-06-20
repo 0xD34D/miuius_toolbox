@@ -7,6 +7,8 @@ package us.miui;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
@@ -19,9 +21,11 @@ import android.util.Log;
 public class Toolbox {
 	private final static String TAG = "Toolbox";
 	public static final String PREFS = "us.miui.toolbox_preferences";
+	public static final String DEFAULT_CARRIER_LOGO_FILE = "/data/data/us.miui.toolbox/files/carrier_logo.png";
 	
 	// Strings for retreiving settings using Settings.System.getXXXX
 	public final static String CENTER_CLOCK = "center_clock";
+	public final static String CLOCK_HIDE_AMPM = "hide_ampm";
 	public final static String SINGLE_SIGNAL_BARS = "single_signal_bars";
 	public final static String USE_CUSTOM_CARRIER = "use_custom_carrier";
 	public final static String CUSTOM_CARRIER_TEXT = "custom_carrier_text";
@@ -39,6 +43,10 @@ public class Toolbox {
 	public final static String USE_NAVBAR_SEARCH = "use_navbar_search";
 	public final static String CUSTOM_NAVBAR_ORDER = "custom_navbar_order";
 	public final static String ENABLE_NAVBAR = "enable_navbar";
+	public final static String LOCKSCREEN_SHOW_HOME = "lockscreen_show_home";
+	public final static String REMOVE_RECENTS = "remove_recents";
+	public final static String USE_CARRIER_LOGO = "use_carrier_logo";
+	public final static String CARRIER_LOGO_FILE = "carrier_logo_file";
 	
 	// names for navbar buttons
 	public final static String HOME = "home";
@@ -105,6 +113,25 @@ public class Toolbox {
 	}
 
 	/**
+	 * Retrieves the system setting for CLOCK_HIDE_AMPM
+	 * @param context context used to get a ContentResolver
+	 * @return true if am/pm should be hidden, false otherwise
+	 */
+	public static boolean hideAMPM(Context context) {
+		boolean hide = false;
+		ContentResolver cr = context.getContentResolver();
+		
+		try {
+			hide = (Settings.System.getInt(cr,
+					CLOCK_HIDE_AMPM) == 1);
+		} catch (SettingNotFoundException e) {
+			hide = false;
+		}
+		
+		return hide;
+	}
+
+	/**
 	 * Retrieves the system setting for SINGLE_SIGNAL_BARS
 	 * @param context context used to get a ContentResolver
 	 * @return true if single bars are to be used, false otherwise
@@ -143,6 +170,25 @@ public class Toolbox {
 	}
 	
 	/**
+	 * Retrieves the system setting for USE_CARRIER_LOGO
+	 * @param context context used to get a ContentResolver
+	 * @return true if custom carrier text is to be used, false otherwise
+	 */
+	public static boolean useCarrierLogo(Context context) {
+		boolean use = false;
+		ContentResolver cr = context.getContentResolver();
+		
+		try {
+			use = (Settings.System.getInt(cr,
+					USE_CARRIER_LOGO) == 1);
+		} catch (SettingNotFoundException e) {
+			use = false;
+		}
+		
+		return use;
+	}
+	
+	/**
 	 * Retrieves the text to use for custom carrier from system settings
 	 * @param context context used to get a ContentResolver
 	 * @return the text to use for the carrier label
@@ -157,6 +203,16 @@ public class Toolbox {
 			text = "";
 		
 		return text;
+	}
+	
+	public static Bitmap getCarrierLogo(Context context) {
+		ContentResolver cr = context.getContentResolver();
+		String fileName = Settings.System.getString(cr, CARRIER_LOGO_FILE);
+		if (fileName == null)
+			fileName = DEFAULT_CARRIER_LOGO_FILE;
+		Bitmap bmp = BitmapFactory.decodeFile(fileName);
+		
+		return bmp;
 	}
 
 	/**
@@ -563,6 +619,44 @@ public class Toolbox {
 		}
 		
 		return use;
+	}
+
+	/**
+	 * Retrieves the system setting for LOCKSCREEN_SHOW_HOME
+	 * @param context context used to get a ContentResolver
+	 * @return true if home should be enabled on lockscreen
+	 */
+	public static boolean lockscreenShowHome(Context context) {
+		boolean show = false;
+		ContentResolver cr = context.getContentResolver();
+		
+		try {
+			show = (Settings.System.getInt(cr,
+					LOCKSCREEN_SHOW_HOME) == 1);
+		} catch (SettingNotFoundException e) {
+			show = false;
+		}
+		
+		return show;
+	}
+
+	/**
+	 * Retrieves the system setting for REMOVE_RECENTS
+	 * @param context context used to get a ContentResolver
+	 * @return true if home should be enabled on lockscreen
+	 */
+	public static boolean removeRecents(Context context) {
+		boolean show = false;
+		ContentResolver cr = context.getContentResolver();
+		
+		try {
+			show = (Settings.System.getInt(cr,
+					REMOVE_RECENTS) == 1);
+		} catch (SettingNotFoundException e) {
+			show = false;
+		}
+		
+		return show;
 	}
 
 	/**

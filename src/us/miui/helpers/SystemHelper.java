@@ -3,13 +3,18 @@
  */
 package us.miui.helpers;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import us.miui.Toolbox;
 import us.miui.toolbox.RootUtils;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
+import android.provider.MediaStore.MediaColumns;
 
 /**
  * @author Clark Scheff
@@ -72,4 +77,25 @@ public class SystemHelper {
 		}
 		return !(prop.equals("") || prop.equals("-1"));
 	}
+	
+	public static void makeFileWorldReadable(String path) {
+	    try {
+			RootUtils.execute("busybox chmod 0744 " + path + " \n");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static void removeFilesFromDir(String path) {
+		File f = new File(path);
+		if (f.isDirectory()) {
+			for (File c : f.listFiles()) {
+				if (c.isFile()) {
+					c.delete();
+				}
+			}
+		}
+	}
+
 }

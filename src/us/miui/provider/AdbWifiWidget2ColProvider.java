@@ -132,6 +132,8 @@ public class AdbWifiWidget2ColProvider extends AppWidgetProvider {
 	}
 	
 	private void updateInfo(Context context, String addr, String port) {
+		if (AdbWifiWidget2ColProvider.mIDs == null || AdbWifiWidget2ColProvider.mAWM == null)
+			return;
 		for (int widgetId : AdbWifiWidget2ColProvider.mIDs) {
 			RemoteViews remoteViews = new RemoteViews(context.getPackageName(),
 					R.layout.widget_adb_wifi_2col);

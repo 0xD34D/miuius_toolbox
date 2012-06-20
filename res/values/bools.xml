@@ -2,5 +2,7 @@
 <resources>
     <item type="bool" name="enable_adb_wifi_default">false</item>
     <item name="restore_adb_wifi_on_boot" type="bool">false</item>
+    <item name="lockscreen_show_home_default" type="bool">false</item>
+    <item name="remove_recents_default" type="bool">false</item>
     
 </resources>

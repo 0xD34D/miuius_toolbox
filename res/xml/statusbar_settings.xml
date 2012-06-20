@@ -10,6 +10,11 @@
         android:title="@string/pref_centerclock_title" />
     
     <CheckBoxPreference
+        android:key="@string/pref_key_hide_ampm"
+        android:summary="@string/pref_hide_ampm_summary"
+        android:title="@string/pref_hide_ampm_title" />
+    
+    <CheckBoxPreference
         android:key="pref_key_signalbars"
         android:summary="@string/pref_signalbars_summary"
         android:title="@string/pref_signalbars_title" />
@@ -25,5 +30,15 @@
     <EditTextPreference
         android:key="pref_key_custom_carrier_label"
         android:title="@string/pref_custom_carrier_label_title" />
+
+    <CheckBoxPreference
+        android:key="pref_key_use_carrier_logo"
+        android:summary="@string/pref_use_carrier_logo_summary"
+        android:title="@string/pref_use_carrier_logo_title" />
+    
+    <us.miui.carrierlogo.CarrierLogoPreference
+        android:key="pref_key_logo_image"
+        android:summary="Pick image to use for the carrier logo."
+        android:title="Logo" />
 
 </PreferenceScreen>
