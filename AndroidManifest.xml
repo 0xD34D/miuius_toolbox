@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="us.miui.toolbox"
-    android:versionCode="13"
-    android:versionName="1.1.7" >
+    android:versionCode="15"
+    android:versionName="1.1.9" >
 
     <uses-sdk android:minSdkVersion="15" />
 
@@ -33,6 +33,10 @@
         </activity>
         <activity
             android:name=".AndroidIDToolActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name=".ChangeLogActivity"
             android:label="@string/app_name" >
         </activity>
 
@@ -77,11 +81,6 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/adb_widget_info_2col" />
         </receiver>
-        
-        <provider
-            android:name="us.miui.provider.FileProvider"
-            android:authorities="us.miui.toolbox"
-            android:exported="true" />
         
     </application>
 

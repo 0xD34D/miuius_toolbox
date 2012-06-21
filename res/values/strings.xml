@@ -148,4 +148,6 @@
     <string name="default_button_text">Default</string>
     <string name="custom_button_text">Custom</string>
     
+    <string name="okay_button_text">OK</string>
+    
 </resources>

@@ -4,8 +4,13 @@
 package us.miui.toolbox;
 
 import us.miui.helpers.SystemHelper;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.preference.Preference;
+import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 
@@ -26,6 +31,24 @@ public class ToolboxPrefFragment extends PreferenceFragment {
 			PreferenceScreen navbar = (PreferenceScreen)findPreference("navbar_prefs_key");
 			ps.removePreference(navbar);
 		}
+
+        Preference p = (Preference) findPreference("version_info_key");
+        try {
+        	Context context = getActivity().getApplicationContext();
+			PackageInfo pi = context.getPackageManager().
+					getPackageInfo(context.getPackageName(), 0);
+			p.setSummary(pi.versionName + " Build: " + pi.versionCode);
+		} catch (NameNotFoundException e) {	}
+        
+        p.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+			
+			@Override
+			public boolean onPreferenceClick(Preference preference) {
+				Intent intent = new Intent(getActivity().getApplicationContext(), ChangeLogActivity.class);
+				startActivity(intent);
+				return true;
+			}
+		});
 	}
 
 	@Override

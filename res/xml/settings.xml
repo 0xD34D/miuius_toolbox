@@ -31,10 +31,10 @@
         android:title="@string/pref_performance_title" >
     </PreferenceScreen>
 
-<!--    
     <Preference
-        android:key="pref_key_credits"
-        android:summary="@string/pref_credits_summary"
-        android:title="@string/pref_credits_title" />
--->
+        android:key="version_info_key"
+        android:selectable="true"
+        android:summary=""
+        android:title="Version Info" />
+
 </PreferenceScreen>

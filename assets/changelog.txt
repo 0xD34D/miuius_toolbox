@@ -1,0 +1,40 @@
+MIUI.us Toolbox changelog
+-------------------------------
+
+[Version 1.1.9]
++ Added custom carrier logo to status bar mods
+
+[Version 1.1.8]
++ Added option to show home button on lockscreen (soft keys)
++ Added option to remove recent apps button (soft keys)
+
+[Version 1.1.7]
++ Added hide AM/PM indication in 12H clock format
+
+[Version 1.1.6]
++ Fixed the way ADV over Wi-Fi is enabled/disabled
++ Added widget to toggle ADB over Wi-Fi from homescreen
++ Added extended widget to toggle ADB over Wi-Fi with IP and port info
+
+[Version 1.1.5]
++ Added option to enable adb over Wi-Fi on boot
+
+[Version 1.1.4]
++ Minor UI and code organazation changes
++ Added ability to hide icon text labels in miui home
+
+[Version 1.1.3]
++ Added media scanner to system settings
++ Added Android ID tool to system settings
++ Enabled custom navbar button order (soft keys)
+
+[Version 1.1.2]
++ Added battery calibration tool to system settings
+
+[Version 1.1.1]
++ Added custom color settings
++ Added custom carrier label
++ Added miui home settings
+
+[Version 1.1.0]
++ Initial release of MIUI.us toolbox to public
