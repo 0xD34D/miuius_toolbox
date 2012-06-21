@@ -82,6 +82,11 @@
                 android:resource="@xml/adb_widget_info_2col" />
         </receiver>
         
+        <provider 
+            android:name="us.miui.provider.FileProvider"
+            android:authorities="us.miui.toolbox"
+            android:exported="true" />
+        
     </application>
 
 </manifest>

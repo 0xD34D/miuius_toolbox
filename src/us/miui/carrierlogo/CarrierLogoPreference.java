@@ -33,6 +33,7 @@ public class CarrierLogoPreference extends DialogPreference {
 	private Button mCustom;
 	private Activity mActivity;
 	private String mLogoPath;
+	private String mSrcPath;
 	
 	public CarrierLogoPreference(Context context, AttributeSet attrs,
 			int defStyle) {
@@ -62,7 +63,9 @@ public class CarrierLogoPreference extends DialogPreference {
 		mCustom.setOnClickListener(mListener);
 		
 		SharedPreferences prefs = getPreferenceManager().getSharedPreferences();
-		mLogoPath = prefs.getString(getKey(), Toolbox.DEFAULT_CARRIER_LOGO_FILE);
+		mLogoPath = getContext().getFilesDir() + "/" + 
+				prefs.getString(getKey(), Toolbox.DEFAULT_CARRIER_LOGO_FILE);
+		mSrcPath = mLogoPath;
 		
 		mLogo.setImageBitmap(BitmapFactory.decodeFile(mLogoPath));
 		super.onBindDialogView(view);
@@ -76,11 +79,21 @@ public class CarrierLogoPreference extends DialogPreference {
 		if (!positiveResult)
 			return;
 		
+		if (!mSrcPath.equals(mLogoPath)) {
+			SystemHelper.removeFilesFromDir(getContext().getFilesDir().getAbsolutePath());
+			try {
+				CarrierLogoHelper.copyCustomCarrierLogo(mSrcPath);
+			} catch (IOException e) {
+			}
+		}
+		
+		int mid = mLogoPath.lastIndexOf("/");
+		String fname = mLogoPath.substring(mid+1, mLogoPath.length());
 		SharedPreferences.Editor edit = getSharedPreferences().edit();
-		edit.putString(getKey(), mLogoPath);
+		edit.putString(getKey(), fname);
 		edit.commit();
 		
-		getOnPreferenceChangeListener().onPreferenceChange(this, mLogoPath);
+		getOnPreferenceChangeListener().onPreferenceChange(this, fname);
 		super.onDialogClosed(positiveResult);
 	}
 	
@@ -89,15 +102,15 @@ public class CarrierLogoPreference extends DialogPreference {
 		@Override
 		public void onClick(View v) {
 			if (v == mDefault) {
-				SystemHelper.removeFilesFromDir("/data/data/us.miui.toolbox/files");
 				try {
 					CarrierLogoHelper.copyDefaultCarrierLogo(getContext());
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				CarrierLogoHelper.makeCarrierLogoWorldReadable();
-				mLogoPath = Toolbox.DEFAULT_CARRIER_LOGO_FILE;
+				//CarrierLogoHelper.makeCarrierLogoWorldReadable();
+				mLogoPath = getContext().getFilesDir().getAbsolutePath() + "/" + Toolbox.DEFAULT_CARRIER_LOGO_FILE;
+				mSrcPath = mLogoPath;
 				mLogo.setImageBitmap(BitmapFactory.decodeFile(mLogoPath));
 			} else if (v == mCustom) {
 				Intent intent = new Intent(Intent.ACTION_PICK); 
@@ -109,9 +122,11 @@ public class CarrierLogoPreference extends DialogPreference {
 	
 	public void setCustomLogoResult(String path) {
 		try {
+			//SystemHelper.removeFilesFromDir("/data/data/us.miui.toolbox/files");
 			String dst = CarrierLogoHelper.copyCustomCarrierLogo(path);
-			SystemHelper.makeFileWorldReadable(dst);
+			//SystemHelper.makeFileWorldReadable(dst);
 			mLogoPath = dst;
+			mSrcPath = path;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

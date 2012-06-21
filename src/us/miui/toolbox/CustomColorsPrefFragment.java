@@ -26,12 +26,17 @@ import android.preference.SwitchPreference;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
 import android.telephony.TelephonyManager;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 /**
  * @author Clark Scheff
  * 
  */
 public class CustomColorsPrefFragment extends PreferenceFragment {
+	private static final int LOAD_ID = 1984;
+	private static final int SAVE_ID = 1976;
 
 	private ColorPickerPreference mClockColor;
 	private ColorPickerPreference mCarrierColor;
@@ -43,6 +48,39 @@ public class CustomColorsPrefFragment extends PreferenceFragment {
 	//private ColorPickerPreference mBluetoothColor;
 	//private ColorPickerPreference mGpsColor;
 	private ContentResolver mCR;
+
+	/* (non-Javadoc)
+	 * @see android.preference.PreferenceFragment#onActivityCreated(android.os.Bundle)
+	 */
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		
+		setHasOptionsMenu(true);
+	}
+
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		menu.add(Menu.NONE, LOAD_ID, 0, "Load Preset").setShowAsAction(
+				MenuItem.SHOW_AS_ACTION_IF_ROOM);
+		menu.add(Menu.NONE, SAVE_ID, 0, "Save Preset").setShowAsAction(
+				MenuItem.SHOW_AS_ACTION_IF_ROOM);
+	}
+
+	/* (non-Javadoc)
+	 * @see android.app.Fragment#onOptionsItemSelected(android.view.MenuItem)
+	 */
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		int id = item.getItemId();
+		switch (id) {
+		case LOAD_ID:
+			return true;
+		case SAVE_ID:
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

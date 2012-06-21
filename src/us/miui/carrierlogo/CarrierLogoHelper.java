@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import android.content.Context;
+import android.provider.Settings;
 
 import us.miui.Toolbox;
 import us.miui.helpers.SystemHelper;
@@ -19,7 +20,7 @@ public class CarrierLogoHelper {
 	}
 
     public static boolean carrierLogoExists() {
-	    File f = new File(Toolbox.CARRIER_LOGO_FILE);
+	    File f = new File(FILES_DIR + "/" + Toolbox.DEFAULT_CARRIER_LOGO_FILE);
 	    return f.exists();
     }
 
@@ -31,11 +32,11 @@ public class CarrierLogoHelper {
 	    InputStream myInput = context.getAssets().open("carrier_logo.png");
 
 	    // delete the file if the DB exists
-	    File f = new File(Toolbox.DEFAULT_CARRIER_LOGO_FILE);
+	    File f = new File(FILES_DIR + "/" + Toolbox.DEFAULT_CARRIER_LOGO_FILE);
 	    if(f.exists())
 	    	f.delete();
 	    //Open the empty db as the output stream
-	    FileOutputStream myOutput = new FileOutputStream(Toolbox.DEFAULT_CARRIER_LOGO_FILE);
+	    FileOutputStream myOutput = new FileOutputStream(FILES_DIR + "/" + Toolbox.DEFAULT_CARRIER_LOGO_FILE);
 
 	    //transfer bytes from the inputfile to the outputfile
 	    byte[] buffer = new byte[1024];

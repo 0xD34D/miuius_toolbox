@@ -4,12 +4,19 @@
  */
 package us.miui;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import android.content.ContentProvider;
+import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.ParcelFileDescriptor;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
 import android.util.Log;
@@ -21,7 +28,7 @@ import android.util.Log;
 public class Toolbox {
 	private final static String TAG = "Toolbox";
 	public static final String PREFS = "us.miui.toolbox_preferences";
-	public static final String DEFAULT_CARRIER_LOGO_FILE = "/data/data/us.miui.toolbox/files/carrier_logo.png";
+	public static final String DEFAULT_CARRIER_LOGO_FILE = "carrier_logo.png";
 	
 	// Strings for retreiving settings using Settings.System.getXXXX
 	public final static String CENTER_CLOCK = "center_clock";
@@ -210,9 +217,19 @@ public class Toolbox {
 		String fileName = Settings.System.getString(cr, CARRIER_LOGO_FILE);
 		if (fileName == null)
 			fileName = DEFAULT_CARRIER_LOGO_FILE;
-		Bitmap bmp = BitmapFactory.decodeFile(fileName);
+
+		Uri logoUri = Uri.parse("content://us.miui.toolbox/" + fileName);
+		ParcelFileDescriptor file = null;
+		try {
+			file = cr.openFileDescriptor(logoUri, "r");
+			Bitmap bmp = BitmapFactory.decodeFileDescriptor(file.getFileDescriptor());
+			file.close();
+			return bmp;
+		} catch (FileNotFoundException e) {
+		} catch (IOException e) {
+		}
 		
-		return bmp;
+		return null;
 	}
 
 	/**
