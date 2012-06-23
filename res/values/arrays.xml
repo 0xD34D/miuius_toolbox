@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="stock_color_preset_names">
+        <item >Red</item>
+        <item >Green</item>
+        <item >Blue</item>
+    </string-array>
+    
+    <string-array name="stock_color_preset_colors">
+        <item >#ffff0000:#ffff0000:#ffff0000:#ffff0000:#ffff0000</item>
+        <item >#ff00ff00:#ff00ff00:#ff00ff00:#ff00ff00:#ff00ff00</item>
+        <item >#ff0000ff:#ff0000ff:#ff0000ff:#ff0000ff:#ff0000ff</item>
+    </string-array>
+    
+</resources>

@@ -37,6 +37,7 @@ import android.view.MenuItem;
 public class CustomColorsPrefFragment extends PreferenceFragment {
 	private static final int LOAD_ID = 1984;
 	private static final int SAVE_ID = 1976;
+	private static final int SAME_COLOR_ID = 420;
 
 	private ColorPickerPreference mClockColor;
 	private ColorPickerPreference mCarrierColor;
@@ -56,15 +57,17 @@ public class CustomColorsPrefFragment extends PreferenceFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		
-		setHasOptionsMenu(true);
+		setHasOptionsMenu(false);
 	}
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		menu.add(Menu.NONE, LOAD_ID, 0, "Load Preset").setShowAsAction(
-				MenuItem.SHOW_AS_ACTION_IF_ROOM);
+				MenuItem.SHOW_AS_ACTION_ALWAYS);
 		menu.add(Menu.NONE, SAVE_ID, 0, "Save Preset").setShowAsAction(
-				MenuItem.SHOW_AS_ACTION_IF_ROOM);
+				MenuItem.SHOW_AS_ACTION_ALWAYS);
+		menu.add(Menu.NONE, SAME_COLOR_ID, 0, "Set All").setShowAsAction(
+				MenuItem.SHOW_AS_ACTION_ALWAYS);
 	}
 
 	/* (non-Javadoc)
@@ -75,6 +78,8 @@ public class CustomColorsPrefFragment extends PreferenceFragment {
 		int id = item.getItemId();
 		switch (id) {
 		case LOAD_ID:
+			PresetSelectionDialog presets = new PresetSelectionDialog(getActivity());
+			presets.show();
 			return true;
 		case SAVE_ID:
 			return true;
