@@ -79,7 +79,12 @@
     <string name="hex_hint">#FF000000</string>
     <string name="set">Set</string>
     <string name="ics_color">!!!</string>
-
+    
+    <!-- Color preferences -->
+    <string name="pref_key_color_profiles">pref_key_color_profiles</string>
+    <string name="pref_color_profiles_title">Color profiles</string>
+    <string name="pref_color_profiles_summary">Load a color profile</string>
+    
     <!--  Battery calibration -->
     <string name="calibration_prefs_key">calibration_prefs_key</string>
     <string name="calibration_settings_title">Battery calibration</string>

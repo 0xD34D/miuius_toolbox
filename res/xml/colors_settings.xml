@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" android:key="@string/colors_prefs_key">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="@string/colors_prefs_key" >
 
     <PreferenceCategory android:title="@string/pref_colors_settings_title" >
-        
     </PreferenceCategory>
 
     <net.margaritov.preference.colorpicker.ColorPickerPreference
@@ -21,7 +21,7 @@
         android:defaultValue="#FFFFFFFF"
         android:key="pref_key_wifi_color"
         android:title="WiFi icon color" />
-<!-- 
+    <!--
     <net.margaritov.preference.colorpicker.ColorPickerPreference
         android:defaultValue="#FFFFFFFF"
         android:key="pref_key_bluetooth_color"
@@ -30,7 +30,7 @@
         android:defaultValue="#FFFFFFFF"
         android:key="pref_key_gps_color"
         android:title="GPS icon color" />
--->
+    -->
     <net.margaritov.preference.colorpicker.ColorPickerPreference
         android:defaultValue="#FFFFFFFF"
         android:key="pref_key_battery_color"
@@ -38,6 +38,16 @@
     <net.margaritov.preference.colorpicker.ColorPickerPreference
         android:defaultValue="#FFFFFFFF"
         android:key="pref_key_navbar_color"
-        android:title="Navigation bar color" /><Preference android:key="pref_key_reset_colors" android:title="Reset colors" android:summary="Reset all colors to their default values"/>
+        android:title="Navigation bar color" />
+
+    <Preference
+        android:key="pref_key_reset_colors"
+        android:summary="Reset all colors to their default values"
+        android:title="Reset colors" />
+
+    <us.miui.widget.ColorProfilesListPreference
+        android:key="@string/pref_key_color_profiles"
+        android:summary="@string/pref_color_profiles_summary"
+        android:title="@string/pref_color_profiles_title" />
 
 </PreferenceScreen>

@@ -61,33 +61,6 @@ public class CustomColorsPrefFragment extends PreferenceFragment {
 	}
 
 	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		menu.add(Menu.NONE, LOAD_ID, 0, "Load Preset").setShowAsAction(
-				MenuItem.SHOW_AS_ACTION_ALWAYS);
-		menu.add(Menu.NONE, SAVE_ID, 0, "Save Preset").setShowAsAction(
-				MenuItem.SHOW_AS_ACTION_ALWAYS);
-		menu.add(Menu.NONE, SAME_COLOR_ID, 0, "Set All").setShowAsAction(
-				MenuItem.SHOW_AS_ACTION_ALWAYS);
-	}
-
-	/* (non-Javadoc)
-	 * @see android.app.Fragment#onOptionsItemSelected(android.view.MenuItem)
-	 */
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		int id = item.getItemId();
-		switch (id) {
-		case LOAD_ID:
-			PresetSelectionDialog presets = new PresetSelectionDialog(getActivity());
-			presets.show();
-			return true;
-		case SAVE_ID:
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
-	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.colors_settings);
