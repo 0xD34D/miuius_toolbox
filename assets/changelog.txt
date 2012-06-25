@@ -1,6 +1,11 @@
 MIUI.us Toolbox changelog
 -------------------------------
 
+[Version 1.1.10]
++ Removed custom navbar order (MIUI now includes this)
++ Removed option to remove recent apps button (MIUI now includes this)
++ Removed option for a search button (currently disabled due to compatibility issue)
+
 [Version 1.1.9]
 + Added custom carrier logo to status bar mods
 
