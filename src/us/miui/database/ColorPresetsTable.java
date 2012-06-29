@@ -19,11 +19,11 @@ public class ColorPresetsTable {
 	public static void onCreate(SQLiteDatabase database) {
 		try {
 			database.execSQL(DATABASE_CREATE);
-			addPreset(database, "Red", "#FFFF0000:#FFFF0000:#FFFF0000:#FFFF0000:#FFFF0000");
-			addPreset(database, "Green", "#FF00FF00:#FF00FF00:#FF00FF00:#FF00FF00:#FF00FF00");
-			addPreset(database, "Blue", "#FF0000FF:#FF0000FF:#FF0000FF:#FF0000FF:#FF0000FF");
+			addPreset(database, "Red", "#FFFF0000:#FFFF0000:#FFFF0000:#FFFF0000:#FFFF0000:#FFFF0000");
+			addPreset(database, "Green", "#FF00FF00:#FF00FF00:#FF00FF00:#FF00FF00:#FF00FF00:#FF00FF00");
+			addPreset(database, "Blue", "#FF0000FF:#FF0000FF:#FF0000FF:#FF0000FF:#FF0000FF:#FF0000FF");
 		} catch (SQLException se) {
-			
+			se.printStackTrace();
 		}
 	}
 	
@@ -34,7 +34,7 @@ public class ColorPresetsTable {
 	}
 	
 	private static void addPreset(SQLiteDatabase database, String name, String colors) {
-		database.execSQL(String.format("INSERT INTO presets_tbl (presetName. presetColors)\n" +
-				"VALUES (%s, %s);", name, colors));
+		database.execSQL(String.format("INSERT INTO presets_tbl (presetName, presetColors) " +
+				"VALUES ('%s', '%s');", name, colors));
 	}
 }

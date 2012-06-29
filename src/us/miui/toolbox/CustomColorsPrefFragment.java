@@ -8,6 +8,7 @@ import java.util.List;
 
 import us.miui.Toolbox;
 import us.miui.helpers.SystemHelper;
+import us.miui.widget.ColorProfilesListPreference;
 
 import net.margaritov.preference.colorpicker.ColorPickerPreference;
 
@@ -45,6 +46,8 @@ public class CustomColorsPrefFragment extends PreferenceFragment {
 	private ColorPickerPreference mNavbarColor;
 	private ColorPickerPreference mBatteryColor;
 	private ColorPickerPreference mWifiColor;
+	private ColorPickerPreference mAllColors;
+	//private ColorProfilesListPreference mProfiles;
 	private Preference mResetColors;
 	//private ColorPickerPreference mBluetoothColor;
 	//private ColorPickerPreference mGpsColor;
@@ -72,6 +75,7 @@ public class CustomColorsPrefFragment extends PreferenceFragment {
 		mNavbarColor = (ColorPickerPreference) findPreference("pref_key_navbar_color");
 		mBatteryColor = (ColorPickerPreference) findPreference("pref_key_battery_color");
 		mWifiColor = (ColorPickerPreference) findPreference("pref_key_wifi_color");
+		mAllColors = (ColorPickerPreference) findPreference("pref_key_all_color");
 		mResetColors = (Preference) findPreference("pref_key_reset_colors");
 		//mBluetoothColor = (ColorPickerPreference) findPreference("pref_key_bluetooth_color");
 		//mGpsColor = (ColorPickerPreference) findPreference("pref_key_gps_color");
@@ -83,6 +87,7 @@ public class CustomColorsPrefFragment extends PreferenceFragment {
 		mNavbarColor.setAlphaSliderEnabled(true);
 		mBatteryColor.setAlphaSliderEnabled(true);
 		mWifiColor.setAlphaSliderEnabled(true);
+		mAllColors.setAlphaSliderEnabled(true);
 		//mBluetoothColor.setAlphaSliderEnabled(true);
 		//mGpsColor.setAlphaSliderEnabled(true);
 
@@ -93,6 +98,7 @@ public class CustomColorsPrefFragment extends PreferenceFragment {
 		mNavbarColor.setOnPreferenceChangeListener(mListener);
 		mBatteryColor.setOnPreferenceChangeListener(mListener);
 		mWifiColor.setOnPreferenceChangeListener(mListener);
+		mAllColors.setOnPreferenceChangeListener(mListener);
 		
 		//mBluetoothColor.setOnPreferenceChangeListener(mListener);
 		//mGpsColor.setOnPreferenceChangeListener(mListener);
@@ -147,6 +153,16 @@ public class CustomColorsPrefFragment extends PreferenceFragment {
 				
 				restartSystemUI();
 				return true;
+			} else if (preference == mAllColors) {
+				int color = ((Integer)newValue).intValue();
+				Settings.System.putInt(mCR, Toolbox.CUSTOM_CLOCK_COLOR, color);
+				Settings.System.putInt(mCR, Toolbox.CUSTOM_CARRIER_COLOR, color);
+				Settings.System.putInt(mCR, Toolbox.CUSTOM_BATTERY_COLOR, color);
+				Settings.System.putInt(mCR, Toolbox.CUSTOM_NAVBAR_COLOR, color);
+				Settings.System.putInt(mCR, Toolbox.CUSTOM_SIGNAL_COLOR, color);
+				Settings.System.putInt(mCR, Toolbox.CUSTOM_WIFI_COLOR, color);
+				
+				restartSystemUI();
 			}
 			return false;
 		}

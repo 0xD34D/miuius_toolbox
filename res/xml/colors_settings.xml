@@ -40,14 +40,19 @@
         android:key="pref_key_navbar_color"
         android:title="Navigation bar color" />
 
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+        android:defaultValue="#FFFFFFFF"
+        android:key="pref_key_all_color"
+        android:title="Set all to this color" />
+
     <Preference
         android:key="pref_key_reset_colors"
         android:summary="Reset all colors to their default values"
         android:title="Reset colors" />
-
+<!-- 
     <us.miui.widget.ColorProfilesListPreference
         android:key="@string/pref_key_color_profiles"
         android:summary="@string/pref_color_profiles_summary"
         android:title="@string/pref_color_profiles_title" />
-
+-->
 </PreferenceScreen>
