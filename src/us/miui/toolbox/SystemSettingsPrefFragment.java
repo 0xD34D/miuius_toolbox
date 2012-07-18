@@ -3,6 +3,8 @@
  */
 package us.miui.toolbox;
 
+import java.io.IOException;
+
 import us.miui.Toolbox;
 import us.miui.helpers.SystemHelper;
 import android.app.Notification;
@@ -17,6 +19,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.CheckBoxPreference;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
@@ -36,6 +39,7 @@ public class SystemSettingsPrefFragment extends PreferenceFragment
 	private Preference mAndroidID;
 	private Preference mMediaScanner;
 	private CheckBoxPreference mEnableNavbar;
+	private ListPreference mRecoveryType;
 	private MediaScannerConnection mMsc;
 	private ContentResolver mCR;
 
@@ -56,6 +60,23 @@ public class SystemSettingsPrefFragment extends PreferenceFragment
 		
 		mMediaScanner = findPreference(res.getString(R.string.media_scanner_prefs_key));
 		mMediaScanner.setOnPreferenceClickListener(mListener);
+		
+		mRecoveryType = (ListPreference)findPreference(res.getString(R.string.recovery_selection_prefs_key));
+		mRecoveryType.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+			
+			@Override
+			public boolean onPreferenceChange(Preference preference, Object newValue) {
+				String type = (String) newValue;
+				try {
+					SystemHelper.copyRecoveryOTA(getActivity(), type);
+					return true;
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				return false;
+			}
+		});
 		
 		mEnableNavbar = (CheckBoxPreference) findPreference(res.getString(R.string.enable_navbar_prefs_key));
 		// Try to read the ENABLE_NAVBAR setting and if we get a

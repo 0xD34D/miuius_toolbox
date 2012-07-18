@@ -12,4 +12,17 @@
         <item >#ff0000ff:#ff0000ff:#ff0000ff:#ff0000ff:#ff0000ff</item>
     </string-array>
     
+	<!-- Recovery selection -->
+    <string-array name="recovery_type_names">
+        <item>CWM / EXT4</item>
+        <item>TWRP</item>
+        <item>AmonRA</item>
+    </string-array>
+    
+    <string-array name="recovery_type_entries">
+        <item>cwmota</item>
+        <item>twrpota</item>
+        <item>amonraota</item>
+    </string-array>
+    
 </resources>

@@ -6,6 +6,7 @@ package us.miui.receiver;
 import java.io.IOException;
 
 import us.miui.helpers.CPUHelper;
+import us.miui.helpers.SystemHelper;
 import us.miui.service.AdbWifiService;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -42,6 +43,7 @@ public class BootReceiver extends BroadcastReceiver {
 				Log.e(TAG, "Unable to restore CPU settings.");
 			}
 		}
+		
 		if (prefs.getBoolean("pref_key_enable_adb_wifi", false) &&
 				prefs.getBoolean("pref_key_adb_wifi_on_boot", false)) {
 			int port = Integer.parseInt(prefs.getString("pref_key_adb_port", "5555"));
@@ -50,6 +52,15 @@ public class BootReceiver extends BroadcastReceiver {
 			i.putExtra("port_num", port);
 			context.startService(i);
 			Log.i(TAG, String.format("Resotring ADB via WiFi settings on port %d.", port));
+		}
+		
+		// in case the user updated we should copy the correct ota binary to /system/xbin
+		// default will be to use cwmota in case that setting is not set yet.
+		String recovery = prefs.getString("recovery_selection_prefs_key", "cwmota");
+		try {
+			SystemHelper.copyRecoveryOTA(context, recovery);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 

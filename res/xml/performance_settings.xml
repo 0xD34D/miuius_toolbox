@@ -38,10 +38,17 @@
    		android:title="@string/gamma_tuning_title_head"
    		android:summary="@string/gamma_tuning_summary_head" />
     -->
-    
+
     <CheckBoxPreference
         android:key="@string/enable_navbar_prefs_key"
         android:summary="@string/pref_enable_navbar_summary"
         android:title="@string/pref_enable_navbar_title" />
+
+    <ListPreference
+        android:key="@string/recovery_selection_prefs_key"
+        android:summary="@string/pref_recovery_selection_summary"
+        android:title="@string/pref_recovery_selection_title"
+        android:entries="@array/recovery_type_names"
+        android:entryValues="@array/recovery_type_entries" />
 
 </PreferenceScreen>

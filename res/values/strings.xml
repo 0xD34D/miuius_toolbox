@@ -155,4 +155,9 @@
     
     <string name="okay_button_text">OK</string>
     
+    <!-- Recovery selection -->
+    <string name="recovery_selection_prefs_key">recovery_selection_prefs_key</string>
+    <string name="pref_recovery_selection_summary">Select the custom recovery installed on this device</string>
+    <string name="pref_recovery_selection_title">Recovery type</string>
+    
 </resources>
