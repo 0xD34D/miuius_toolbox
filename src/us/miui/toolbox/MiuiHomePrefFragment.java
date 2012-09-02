@@ -31,7 +31,6 @@ import android.telephony.TelephonyManager;
 public class MiuiHomePrefFragment extends PreferenceFragment {
 
 	private CheckBoxPreference mHideStatusbar;
-	private CheckBoxPreference mAllowRotation;
 	private CheckBoxPreference mHideIconText;
 	private ContentResolver mCR;
 
@@ -49,10 +48,6 @@ public class MiuiHomePrefFragment extends PreferenceFragment {
 		mHideIconText = 
 				(CheckBoxPreference) findPreference(res.getString(
 						R.string.hide_shortcut_text_pref_key));
-		mAllowRotation = 
-				(CheckBoxPreference) findPreference(res.getString(
-						R.string.allow_rotation_pref_key));
-
 		// Try to read the HIDE_STATUS_BAR setting and if we get a
 		// SettingNotFoundException
 		// we need to create it.
@@ -75,20 +70,8 @@ public class MiuiHomePrefFragment extends PreferenceFragment {
 			Settings.System.putInt(mCR, Toolbox.HIDE_SHORTCUT_TEXT, 0);
 		}
 
-		// Try to read the ALLOW_LAUNCHER_ROTATION setting and if we get a
-		// SettingNotFoundException
-		// we need to create it.
-		try {
-			mAllowRotation
-					.setChecked(Settings.System.getInt(mCR, Toolbox.ALLOW_LAUNCHER_ROTATION) == 1);
-		} catch (SettingNotFoundException e) {
-			mAllowRotation.setChecked(false);
-			Settings.System.putInt(mCR, Toolbox.ALLOW_LAUNCHER_ROTATION, 0);
-		}
-
 		mHideStatusbar.setOnPreferenceChangeListener(mListener);
 		mHideIconText.setOnPreferenceChangeListener(mListener);
-		mAllowRotation.setOnPreferenceChangeListener(mListener);
 	}
 	
 	OnPreferenceChangeListener mListener = new OnPreferenceChangeListener() {
@@ -104,12 +87,6 @@ public class MiuiHomePrefFragment extends PreferenceFragment {
 			} else if (preference == mHideIconText) {
 				Settings.System
 				.putInt(mCR, Toolbox.HIDE_SHORTCUT_TEXT, (Boolean) newValue
-						.equals(Boolean.TRUE) ? 1 : 0);
-				restartLauncher();
-				return true;
-			} else if (preference == mAllowRotation) {
-				Settings.System
-				.putInt(mCR, Toolbox.ALLOW_LAUNCHER_ROTATION, (Boolean) newValue
 						.equals(Boolean.TRUE) ? 1 : 0);
 				restartLauncher();
 				return true;

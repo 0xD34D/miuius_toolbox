@@ -39,7 +39,6 @@ public class SeekBarPreference extends Preference implements
 		mMax = attrs.getAttributeIntValue(androidns, "max", 100);
 		mMin = attrs.getAttributeIntValue(customns, "min", 0);
 		mEnabled = attrs.getAttributeBooleanValue(androidns, "enabled", true);
-
 	}
 
 	@Override

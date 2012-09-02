@@ -113,7 +113,6 @@ public class CustomColorsPrefFragment extends PreferenceFragment {
 			@Override
 			public boolean onPreferenceClick(Preference preference) {
 				resetColors();
-				//restartSystemUI();
 				return true;
 			}
 		});
@@ -126,43 +125,43 @@ public class CustomColorsPrefFragment extends PreferenceFragment {
 			if (preference == mClockColor) {
 				Settings.System.putInt(mCR, Toolbox.CUSTOM_CLOCK_COLOR, (Integer) newValue);
 				
-				restartSystemUI();
 				return true;
 			} else if (preference == mCarrierColor) {
 				Settings.System.putInt(mCR, Toolbox.CUSTOM_CARRIER_COLOR, (Integer) newValue);
 				
-				restartSystemUI();
 				return true;
 			} else if (preference == mSignalColor) {
 				Settings.System.putInt(mCR, Toolbox.CUSTOM_SIGNAL_COLOR, (Integer) newValue);
 				
-				restartSystemUI();
 				return true;
 			} else if (preference == mNavbarColor) {
 				Settings.System.putInt(mCR, Toolbox.CUSTOM_NAVBAR_COLOR, (Integer) newValue);
 				
-				restartSystemUI();
 				return true;
 			} else if (preference == mBatteryColor) {
 				Settings.System.putInt(mCR, Toolbox.CUSTOM_BATTERY_COLOR, (Integer) newValue);
 				
-				restartSystemUI();
 				return true;
 			} else if (preference == mWifiColor) {
 				Settings.System.putInt(mCR, Toolbox.CUSTOM_WIFI_COLOR, (Integer) newValue);
 				
-				restartSystemUI();
 				return true;
 			} else if (preference == mAllColors) {
 				int color = ((Integer)newValue).intValue();
+				mClockColor.onColorChanged(color);
 				Settings.System.putInt(mCR, Toolbox.CUSTOM_CLOCK_COLOR, color);
+				mCarrierColor.onColorChanged(color);
 				Settings.System.putInt(mCR, Toolbox.CUSTOM_CARRIER_COLOR, color);
+				mBatteryColor.onColorChanged(color);
 				Settings.System.putInt(mCR, Toolbox.CUSTOM_BATTERY_COLOR, color);
+				mNavbarColor.onColorChanged(color);
 				Settings.System.putInt(mCR, Toolbox.CUSTOM_NAVBAR_COLOR, color);
+				mSignalColor.onColorChanged(color);
 				Settings.System.putInt(mCR, Toolbox.CUSTOM_SIGNAL_COLOR, color);
+				mWifiColor.onColorChanged(color);
 				Settings.System.putInt(mCR, Toolbox.CUSTOM_WIFI_COLOR, color);
 				
-				restartSystemUI();
+				//restartSystemUI();
 			}
 			return false;
 		}

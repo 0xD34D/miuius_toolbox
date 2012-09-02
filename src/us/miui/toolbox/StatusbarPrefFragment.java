@@ -157,7 +157,7 @@ public class StatusbarPrefFragment extends PreferenceFragment {
 						Toolbox.CLOCK_HIDE_AMPM,
 						(Boolean) newValue.equals(Boolean.TRUE) ? 1
 								: 0);
-				restartSystemUI();
+
 				return true;
 			} else if (preference == mSingleBars) {
 				Settings.System
@@ -191,7 +191,6 @@ public class StatusbarPrefFragment extends PreferenceFragment {
 				Settings.System.putString(mCR, Toolbox.CUSTOM_CARRIER_TEXT, (String) newValue);
 				mCustomCarrierLabel.setSummary((String) newValue);
 				
-				restartSystemUI();
 				return true;
 			} else if (preference == mCustomLogo) {
 				Settings.System.putString(mCR, Toolbox.CARRIER_LOGO_FILE, (String) newValue);

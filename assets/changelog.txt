@@ -1,8 +1,13 @@
 MIUI.us Toolbox changelog
 -------------------------------
+[Version 1.1.13]
++ Color changes take effect without restarting SystemUI
++ Hide AM/PM toggle takes effect without restarting SystemUI
++ Custom carrier text takes effect without restarting SystemUI
 
 [Version 1.1.12]
 + Added selection of recovery type for OTA compatibility
++ Removed option to allow home to rotate into landscape
 
 [Version 1.1.11]
 + Added ability to set all colors to the same value
