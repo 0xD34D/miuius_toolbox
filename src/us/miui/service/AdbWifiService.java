@@ -8,7 +8,7 @@ import java.util.List;
 
 import us.miui.Toolbox;
 import us.miui.helpers.SystemHelper;
-import us.miui.toolbox.MIUIToolboxActivity;
+import us.miui.toolbox.FragmentTabsPager;
 import us.miui.toolbox.R;
 import us.miui.toolbox.RootUtils;
 import android.app.Notification;
@@ -122,8 +122,8 @@ public class AdbWifiService extends Service {
 		nb.setAutoCancel(false);
 		nb.setWhen(System.currentTimeMillis());
 		nb.setOngoing(true);
-		Intent intent = new Intent(ctx, MIUIToolboxActivity.class);
-		intent.setAction(MIUIToolboxActivity.ACTION_ADB_WIFI_SETTINGS);
+		Intent intent = new Intent(ctx, FragmentTabsPager.class);
+		intent.setAction(FragmentTabsPager.ACTION_ADB_WIFI_SETTINGS);
 		PendingIntent contentIntent = PendingIntent.getActivity(ctx, 0, intent, 0);
 		nb.setContentIntent(contentIntent);
 		nm.notify(42, nb.getNotification());

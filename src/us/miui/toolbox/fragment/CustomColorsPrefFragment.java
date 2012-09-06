@@ -1,13 +1,16 @@
 /**
  * 
  */
-package us.miui.toolbox;
+package us.miui.toolbox.fragment;
 
 import java.io.IOException;
 import java.util.List;
 
 import us.miui.Toolbox;
 import us.miui.helpers.SystemHelper;
+import us.miui.toolbox.R;
+import us.miui.toolbox.RootUtils;
+import us.miui.toolbox.R.xml;
 import us.miui.widget.ColorProfilesListPreference;
 
 import net.margaritov.preference.colorpicker.ColorPickerPreference;

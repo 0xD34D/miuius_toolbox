@@ -1,9 +1,11 @@
 /**
  * 
  */
-package us.miui.toolbox;
+package us.miui.toolbox.fragment;
 
 import us.miui.Toolbox;
+import us.miui.toolbox.R;
+import us.miui.toolbox.R.xml;
 
 import android.content.ContentResolver;
 import android.os.Bundle;

@@ -9,20 +9,17 @@
         android:layout_centerHorizontal="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/okay_button_text" />
+        android:text="@string/okay_button_text"
+        android:visibility="gone" />
 
     <ScrollView android:id="@+id/scrollingTextView"
-        android:layout_above="@+id/okButton"
+        android:layout_alignParentTop="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" 
-        android:background="#fff" >
+        android:layout_height="match_parent" >
     	
     	<TextView android:id="@+id/logText"
-        	android:layout_above="@+id/okButton"
         	android:layout_width="match_parent"
-        	android:layout_height="match_parent" 
-        	android:background="#fff"
-        	android:textColor="#000" />
+        	android:layout_height="match_parent" />
     </ScrollView>
     
 </RelativeLayout>

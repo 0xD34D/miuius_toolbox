@@ -1,20 +1,27 @@
 /**
  * 
  */
-package us.miui.toolbox;
+package us.miui.toolbox.fragment;
 
 import java.io.IOException;
 import java.util.List;
 
 import us.miui.Toolbox;
 import us.miui.carrierlogo.CarrierLogoPreference;
+import us.miui.toolbox.R;
+import us.miui.toolbox.RootUtils;
+import us.miui.toolbox.R.xml;
 
 import net.margaritov.preference.colorpicker.ColorPickerPreference;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
@@ -23,14 +30,18 @@ import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceFragment;
 import android.preference.SwitchPreference;
 import android.provider.Settings;
+import android.provider.MediaStore.MediaColumns;
 import android.provider.Settings.SettingNotFoundException;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 
 /**
  * @author Clark Scheff
  * 
  */
 public class StatusbarPrefFragment extends PreferenceFragment {
+	private static final int RESULT_SELECT_IMAGE = 1;
+	private static final String TAG = "StatusBarPrefFragment";
 
 	// Strings for retreiving settings using Settings.System.getXXXX
 	private CheckBoxPreference mCenterClock;
@@ -55,7 +66,7 @@ public class StatusbarPrefFragment extends PreferenceFragment {
 		mCustomCarrierLabel = (EditTextPreference) findPreference("pref_key_custom_carrier_label");
 		mUseCarrierLogo = (CheckBoxPreference) findPreference("pref_key_use_carrier_logo");
 		mCustomLogo = (CarrierLogoPreference) findPreference("pref_key_logo_image");
-		mCustomLogo.setActivity(getActivity());
+		mCustomLogo.setFragment(this);
 
 		// Try to read the CENTER_CLOCK setting and if we get a
 		// SettingNotFoundException
@@ -175,7 +186,7 @@ public class StatusbarPrefFragment extends PreferenceFragment {
 						enabled ? 1 : 0);
 				mCustomCarrierLabel.setEnabled(enabled);
 				
-				restartSystemUI();
+				//restartSystemUI();
 				return true;
 			} else if (preference == mUseCarrierLogo) {
 				boolean enabled = ((Boolean) newValue.equals(Boolean.TRUE));
@@ -228,4 +239,34 @@ public class StatusbarPrefFragment extends PreferenceFragment {
 			}
 		}
 	}
+
+	@Override 
+    public void onActivityResult(int requestCode, int resultCode, Intent data) { 
+    	super.onActivityResult(requestCode, resultCode, data); 
+    	if (requestCode == RESULT_SELECT_IMAGE) {
+    		if (resultCode == Activity.RESULT_OK) {
+    			if (data == null) {
+    				Log.w(TAG, "Null data, but RESULT_OK, from image picker!");
+    				return;
+    			}
+				String RealPath;
+				Uri selectedImage = data.getData();
+   				RealPath = getRealPathFromURI(selectedImage);
+   				setCustomLogoResult(RealPath);
+    			Log.d(TAG, "User selected an image: " + RealPath);
+    		}
+    	}
+    }
+
+    public String getRealPathFromURI(Uri contentUri) {         
+    	String [] proj={MediaColumns.DATA}; 
+    	Cursor cursor = getActivity().managedQuery( contentUri, 
+    			proj, // Which columns to return 
+    			null,       // WHERE clause; which rows to return (all rows) 
+    			null,       // WHERE clause selection arguments (none) 
+    			null); // Order-by clause (ascending by name) 
+    	int column_index = cursor.getColumnIndexOrThrow(MediaColumns.DATA); 
+    	cursor.moveToFirst(); 
+    	return cursor.getString(column_index);
+    }
 }

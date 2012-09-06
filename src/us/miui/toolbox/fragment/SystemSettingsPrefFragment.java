@@ -1,12 +1,18 @@
 /**
  * 
  */
-package us.miui.toolbox;
+package us.miui.toolbox.fragment;
 
 import java.io.IOException;
 
 import us.miui.Toolbox;
 import us.miui.helpers.SystemHelper;
+import us.miui.toolbox.AndroidIDToolActivity;
+import us.miui.toolbox.BatteryCalibrationActivity;
+import us.miui.toolbox.R;
+import us.miui.toolbox.R.drawable;
+import us.miui.toolbox.R.string;
+import us.miui.toolbox.R.xml;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.ContentResolver;

@@ -29,13 +29,12 @@ public class SystemHelper {
 	/**
 	 * Resource ID for the boolean value stored in framework-res for MIUI
 	 */
-	public static final int CONFIG_SHOW_NAVIGATION = 0x0111002e;
+	public static final int CONFIG_SHOW_NAVIGATION = 0x01110034;
 	private static final String FILES_DIR = "/data/data/us.miui.toolbox/files";
 
 	public static boolean hasNavigationBar(Context context) {
-		return (context.getResources()
-				.getBoolean(CONFIG_SHOW_NAVIGATION) ||
-				isTablet(context));
+		return context.getResources()
+				.getBoolean(CONFIG_SHOW_NAVIGATION);
 	}
 	
 	public static boolean isTablet(Context context) {

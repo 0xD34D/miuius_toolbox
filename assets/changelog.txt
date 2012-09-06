@@ -1,5 +1,9 @@
 MIUI.us Toolbox changelog
 -------------------------------
+[Version 1.2.0]
++ Revamped UI using View Pager and Tabs
++ Updated to support Jellybean based MIUI
+
 [Version 1.1.13]
 + Color changes take effect without restarting SystemUI
 + Hide AM/PM toggle takes effect without restarting SystemUI

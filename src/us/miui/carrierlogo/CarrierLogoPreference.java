@@ -10,6 +10,7 @@ import us.miui.helpers.SystemHelper;
 import us.miui.toolbox.R;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -31,7 +32,7 @@ public class CarrierLogoPreference extends DialogPreference {
 	private ImageView mLogo;
 	private Button mDefault;
 	private Button mCustom;
-	private Activity mActivity;
+	private Fragment mFragment;
 	private String mLogoPath;
 	private String mSrcPath;
 	
@@ -46,8 +47,8 @@ public class CarrierLogoPreference extends DialogPreference {
 		setDialogLayoutResource(R.layout.dialog_carrier_logo);
 	}
 	
-	public void setActivity(Activity activity) {
-		mActivity = activity;
+	public void setFragment(Fragment fragment) {
+		mFragment = fragment;
 	}
 
 	/* (non-Javadoc)
@@ -115,7 +116,7 @@ public class CarrierLogoPreference extends DialogPreference {
 			} else if (v == mCustom) {
 				Intent intent = new Intent(Intent.ACTION_PICK); 
                 intent.setType("image/*");
-                mActivity.startActivityForResult(intent, RESULT_SELECT_IMAGE);
+                mFragment.startActivityForResult(intent, RESULT_SELECT_IMAGE);
 			}
 		}
 	};

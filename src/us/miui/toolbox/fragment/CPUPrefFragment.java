@@ -1,8 +1,10 @@
 /**
  * 
  */
-package us.miui.toolbox;
+package us.miui.toolbox.fragment;
 
+import us.miui.toolbox.R;
+import us.miui.toolbox.R.xml;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.PreferenceFragment;
