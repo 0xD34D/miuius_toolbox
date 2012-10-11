@@ -7,16 +7,17 @@ import java.io.IOException;
 
 import us.miui.Toolbox;
 import us.miui.helpers.SystemHelper;
-import us.miui.toolbox.AndroidIDToolActivity;
-import us.miui.toolbox.BatteryCalibrationActivity;
+import us.miui.toolbox.LogcatActivity;
 import us.miui.toolbox.R;
-import us.miui.toolbox.R.drawable;
-import us.miui.toolbox.R.string;
-import us.miui.toolbox.R.xml;
+import us.miui.toolbox.RootUtils;
+import us.miui.toolbox.activity.AndroidIDToolActivity;
+import us.miui.toolbox.activity.BatteryCalibrationActivity;
+import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.media.MediaScannerConnection;
@@ -25,6 +26,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.CheckBoxPreference;
+import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
@@ -44,10 +46,13 @@ public class SystemSettingsPrefFragment extends PreferenceFragment
 	private Preference mBatteryCalibration;
 	private Preference mAndroidID;
 	private Preference mMediaScanner;
+	private Preference mLogcat;
+	private EditTextPreference mDensity;
 	private CheckBoxPreference mEnableNavbar;
 	private ListPreference mRecoveryType;
 	private MediaScannerConnection mMsc;
 	private ContentResolver mCR;
+	private String mCurrentDPI = "";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -66,6 +71,9 @@ public class SystemSettingsPrefFragment extends PreferenceFragment
 		
 		mMediaScanner = findPreference(res.getString(R.string.media_scanner_prefs_key));
 		mMediaScanner.setOnPreferenceClickListener(mListener);
+		
+		mLogcat = findPreference(res.getString(R.string.logcat_prefs_key));
+		mLogcat.setOnPreferenceClickListener(mListener);
 		
 		mRecoveryType = (ListPreference)findPreference(res.getString(R.string.recovery_selection_prefs_key));
 		mRecoveryType.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
@@ -109,6 +117,55 @@ public class SystemSettingsPrefFragment extends PreferenceFragment
 		// hide the Enable navbar preference until I find a way to make it work
 		// or decide it is not worth the trouble :)
 		getPreferenceScreen().removePreference(mEnableNavbar);
+        if (!Toolbox.ENABLE_DEVELOPMENT_OPTIONS)
+        	getPreferenceScreen().removePreference(mLogcat);
+        
+        mDensity = (EditTextPreference)findPreference(res.getString(R.string.lcd_density_prefs_key));
+        try {
+			mCurrentDPI = RootUtils.executeWithResult("cat /system/build.prop | busybox grep \"ro.sf.lcd_density\" | sed 's/ro.sf.lcd_density=//g'\n");
+			mDensity.setPersistent(false);
+			mDensity.setText(mCurrentDPI);
+			mDensity.setDefaultValue(mCurrentDPI);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        mDensity.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+			
+			@Override
+			public boolean onPreferenceChange(Preference preference, Object newValue) {
+				String newDpi = (String) newValue;
+				if (newDpi.equals(mCurrentDPI))
+					return true;
+				try {
+					int dpiNumber = Integer.parseInt(newDpi);
+					if (dpiNumber < 100 || dpiNumber > 480)
+						return false;
+				} catch (NumberFormatException nfe) {
+					return false;
+				}
+				SystemHelper.mountSystemRW();
+				try {
+					Thread.sleep(250);
+					RootUtils.execute(String.format("busybox sed -i 's/ro.sf.lcd_density=%s/ro.sf.lcd_density=%s/g' /system/build.prop\n",
+							mCurrentDPI, newDpi));
+					String result = RootUtils.executeWithResult("cat /system/build.prop | busybox grep \"ro.sf.lcd_density\"\n");
+					if (result.contains(newDpi)) {
+						mCurrentDPI = newDpi;
+						suggestReboot();
+					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				SystemHelper.mountSystemRO();
+				return true;
+			}
+		});
+
 	}
 	
 	private OnPreferenceClickListener mListener = new OnPreferenceClickListener() {
@@ -121,6 +178,10 @@ public class SystemSettingsPrefFragment extends PreferenceFragment
 				return true;
 			} else if (preference == mAndroidID) {
 				Intent intent = new Intent(getActivity().getApplicationContext(), AndroidIDToolActivity.class);
+				startActivity(intent);
+				return true;
+			} else if (preference == mLogcat) {
+				Intent intent = new Intent(getActivity().getApplicationContext(), LogcatActivity.class);
 				startActivity(intent);
 				return true;
 			} else if (preference == mMediaScanner) {
@@ -190,5 +251,28 @@ public class SystemSettingsPrefFragment extends PreferenceFragment
 		nb.setWhen(System.currentTimeMillis());
 		nb.setOngoing(false);
 		nm.notify(42, nb.getNotification());
+	}
+
+	public void suggestReboot() {
+		new AlertDialog.Builder(getActivity())
+		.setMessage("In order for changes to take effect you must reboot your device.\n" +
+				"Would you like to reboot now?")
+		.setTitle("Reboot?")
+		.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				RootUtils.reboot();
+				dialog.dismiss();
+			}
+			
+		})
+		.setNeutralButton("No", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+			}
+		})
+		.show();
 	}
 }

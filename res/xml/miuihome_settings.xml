@@ -14,4 +14,9 @@
         android:summary="@string/pref_hide_shortuct_text_summary"
         android:title="@string/pref_hide_shortuct_text_title" />
 
+    <CheckBoxPreference
+        android:key="@string/resize_widgets_pref_key"
+        android:summary="@string/pref_resize_widgets_summary"
+        android:title="@string/pref_resize_widgets_title" />
+
 </PreferenceScreen>

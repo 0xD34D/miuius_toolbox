@@ -4,12 +4,14 @@
 package us.miui.toolbox.fragment;
 
 import us.miui.Toolbox;
+import us.miui.helpers.SystemHelper;
 import us.miui.toolbox.R;
 import us.miui.toolbox.R.xml;
 
 import android.content.ContentResolver;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceFragment;
@@ -23,7 +25,8 @@ import android.provider.Settings.SettingNotFoundException;
 public class NavbarPrefFragment extends PreferenceFragment {
 
 //	private CheckBoxPreference mShowSearch;
-	private CheckBoxPreference mLockscreenHome;
+	//private CheckBoxPreference mLockscreenHome;
+	private ListPreference mNavbarHeight;
 	private ContentResolver mCR;
 
 	@Override
@@ -33,22 +36,15 @@ public class NavbarPrefFragment extends PreferenceFragment {
 		addPreferencesFromResource(R.xml.navbar_settings);
 
 		mCR = getActivity().getContentResolver();
-		mLockscreenHome = (CheckBoxPreference) findPreference("pref_key_lockscreen_show_home");
+		mNavbarHeight = (ListPreference) findPreference("pref_key_navbar_height");
 		
-
-		// Try to read the LOCKSCREEN_SHOW_HOME setting and if we get a
-		// SettingNotFoundException
-		// we need to create it.
-		try {
-			mLockscreenHome
-					.setChecked(Settings.System.getInt(mCR, Toolbox.LOCKSCREEN_SHOW_HOME) == 1);
-		} catch (SettingNotFoundException e) {
-			mLockscreenHome.setChecked(false);
-			Settings.System.putInt(mCR, Toolbox.LOCKSCREEN_SHOW_HOME, 0);
-		}
+		String height = Settings.System.getString(mCR, Toolbox.NAVBAR_HEIGHT);
+		if (height == null)
+			height = "48";
+		mNavbarHeight.setValue(height);
 
 		// need to update system settings with the new value for LOCKSCREEN_SHOW_HOME
-		mLockscreenHome
+		mNavbarHeight
 				.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 
 					@Override
@@ -56,9 +52,8 @@ public class NavbarPrefFragment extends PreferenceFragment {
 							Object newValue) {
 
 						Settings.System
-								.putInt(mCR, Toolbox.LOCKSCREEN_SHOW_HOME, (Boolean) newValue
-										.equals(Boolean.TRUE) ? 1 : 0);
-						//restartSystemUI();
+								.putString(mCR, Toolbox.NAVBAR_HEIGHT, (String) newValue);
+						//SystemHelper.restartSystemUI(getActivity());
 						return true;
 					}
 				});

@@ -25,4 +25,33 @@
         <item>amonraota</item>
     </string-array>
     
+    <string-array name="screen_size_names">
+        <item>None</item>
+        <item>Normal</item>
+        <item>Large</item>
+        <item>Extra large</item>
+    </string-array>
+    <string-array name="screen_size_entries">
+        <item>0</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+    
+    <string-array name="navbar_height_names">
+        <item>24dp</item>
+        <item>32dp</item>
+        <item>40dp</item>
+        <item>48dp</item>
+        <item>56dp</item>
+    </string-array>
+    <string-array name="navbar_height_values">
+        <item>24</item>
+        <item>32</item>
+        <item>40</item>
+        <item>48</item>
+        <item>56</item>
+    </string-array>
+    
+    
 </resources>

@@ -3,9 +3,13 @@
  */
 package us.miui.helpers;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,7 +34,8 @@ public class SystemHelper {
 	 * Resource ID for the boolean value stored in framework-res for MIUI
 	 */
 	public static final int CONFIG_SHOW_NAVIGATION = 0x01110034;
-	private static final String FILES_DIR = "/data/data/us.miui.toolbox/files";
+	public static final String FILES_DIR = "/data/data/us.miui.toolbox/files";
+	public static final String EXT_FILESDIR = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/us.miui.toolbox/files";
 
 	public static boolean hasNavigationBar(Context context) {
 		return context.getResources()
@@ -59,6 +64,17 @@ public class SystemHelper {
 					e.printStackTrace();
 				}
 			}
+		}
+	}
+	
+	public static void restartSystem() {
+		try {
+			String pid = RootUtils.executeWithResult("pidof system_server\n");
+			if (pid != null && !pid.equals(""))
+				RootUtils.execute(String.format("kill %s\n", pid));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
@@ -159,6 +175,47 @@ public class SystemHelper {
 	public static void mountSystemRO() {
 		try {
 			RootUtils.execute("mount -o ro,remount /system\n");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static boolean externalFolderExists() {
+		File filesDir = new File(EXT_FILESDIR);
+		return filesDir.exists();
+	}
+	
+	public static void createExternalFolder() {
+		if (externalFolderExists())
+			return;
+		File filesDir = new File(EXT_FILESDIR);
+		filesDir.mkdirs();
+	}
+	
+	public static void copyFileToExternalData(String path) {
+		if (!externalFolderExists())
+			createExternalFolder();
+		String fileName = path.substring(path.lastIndexOf('/') + 1);
+		String dest = EXT_FILESDIR + "/" + fileName;
+		
+		try {
+			BufferedInputStream in = new BufferedInputStream(new FileInputStream(path));
+			BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(dest));
+			byte[] buffer = new byte[1024*1024];
+			while(in.available() > 0) {
+				int read = in.read(buffer);
+				out.write(buffer, 0, read);
+			}
+			out.close();
+			in.close();
+			
+			File f = new File(path);
+			while (f.exists())
+				f.delete();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -1,4 +1,4 @@
-package us.miui.toolbox;
+package us.miui.toolbox.activity;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -9,8 +9,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import us.miui.toolbox.R.drawable;
+import us.miui.toolbox.R.id;
+import us.miui.toolbox.R.layout;
+import us.miui.toolbox.R.string;
 import us.miui.toolbox.SimpleDialogs.OnYesNoResponse;
 import us.miui.toolbox.R;
+import us.miui.toolbox.RootUtils;
+import us.miui.toolbox.SimpleDialogs;
 
 import android.app.Activity;
 import android.app.AlertDialog;

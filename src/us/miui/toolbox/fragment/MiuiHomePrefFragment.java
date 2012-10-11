@@ -36,6 +36,7 @@ public class MiuiHomePrefFragment extends PreferenceFragment {
 
 	private CheckBoxPreference mHideStatusbar;
 	private CheckBoxPreference mHideIconText;
+	private CheckBoxPreference mResizeWidgets;
 	private ContentResolver mCR;
 
 	@Override
@@ -52,6 +53,9 @@ public class MiuiHomePrefFragment extends PreferenceFragment {
 		mHideIconText = 
 				(CheckBoxPreference) findPreference(res.getString(
 						R.string.hide_shortcut_text_pref_key));
+		mResizeWidgets = 
+				(CheckBoxPreference) findPreference(res.getString(
+						R.string.resize_widgets_pref_key));
 		// Try to read the HIDE_STATUS_BAR setting and if we get a
 		// SettingNotFoundException
 		// we need to create it.
@@ -74,8 +78,20 @@ public class MiuiHomePrefFragment extends PreferenceFragment {
 			Settings.System.putInt(mCR, Toolbox.HIDE_SHORTCUT_TEXT, 0);
 		}
 
+		// Try to read the HIDE_SHORTCUT_TEXT setting and if we get a
+		// SettingNotFoundException
+		// we need to create it.
+		try {
+			mResizeWidgets
+					.setChecked(Settings.System.getInt(mCR, Toolbox.RESIZE_ANY_WIDGET) == 1);
+		} catch (SettingNotFoundException e) {
+			mResizeWidgets.setChecked(false);
+			Settings.System.putInt(mCR, Toolbox.RESIZE_ANY_WIDGET, 0);
+		}
+
 		mHideStatusbar.setOnPreferenceChangeListener(mListener);
 		mHideIconText.setOnPreferenceChangeListener(mListener);
+		mResizeWidgets.setOnPreferenceChangeListener(mListener);
 	}
 	
 	OnPreferenceChangeListener mListener = new OnPreferenceChangeListener() {
@@ -93,6 +109,12 @@ public class MiuiHomePrefFragment extends PreferenceFragment {
 				.putInt(mCR, Toolbox.HIDE_SHORTCUT_TEXT, (Boolean) newValue
 						.equals(Boolean.TRUE) ? 1 : 0);
 				restartLauncher();
+				return true;
+			} else if (preference == mResizeWidgets) {
+				Settings.System
+				.putInt(mCR, Toolbox.RESIZE_ANY_WIDGET, (Boolean) newValue
+						.equals(Boolean.TRUE) ? 1 : 0);
+				//restartLauncher();
 				return true;
 			}
 			return false;

@@ -1,9 +1,11 @@
 /**
  * 
  */
-package us.miui.toolbox;
+package us.miui.toolbox.activity;
 
 import us.miui.toolbox.R;
+import us.miui.toolbox.R.id;
+import us.miui.toolbox.R.layout;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;

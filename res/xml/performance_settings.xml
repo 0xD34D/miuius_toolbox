@@ -6,7 +6,6 @@
         android:key="@string/calibration_prefs_key"
         android:title="@string/calibration_settings_title" >
     </Preference>
-
     <Preference
         android:key="@string/android_id_prefs_key"
         android:title="@string/android_id_settings_title" >
@@ -14,6 +13,16 @@
     <Preference
         android:key="@string/media_scanner_prefs_key"
         android:title="@string/media_scanner_settings_title" >
+    </Preference>
+
+    <EditTextPreference
+        android:key="@string/lcd_density_prefs_key"
+        android:summary="@string/pref_lcd_density_summary"
+        android:title="@string/pref_lcd_density_title" />
+
+    <Preference
+        android:key="@string/logcat_prefs_key"
+        android:title="@string/logcat_settings_title" >
     </Preference>
 
     <!--
@@ -33,10 +42,10 @@
         android:title="@string/pref_enable_navbar_title" />
 
     <ListPreference
+        android:entries="@array/recovery_type_names"
+        android:entryValues="@array/recovery_type_entries"
         android:key="@string/recovery_selection_prefs_key"
         android:summary="@string/pref_recovery_selection_summary"
-        android:title="@string/pref_recovery_selection_title"
-        android:entries="@array/recovery_type_names"
-        android:entryValues="@array/recovery_type_entries" />
+        android:title="@string/pref_recovery_selection_title" />
 
 </PreferenceScreen>

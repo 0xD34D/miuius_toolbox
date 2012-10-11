@@ -80,4 +80,13 @@ public class RootUtils {
 			result = is.readLine();
 			return result;
 		}
+
+	public static void reboot() {
+		try {
+			RootUtils.execute("reboot\nexit\n");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

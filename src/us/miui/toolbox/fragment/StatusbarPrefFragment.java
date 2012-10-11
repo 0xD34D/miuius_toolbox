@@ -251,7 +251,12 @@ public class StatusbarPrefFragment extends PreferenceFragment {
     			}
 				String RealPath;
 				Uri selectedImage = data.getData();
-   				RealPath = getRealPathFromURI(selectedImage);
+    			try {
+    				RealPath = getRealPathFromURI (selectedImage);
+    			} catch (Exception e) {
+    				RealPath = selectedImage.getPath();
+    			}
+   				//RealPath = getRealPathFromURI(selectedImage);
    				setCustomLogoResult(RealPath);
     			Log.d(TAG, "User selected an image: " + RealPath);
     		}

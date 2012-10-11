@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <CheckBoxPreference
+        android:defaultValue="@bool/enable_mount_log_default"
+        android:key="@string/pref_key_enable_mount_logging"
+        android:summary="@string/pref_eanble_mount_log_summary"
+        android:title="@string/pref_enable_mount_log_title" />
+    
+    <Preference
+        android:key="pref_key_view_mount_log"
+        android:title="View mount log" />
+
+    <Preference
+        android:key="pref_key_delete_mount_log"
+        android:title="Delete mount log" />
+    <PreferenceCategory>
+        <Preference
+            android:key="pref_key_boot_counter"
+            android:title="Boot count: "
+            android:summary="Press this to reset the boot counter" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

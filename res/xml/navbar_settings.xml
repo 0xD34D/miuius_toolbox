@@ -2,11 +2,12 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <PreferenceCategory android:title="@string/pref_navbar_settings_title" >
+        <ListPreference
+            android:entries="@array/navbar_height_names"
+            android:entryValues="@array/navbar_height_values"
+            android:key="@string/pref_key_navbar_height"
+            android:summary="@string/navbar_height_summary"
+            android:title="@string/navbar_height_title" android:defaultValue="48dp"/>
     </PreferenceCategory>
-
-    <CheckBoxPreference
-        android:key="@string/pref_key_lockscreen_show_home"
-        android:summary="@string/pref_lockscreen_show_home_summary"
-        android:title="@string/pref_lockscreen_show_home_title" android:defaultValue="@bool/lockscreen_show_home_default"/>
 
 </PreferenceScreen>

@@ -1,5 +1,8 @@
 MIUI.us Toolbox changelog
 -------------------------------
+[Version 1.2.1]
++ Added option to easily change DPI setting in build.prop
+
 [Version 1.2.0]
 + Revamped UI using View Pager and Tabs
 + Updated to support Jellybean based MIUI

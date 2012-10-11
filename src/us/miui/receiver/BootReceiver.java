@@ -8,10 +8,12 @@ import java.io.IOException;
 import us.miui.helpers.CPUHelper;
 import us.miui.helpers.SystemHelper;
 import us.miui.service.AdbWifiService;
+import us.miui.toolbox.RootUtils;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.util.Log;
 
 /**
@@ -26,6 +28,22 @@ public class BootReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		SharedPreferences prefs = context.getSharedPreferences("us.miui.toolbox_preferences", 0);
+		
+		int count = prefs.getInt("pref_key_boot_counter", 0) + 1;
+		Editor editor = prefs.edit();
+		editor.putInt("pref_key_boot_counter", count);
+		editor.commit();
+		
+		String screenSize = prefs.getString("screen_size_prefs_key", "0");
+		try {
+			//RootUtils.execute(String.format("setprop persist.screen_size_spoof %s\n", screenSize));
+			System.setProperty("persist.screen_size_spoof", screenSize);
+			us.miui.Toolbox.SCREEN_LAYOUT_WIDTH = screenSize;
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		if (prefs.getBoolean("restore_cpu_onboot", false)) {
 			Log.i(TAG, "Resotring CPU settings.");
 			try {

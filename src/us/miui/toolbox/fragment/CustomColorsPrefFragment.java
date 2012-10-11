@@ -55,6 +55,7 @@ public class CustomColorsPrefFragment extends PreferenceFragment {
 	//private ColorPickerPreference mBluetoothColor;
 	//private ColorPickerPreference mGpsColor;
 	private ContentResolver mCR;
+	boolean mResetting = false;
 
 	/* (non-Javadoc)
 	 * @see android.preference.PreferenceFragment#onActivityCreated(android.os.Bundle)
@@ -125,31 +126,31 @@ public class CustomColorsPrefFragment extends PreferenceFragment {
 		
 		@Override
 		public boolean onPreferenceChange(Preference preference, Object newValue) {
-			if (preference == mClockColor) {
+			if (preference == mClockColor && !mResetting) {
 				Settings.System.putInt(mCR, Toolbox.CUSTOM_CLOCK_COLOR, (Integer) newValue);
 				
 				return true;
-			} else if (preference == mCarrierColor) {
+			} else if (preference == mCarrierColor && !mResetting) {
 				Settings.System.putInt(mCR, Toolbox.CUSTOM_CARRIER_COLOR, (Integer) newValue);
 				
 				return true;
-			} else if (preference == mSignalColor) {
+			} else if (preference == mSignalColor && !mResetting) {
 				Settings.System.putInt(mCR, Toolbox.CUSTOM_SIGNAL_COLOR, (Integer) newValue);
 				
 				return true;
-			} else if (preference == mNavbarColor) {
+			} else if (preference == mNavbarColor && !mResetting) {
 				Settings.System.putInt(mCR, Toolbox.CUSTOM_NAVBAR_COLOR, (Integer) newValue);
 				
 				return true;
-			} else if (preference == mBatteryColor) {
+			} else if (preference == mBatteryColor && !mResetting) {
 				Settings.System.putInt(mCR, Toolbox.CUSTOM_BATTERY_COLOR, (Integer) newValue);
 				
 				return true;
-			} else if (preference == mWifiColor) {
+			} else if (preference == mWifiColor && !mResetting) {
 				Settings.System.putInt(mCR, Toolbox.CUSTOM_WIFI_COLOR, (Integer) newValue);
 				
 				return true;
-			} else if (preference == mAllColors) {
+			} else if (preference == mAllColors && !mResetting) {
 				int color = ((Integer)newValue).intValue();
 				mClockColor.onColorChanged(color);
 				Settings.System.putInt(mCR, Toolbox.CUSTOM_CLOCK_COLOR, color);
@@ -216,6 +217,7 @@ public class CustomColorsPrefFragment extends PreferenceFragment {
 	}
 	
 	private void resetColors() {
+		mResetting = true;
 		mClockColor.onColorChanged(0xFF000000);
 		Settings.System.putInt(mCR, Toolbox.CUSTOM_CLOCK_COLOR, 0);
 		mCarrierColor.onColorChanged(0xFF000000);
@@ -228,5 +230,6 @@ public class CustomColorsPrefFragment extends PreferenceFragment {
 		Settings.System.putInt(mCR, Toolbox.CUSTOM_SIGNAL_COLOR, 0);
 		mWifiColor.onColorChanged(0xFF000000);
 		Settings.System.putInt(mCR, Toolbox.CUSTOM_WIFI_COLOR, 0);
+		mResetting = false;
 	}
 }

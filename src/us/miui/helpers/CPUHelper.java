@@ -5,6 +5,7 @@ package us.miui.helpers;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -17,6 +18,20 @@ import us.miui.toolbox.RootUtils;
  *
  */
 public class CPUHelper {
+	public static boolean cpuSettingsExist() {
+		File file = new File("/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq");
+		if (!file.exists())
+			return false;
+		file = new File("/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq");
+		if (!file.exists())
+			return false;
+		file = new File("/sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies");
+		if (!file.exists())
+			return false;
+		
+		return true;
+	}
+	
 	public static String[] getFrequencies() throws IOException {
 		String[] freqs = null;
 		FileInputStream fstream = 
@@ -72,6 +87,8 @@ public class CPUHelper {
 	public static void setMinFrequency(String frequency) {
 		try {
 			RootUtils.execute("echo " + frequency + " > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq\n");
+			if (new File("/sys/devices/system/cpu/cpu1").isDirectory())
+				RootUtils.execute("echo " + frequency + " > /sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq\n");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -80,7 +97,9 @@ public class CPUHelper {
 
 	public static void setMaxFrequency(String frequency) {
 		try {
-			RootUtils.execute("echo " + frequency + " > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq\n");
+			RootUtils.execute("busybox echo " + frequency + " > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq\n");
+			if (new File("/sys/devices/system/cpu/cpu1").isDirectory())
+				RootUtils.execute("busybox echo " + frequency + " > /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq\n");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -5,4 +5,5 @@
     <item name="lockscreen_show_home_default" type="bool">false</item>
     <item name="remove_recents_default" type="bool">false</item>
     
+    <item type="bool" name="enable_mount_log_default">false</item>
 </resources>

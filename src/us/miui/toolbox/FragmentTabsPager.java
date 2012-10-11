@@ -17,26 +17,36 @@ package us.miui.toolbox;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.app.Activity;
 import android.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TabWidget;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
+import us.miui.Toolbox;
 import us.miui.carrierlogo.CarrierLogoHelper;
+import us.miui.helpers.CPUHelper;
 import us.miui.helpers.SystemHelper;
 import us.miui.toolbox.fragment.AdbWifiPrefFragment;
 import us.miui.toolbox.fragment.CPUPrefFragment;
 import us.miui.toolbox.fragment.ChangeLogFragment;
 import us.miui.toolbox.fragment.CustomColorsPrefFragment;
+import us.miui.toolbox.fragment.DevelopmentOptionsFragment;
 import us.miui.toolbox.fragment.MiuiHomePrefFragment;
 import us.miui.toolbox.fragment.NavbarPrefFragment;
 import us.miui.toolbox.fragment.StatusbarPrefFragment;
@@ -55,6 +65,10 @@ public class FragmentTabsPager extends FragmentActivity {
     TabsAdapter mTabsAdapter;
     HorizontalScrollView mTabScroller;
     boolean mShowAdbTab = false;
+    RelativeLayout mTipOverlay;
+    ImageView mLeftSwipe;
+    ImageView mRightSwipe;
+    Button mDismiss;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,24 +87,29 @@ public class FragmentTabsPager extends FragmentActivity {
         mTabsAdapter.addTab(mTabHost.newTabSpec("status_bar").setIndicator("Status Bar"),
                 StatusbarPrefFragment.class, null);
         
-        if (SystemHelper.hasNavigationBar(this)) 
-            mTabsAdapter.addTab(mTabHost.newTabSpec("nav_bar").setIndicator("Nav Bar"),
-                    NavbarPrefFragment.class, null);
-        
         mTabsAdapter.addTab(mTabHost.newTabSpec("colors").setIndicator("Colors"),
                 CustomColorsPrefFragment.class, null);
         
         mTabsAdapter.addTab(mTabHost.newTabSpec("home").setIndicator("Launcher"),
                 MiuiHomePrefFragment.class, null);
         
-        mTabsAdapter.addTab(mTabHost.newTabSpec("cpu").setIndicator("CPU"),
-                CPUPrefFragment.class, null);
+        if (SystemHelper.hasNavigationBar(this))
+            mTabsAdapter.addTab(mTabHost.newTabSpec("navbar").setIndicator("Navbar"),
+                    NavbarPrefFragment.class, null);
+        
+        if (CPUHelper.cpuSettingsExist())
+        	mTabsAdapter.addTab(mTabHost.newTabSpec("cpu").setIndicator("CPU"),
+        			CPUPrefFragment.class, null);
         
         mTabsAdapter.addTab(mTabHost.newTabSpec("adb").setIndicator("ADB WiFi"),
                 AdbWifiPrefFragment.class, null);
         
         mTabsAdapter.addTab(mTabHost.newTabSpec("system").setIndicator("Extras"),
                 SystemSettingsPrefFragment.class, null);
+        
+        if (Toolbox.ENABLE_DEVELOPMENT_OPTIONS)
+            mTabsAdapter.addTab(mTabHost.newTabSpec("development").setIndicator("Development"),
+                    DevelopmentOptionsFragment.class, null);
         
         mTabsAdapter.addTab(mTabHost.newTabSpec("changes").setIndicator("Change log"),
                 ChangeLogFragment.class, null);
@@ -114,6 +133,36 @@ public class FragmentTabsPager extends FragmentActivity {
         if (savedInstanceState != null) {
             mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
         }
+        
+        SharedPreferences prefs = getSharedPreferences(Toolbox.PREFS, 0);
+        boolean showTips = prefs.getBoolean("pref_key_show_tips", true);
+        mTipOverlay = (RelativeLayout) findViewById(R.id.tip_layout);
+        if (showTips == false)
+        	mTipOverlay.setVisibility(View.GONE);
+        mLeftSwipe = (ImageView) findViewById(R.id.tip_image);
+        mRightSwipe = (ImageView) findViewById(R.id.tip_image_right);
+        mDismiss = (Button) findViewById(R.id.dismiss_button);
+        mDismiss.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				mTipOverlay.setVisibility(View.GONE);
+		        SharedPreferences prefs = getSharedPreferences(Toolbox.PREFS, 0);
+		        Editor editor = prefs.edit();
+		        editor.putBoolean("pref_key_show_tips", false);
+		        editor.commit();
+			}
+		});
+    }
+    
+    public void updatePage(int position) {
+    	if (position == 0) {
+    		mLeftSwipe.setVisibility(View.VISIBLE);
+    		mRightSwipe.setVisibility(View.GONE);
+    	} else if (position == mTabsAdapter.getCount() - 1) {
+    		mLeftSwipe.setVisibility(View.GONE);
+    		mRightSwipe.setVisibility(View.VISIBLE);
+    	}
     }
     
     @Override
@@ -138,6 +187,7 @@ public class FragmentTabsPager extends FragmentActivity {
         private final Context mContext;
         private final TabHost mTabHost;
         private final ViewPager mViewPager;
+        private final Activity mActivity;
         private final ArrayList<TabInfo> mTabs = new ArrayList<TabInfo>();
         private final HorizontalScrollView mTabScroller;
 
@@ -173,6 +223,7 @@ public class FragmentTabsPager extends FragmentActivity {
         public TabsAdapter(FragmentActivity activity, TabHost tabHost, ViewPager pager, HorizontalScrollView tabScroller) {
             super(activity.getFragmentManager());
             mContext = activity;
+            mActivity = activity;
             mTabHost = tabHost;
             mViewPager = pager;
             mTabHost.setOnTabChangedListener(this);
@@ -230,6 +281,8 @@ public class FragmentTabsPager extends FragmentActivity {
             int tabX = position * w;
             if (tabX < mid || tabX > mid)
             	mTabScroller.scrollBy(tabX-mid, 0);
+            
+            ((FragmentTabsPager)mActivity).updatePage(position);
         }
 
         @Override

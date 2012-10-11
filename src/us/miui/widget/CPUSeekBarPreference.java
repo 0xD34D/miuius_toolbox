@@ -94,17 +94,23 @@ public class CPUSeekBarPreference extends Preference implements
 	}
 
 	public void onProgressChanged(SeekBar seek, int value, boolean fromTouch) {
+		if (value < 0 || value >= mFrequencies.length)
+			return;
 		int min = Integer.valueOf(CPUHelper.getMinFrequency());
 		int max = Integer.valueOf(CPUHelper.getMaxFrequency());
 		if (mIsMax) {
 			if (Integer.valueOf(mFrequencies[value]) < min) {
 				value = getIndexOfFrequency(Integer.toString(min));
+				if (value == -1)
+					value = mFrequencies.length-1;
 				mSeekBar.setProgress(value);
 			}
 			CPUHelper.setMaxFrequency(mFrequencies[value]);
 		} else {
 			if (Integer.valueOf(mFrequencies[value]) > max) {
 				value = getIndexOfFrequency(Integer.toString(max));
+				if (value == -1)
+					value = 0;
 				mSeekBar.setProgress(value);
 			}
 			CPUHelper.setMinFrequency(mFrequencies[value]);
