@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package us.miui.toolbox;
+package us.miui.toolbox.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -42,6 +42,9 @@ import us.miui.Toolbox;
 import us.miui.carrierlogo.CarrierLogoHelper;
 import us.miui.helpers.CPUHelper;
 import us.miui.helpers.SystemHelper;
+import us.miui.toolbox.R;
+import us.miui.toolbox.R.id;
+import us.miui.toolbox.R.layout;
 import us.miui.toolbox.fragment.AdbWifiPrefFragment;
 import us.miui.toolbox.fragment.CPUPrefFragment;
 import us.miui.toolbox.fragment.ChangeLogFragment;
@@ -57,7 +60,7 @@ import us.miui.toolbox.fragment.SystemSettingsPrefFragment;
  * that switches between tabs and also allows the user to perform horizontal
  * flicks to move between the tabs.
  */
-public class FragmentTabsPager extends FragmentActivity {
+public class ToolboxTabPagerActivity extends FragmentActivity {
 	public static final String ACTION_ADB_WIFI_SETTINGS = "adb_wifi_setings";
 
 	TabHost mTabHost;
@@ -282,7 +285,7 @@ public class FragmentTabsPager extends FragmentActivity {
             if (tabX < mid || tabX > mid)
             	mTabScroller.scrollBy(tabX-mid, 0);
             
-            ((FragmentTabsPager)mActivity).updatePage(position);
+            ((ToolboxTabPagerActivity)mActivity).updatePage(position);
         }
 
         @Override

@@ -1,5 +1,8 @@
 MIUI.us Toolbox changelog
 -------------------------------
+[Version 1.2.2]
++ Added adjustable navbar height option
+
 [Version 1.2.1]
 + Added option to easily change DPI setting in build.prop
 

@@ -7,12 +7,12 @@ import java.io.IOException;
 import java.util.List;
 
 import us.miui.service.AdbWifiService;
-import us.miui.toolbox.FragmentTabsPager;
 import us.miui.toolbox.R;
 import us.miui.toolbox.RootUtils;
 import us.miui.toolbox.R.drawable;
 import us.miui.toolbox.R.string;
 import us.miui.toolbox.R.xml;
+import us.miui.toolbox.activity.ToolboxTabPagerActivity;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -155,8 +155,8 @@ public class AdbWifiPrefFragment extends PreferenceFragment {
 		nb.setAutoCancel(false);
 		nb.setWhen(System.currentTimeMillis());
 		nb.setOngoing(true);
-		Intent intent = new Intent(ctx, FragmentTabsPager.class);
-		intent.setAction(FragmentTabsPager.ACTION_ADB_WIFI_SETTINGS);
+		Intent intent = new Intent(ctx, ToolboxTabPagerActivity.class);
+		intent.setAction(ToolboxTabPagerActivity.ACTION_ADB_WIFI_SETTINGS);
 		PendingIntent contentIntent = PendingIntent.getActivity(getActivity(), 0, intent, 0);
 		nb.setContentIntent(contentIntent);
 		nm.notify(42, nb.getNotification());
