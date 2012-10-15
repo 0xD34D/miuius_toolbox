@@ -1,0 +1,6 @@
+<resources>
+    <color name="qc_normal">#E0000000</color>
+    <color name="qc_selected">#E0FF8800</color>
+    <color name="qc_sub">#E0222222</color>
+    <color name="qcMenuBackground">#C0000000</color>
+</resources>

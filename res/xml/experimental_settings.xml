@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="FAN-NAV OPTIONS">
+        <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="pref_key_fannav_service"
+                android:summaryOff="Fan-Nav service is not running"
+                android:summaryOn="Fan-Nav service is running"
+                android:title="Fan-Nav status"/>
+
+        <ListPreference
+                android:defaultValue="20"
+                android:entries="@array/dimension_size_names"
+                android:entryValues="@array/dimension_size_values"
+                android:key="pref_key_trigger_height"
+                android:summary="The height of the hotspot."
+                android:title="Hot spot height"/>
+
+        <net.margaritov.preference.colorpicker.ColorPickerPreference
+                android:defaultValue="#FFFFFFFF"
+                android:key="pref_key_trigger_color"
+                android:title="Hot spot color"/>
+        <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="pref_key_autohide"
+                android:summary="Automatically hide the OSD volume slider after specified time"
+                android:title="Auto-hide"/>
+
+        <ListPreference
+                android:defaultValue="5"
+                android:enabled="false"
+                android:entries="@array/autohide_names"
+                android:entryValues="@array/autohide_values"
+                android:key="pref_key_autohide_time"
+                android:summary="Time for OSD to be automatically hidden."
+                android:title="Auto-hide timer"/>
+        <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="pref_key_fannav_restore_onboot"
+                android:summaryOff="Service will not be re-enabled on startup"
+                android:summaryOn="Service will be re-enabled on startup"
+                android:title="Enable on startup"/>
+    </PreferenceCategory>
+</PreferenceScreen>

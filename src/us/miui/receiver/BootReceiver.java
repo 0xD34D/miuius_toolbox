@@ -6,9 +6,10 @@ package us.miui.receiver;
 import java.io.IOException;
 
 import us.miui.helpers.CPUHelper;
+import us.miui.helpers.DisplayHelper;
 import us.miui.helpers.SystemHelper;
 import us.miui.service.AdbWifiService;
-import us.miui.toolbox.RootUtils;
+import us.miui.service.FanNavService;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -71,6 +72,19 @@ public class BootReceiver extends BroadcastReceiver {
 			context.startService(i);
 			Log.i(TAG, String.format("Resotring ADB via WiFi settings on port %d.", port));
 		}
+
+        if (prefs.getBoolean("pref_key_fannav_restore_onboot", false)) {
+            Log.d(TAG, "Resotring fannav on boot");
+            int mHeight = DisplayHelper.getPixelSize(context, Integer.parseInt(prefs.getString("pref_key_trigger_height", "20")));
+            int mColor = prefs.getInt("pref_key_trigger_color", 0xFFFFFFFF);
+
+            Intent service_intent = new Intent(context, FanNavService.class);
+            service_intent.putExtra("enable", true);
+            service_intent.putExtra("height", mHeight);
+            service_intent.putExtra("color", mColor);
+            context.startService(service_intent);
+
+        }
 		
 		// in case the user updated we should copy the correct ota binary to /system/xbin
 		// default will be to use cwmota in case that setting is not set yet.

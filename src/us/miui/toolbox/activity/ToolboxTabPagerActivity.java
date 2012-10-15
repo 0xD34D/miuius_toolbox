@@ -45,15 +45,7 @@ import us.miui.helpers.SystemHelper;
 import us.miui.toolbox.R;
 import us.miui.toolbox.R.id;
 import us.miui.toolbox.R.layout;
-import us.miui.toolbox.fragment.AdbWifiPrefFragment;
-import us.miui.toolbox.fragment.CPUPrefFragment;
-import us.miui.toolbox.fragment.ChangeLogFragment;
-import us.miui.toolbox.fragment.CustomColorsPrefFragment;
-import us.miui.toolbox.fragment.DevelopmentOptionsFragment;
-import us.miui.toolbox.fragment.MiuiHomePrefFragment;
-import us.miui.toolbox.fragment.NavbarPrefFragment;
-import us.miui.toolbox.fragment.StatusbarPrefFragment;
-import us.miui.toolbox.fragment.SystemSettingsPrefFragment;
+import us.miui.toolbox.fragment.*;
 
 /**
  * Demonstrates combining a TabHost with a ViewPager to implement a tab UI
@@ -61,9 +53,11 @@ import us.miui.toolbox.fragment.SystemSettingsPrefFragment;
  * flicks to move between the tabs.
  */
 public class ToolboxTabPagerActivity extends FragmentActivity {
-	public static final String ACTION_ADB_WIFI_SETTINGS = "adb_wifi_setings";
+    public static final String ACTION_ADB_WIFI_SETTINGS = "adb_wifi_setings";
+    public static final String ACTION_EXPERIMENTAL_SETTINGS = "experimental_setings";
 
-	TabHost mTabHost;
+
+    TabHost mTabHost;
     ViewPager  mViewPager;
     TabsAdapter mTabsAdapter;
     HorizontalScrollView mTabScroller;
@@ -109,11 +103,15 @@ public class ToolboxTabPagerActivity extends FragmentActivity {
         
         mTabsAdapter.addTab(mTabHost.newTabSpec("system").setIndicator("Extras"),
                 SystemSettingsPrefFragment.class, null);
-        
+
         if (Toolbox.ENABLE_DEVELOPMENT_OPTIONS)
             mTabsAdapter.addTab(mTabHost.newTabSpec("development").setIndicator("Development"),
                     DevelopmentOptionsFragment.class, null);
-        
+
+        if (Toolbox.ENABLE_EXPERIMENTAL_OPTIONS)
+            mTabsAdapter.addTab(mTabHost.newTabSpec("experimental").setIndicator("Experimental"),
+                    ExperimentalPrefFragment.class, null);
+
         mTabsAdapter.addTab(mTabHost.newTabSpec("changes").setIndicator("Change log"),
                 ChangeLogFragment.class, null);
         

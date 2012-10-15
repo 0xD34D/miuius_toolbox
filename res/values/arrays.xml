@@ -52,6 +52,33 @@
         <item>48</item>
         <item>56</item>
     </string-array>
-    
-    
+
+
+    <string-array name="autohide_names">
+        <item>2 seconds</item>
+        <item>5 seconds</item>
+        <item>10 seconds</item>
+    </string-array>
+    <string-array name="autohide_values">
+        <item>2000</item>
+        <item>5000</item>
+        <item>10000</item>
+    </string-array>
+
+    <string-array name="dimension_size_names">
+        <item>5dp</item>
+        <item>10dp</item>
+        <item>20dp</item>
+        <item>30dp</item>
+        <item>40dp</item>
+        <item>50dp</item>
+    </string-array>
+    <string-array name="dimension_size_values">
+        <item>5</item>
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+        <item>40</item>
+        <item>50</item>
+    </string-array>
 </resources>

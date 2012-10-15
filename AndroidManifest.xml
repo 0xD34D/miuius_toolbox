@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
     <application
         android:icon="@drawable/icon"
@@ -61,13 +62,20 @@
         </receiver>
 
         <service
+                android:name="us.miui.service.FanNavService"
+                android:enabled="true" />
+
+        <service
             android:name="us.miui.service.AdbWifiService"
             android:enabled="true" />
         
         <service
             android:name="us.miui.service.LogcatService"
             android:enabled="true" />
-        
+
+        <receiver
+            android:name="us.miui.view.QuickNavbarPanel$AutoHideReceiver" />
+
         <receiver
             android:name="us.miui.provider.AdbWifiWidgetProvider"
             android:icon="@drawable/widget_adb_on"

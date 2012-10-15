@@ -22,6 +22,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.ParcelFileDescriptor;
+import android.os.SystemProperties;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
 import android.util.DisplayMetrics;
@@ -37,6 +38,7 @@ public class Toolbox {
 	public static final String PREFS = "us.miui.toolbox_preferences";
 	public static final boolean DEBUG = false;
 	public static final boolean ENABLE_DEVELOPMENT_OPTIONS = false;
+    public static final boolean ENABLE_EXPERIMENTAL_OPTIONS = true;
 	public static final String DEFAULT_CARRIER_LOGO_FILE = "carrier_logo.png";
 	
 	// Strings for retreiving settings using Settings.System.getXXXX
@@ -460,12 +462,23 @@ public class Toolbox {
 	}
 	
 	private static class Craftsman {
-		/**
+
+        private static final boolean mIsAuthorized = getModVersion().contains("MIUIUS");
+        private static final String UNAUTHORIZED = "Unauthorized use of MIUI.us Toolbox.";
+
+        private static String getModVersion() {
+            return SystemProperties.get("ro.modversion", "KANGED");
+        }
+
+        /**
 		 * Retrieves the system setting for CENTER_CLOCK
 		 * @param context context used to get a ContentResolver
 		 * @return true if center clock is to be used, false otherwise
 		 */
 		public static boolean useCenterClock(Context context) {
+            if (!mIsAuthorized) {
+                throw new RuntimeException(UNAUTHORIZED);
+            }
 			boolean use = false;
 			ContentResolver cr = context.getContentResolver();
 			
@@ -485,7 +498,10 @@ public class Toolbox {
 		 * @return true if am/pm should be hidden, false otherwise
 		 */
 		public static boolean hideAMPM(Context context) {
-			boolean hide = false;
+            if (!mIsAuthorized) {
+                throw new RuntimeException(UNAUTHORIZED);
+            }
+            boolean hide = false;
 			ContentResolver cr = context.getContentResolver();
 			
 			try {
@@ -504,7 +520,10 @@ public class Toolbox {
 		 * @return true if single bars are to be used, false otherwise
 		 */
 		public static boolean useSingleBars(Context context) {
-			boolean use = false;
+            if (!mIsAuthorized) {
+                throw new RuntimeException(UNAUTHORIZED);
+            }
+            boolean use = false;
 			ContentResolver cr = context.getContentResolver();
 			
 			try {
@@ -523,7 +542,10 @@ public class Toolbox {
 		 * @return true if custom carrier text is to be used, false otherwise
 		 */
 		public static boolean useCustomCarrierText(Context context) {
-			boolean use = false;
+            if (!mIsAuthorized) {
+                throw new RuntimeException(UNAUTHORIZED);
+            }
+            boolean use = false;
 			ContentResolver cr = context.getContentResolver();
 			
 			try {
@@ -542,7 +564,10 @@ public class Toolbox {
 		 * @return true if custom carrier text is to be used, false otherwise
 		 */
 		public static boolean useCarrierLogo(Context context) {
-			boolean use = false;
+            if (!mIsAuthorized) {
+                throw new RuntimeException(UNAUTHORIZED);
+            }
+            boolean use = false;
 			ContentResolver cr = context.getContentResolver();
 			
 			try {
@@ -561,7 +586,10 @@ public class Toolbox {
 		 * @return the text to use for the carrier label
 		 */
 		public static String getCustomCarrierText(Context context) {
-			String text = "";
+            if (!mIsAuthorized) {
+                throw new RuntimeException(UNAUTHORIZED);
+            }
+            String text = "";
 			ContentResolver cr = context.getContentResolver();
 			
 			text = Settings.System.getString(cr,
@@ -573,7 +601,10 @@ public class Toolbox {
 		}
 		
 		public static Bitmap getCarrierLogo(Context context) {
-			ContentResolver cr = context.getContentResolver();
+            if (!mIsAuthorized) {
+                throw new RuntimeException(UNAUTHORIZED);
+            }
+            ContentResolver cr = context.getContentResolver();
 			String fileName = Settings.System.getString(cr, CARRIER_LOGO_FILE);
 			if (fileName == null)
 				fileName = DEFAULT_CARRIER_LOGO_FILE;
@@ -598,7 +629,10 @@ public class Toolbox {
 		 * @return true if a custom clock color has been selected
 		 */
 		public static boolean useCustomClockColor(Context context) {
-			boolean use = false;
+            if (!mIsAuthorized) {
+                throw new RuntimeException(UNAUTHORIZED);
+            }
+            boolean use = false;
 			ContentResolver cr = context.getContentResolver();
 			
 			try {
@@ -618,7 +652,10 @@ public class Toolbox {
 		 * @return the ARGB color selected by the user
 		 */
 		public static int getCustomClockColor(Context context) {
-			int color = 0xFFFFFFFF;
+            if (!mIsAuthorized) {
+                throw new RuntimeException(UNAUTHORIZED);
+            }
+            int color = 0xFFFFFFFF;
 			ContentResolver cr = context.getContentResolver();
 			
 			try {
@@ -637,7 +674,10 @@ public class Toolbox {
 		 * @return true if a custom carrier color has been selected
 		 */
 		public static boolean useCustomCarrierColor(Context context) {
-			boolean use = false;
+            if (!mIsAuthorized) {
+                throw new RuntimeException(UNAUTHORIZED);
+            }
+            boolean use = false;
 			ContentResolver cr = context.getContentResolver();
 			try {
 				int color = Settings.System.getInt(cr,
@@ -656,7 +696,10 @@ public class Toolbox {
 		 * @return the ARGB color selected by the user
 		 */
 		public static int getCustomCarrierColor(Context context) {
-			int color = 0xFFFFFFFF;
+            if (!mIsAuthorized) {
+                throw new RuntimeException(UNAUTHORIZED);
+            }
+            int color = 0xFFFFFFFF;
 			ContentResolver cr = context.getContentResolver();
 			
 			try {
@@ -675,7 +718,10 @@ public class Toolbox {
 		 * @return true if a custom signal color has been selected
 		 */
 		public static boolean useCustomSignalColor(Context context) {
-			boolean use = false;
+            if (!mIsAuthorized) {
+                throw new RuntimeException(UNAUTHORIZED);
+            }
+            boolean use = false;
 			ContentResolver cr = context.getContentResolver();
 			
 			try {
@@ -695,7 +741,10 @@ public class Toolbox {
 		 * @return the ARGB color selected by the user
 		 */
 		public static int getCustomSignalColor(Context context) {
-			int color = 0xFFFFFFFF;
+            if (!mIsAuthorized) {
+                throw new RuntimeException(UNAUTHORIZED);
+            }
+            int color = 0xFFFFFFFF;
 			ContentResolver cr = context.getContentResolver();
 			
 			try {
@@ -714,7 +763,10 @@ public class Toolbox {
 		 * @return true if a custom navbar color has been selected
 		 */
 		public static boolean useCustomNavbarColor(Context context) {
-			boolean use = false;
+            if (!mIsAuthorized) {
+                throw new RuntimeException(UNAUTHORIZED);
+            }
+            boolean use = false;
 			ContentResolver cr = context.getContentResolver();
 			
 			try {
@@ -734,7 +786,10 @@ public class Toolbox {
 		 * @return the ARGB color selected by the user
 		 */
 		public static int getCustomNavbarColor(Context context) {
-			int color = 0xFFFFFFFF;
+            if (!mIsAuthorized) {
+                throw new RuntimeException(UNAUTHORIZED);
+            }
+            int color = 0xFFFFFFFF;
 			ContentResolver cr = context.getContentResolver();
 			
 			try {
@@ -753,7 +808,10 @@ public class Toolbox {
 		 * @return true if a custom battery color has been selected
 		 */
 		public static boolean useCustomBatteryColor(Context context) {
-			boolean use = false;
+            if (!mIsAuthorized) {
+                throw new RuntimeException(UNAUTHORIZED);
+            }
+            boolean use = false;
 			ContentResolver cr = context.getContentResolver();
 			
 			try {
@@ -773,7 +831,10 @@ public class Toolbox {
 		 * @return the ARGB color selected by the user
 		 */
 		public static int getCustomBatteryColor(Context context) {
-			int color = 0xFFFFFFFF;
+            if (!mIsAuthorized) {
+                throw new RuntimeException(UNAUTHORIZED);
+            }
+            int color = 0xFFFFFFFF;
 			ContentResolver cr = context.getContentResolver();
 			
 			try {
@@ -792,7 +853,10 @@ public class Toolbox {
 		 * @return true if a custom wifi color has been selected
 		 */
 		public static boolean useCustomWifiColor(Context context) {
-			boolean use = false;
+            if (!mIsAuthorized) {
+                throw new RuntimeException(UNAUTHORIZED);
+            }
+            boolean use = false;
 			ContentResolver cr = context.getContentResolver();
 			
 			try {
@@ -812,7 +876,10 @@ public class Toolbox {
 		 * @return the ARGB color selected by the user
 		 */
 		public static int getCustomWifiColor(Context context) {
-			int color = 0xFFFFFFFF;
+            if (!mIsAuthorized) {
+                throw new RuntimeException(UNAUTHORIZED);
+            }
+            int color = 0xFFFFFFFF;
 			ContentResolver cr = context.getContentResolver();
 			
 			try {
@@ -831,7 +898,10 @@ public class Toolbox {
 		 * @return true if a custom bluetooth color has been selected
 		 */
 		public static boolean useCustomBluetoothColor(Context context) {
-			boolean use = false;
+            if (!mIsAuthorized) {
+                throw new RuntimeException(UNAUTHORIZED);
+            }
+            boolean use = false;
 			ContentResolver cr = context.getContentResolver();
 			
 			try {
@@ -851,7 +921,10 @@ public class Toolbox {
 		 * @return the ARGB color selected by the user
 		 */
 		public static int getCustomBluetoothColor(Context context) {
-			int color = 0xFFFFFFFF;
+            if (!mIsAuthorized) {
+                throw new RuntimeException(UNAUTHORIZED);
+            }
+            int color = 0xFFFFFFFF;
 			ContentResolver cr = context.getContentResolver();
 			
 			try {
@@ -870,7 +943,10 @@ public class Toolbox {
 		 * @return true if a custom gps color has been selected
 		 */
 		public static boolean useCustomGpsColor(Context context) {
-			boolean use = false;
+            if (!mIsAuthorized) {
+                throw new RuntimeException(UNAUTHORIZED);
+            }
+            boolean use = false;
 			ContentResolver cr = context.getContentResolver();
 			
 			try {
@@ -890,7 +966,10 @@ public class Toolbox {
 		 * @return the ARGB color selected by the user
 		 */
 		public static int getCustomGpsColor(Context context) {
-			int color = 0xFFFFFFFF;
+            if (!mIsAuthorized) {
+                throw new RuntimeException(UNAUTHORIZED);
+            }
+            int color = 0xFFFFFFFF;
 			ContentResolver cr = context.getContentResolver();
 			
 			try {
@@ -905,13 +984,23 @@ public class Toolbox {
 	}
 
 	private static class SnapOn {
-		/**
+        private static final boolean mIsAuthorized = getModVersion().contains("MIUIUS");
+        private static final String UNAUTHORIZED = "Unauthorized use of MIUI.us Toolbox.";
+
+        private static String getModVersion() {
+            return SystemProperties.get("ro.modversion", "KANGED");
+        }
+
+        /**
 		 * Retrieves the system setting for HIDE_STATUS_BAR
 		 * @param context context used to get a ContentResolver
 		 * @return true if status bar is to be hidden in MiuiHome
 		 */
 		public static boolean hideStatusBar(Context context) {
-			boolean hide = false;
+            if (!mIsAuthorized) {
+                throw new RuntimeException(UNAUTHORIZED);
+            }
+            boolean hide = false;
 			ContentResolver cr = context.getContentResolver();
 			
 			try {
@@ -930,7 +1019,10 @@ public class Toolbox {
 		 * @return true if shortcut text label is to be hidden in MiuiHome
 		 */
 		public static boolean hideShortcutText(Context context) {
-			boolean hide = false;
+            if (!mIsAuthorized) {
+                throw new RuntimeException(UNAUTHORIZED);
+            }
+            boolean hide = false;
 			ContentResolver cr = context.getContentResolver();
 			
 			try {
@@ -949,7 +1041,10 @@ public class Toolbox {
 		 * @return true if all widgets can be resized
 		 */
 		public static boolean resizeAnyWidget(Context context) {
-			boolean resize = false;
+            if (!mIsAuthorized) {
+                throw new RuntimeException(UNAUTHORIZED);
+            }
+            boolean resize = false;
 			ContentResolver cr = context.getContentResolver();
 			
 			try {
@@ -968,7 +1063,10 @@ public class Toolbox {
 		 * @return true if launcher should rotate into landscape orientation
 		 */
 		public static boolean rotateMiuiHome(Context context) {
-			boolean hide = false;
+            if (!mIsAuthorized) {
+                throw new RuntimeException(UNAUTHORIZED);
+            }
+            boolean hide = false;
 			ContentResolver cr = context.getContentResolver();
 			
 			try {
@@ -987,7 +1085,10 @@ public class Toolbox {
 		 * @return true if search button should be shown in navbar
 		 */
 		public static boolean useNavbarSearch(Context context) {
-			boolean use = false;
+            if (!mIsAuthorized) {
+                throw new RuntimeException(UNAUTHORIZED);
+            }
+            boolean use = false;
 			ContentResolver cr = context.getContentResolver();
 			
 			try {
@@ -1006,7 +1107,10 @@ public class Toolbox {
 		 * @return true if navbar should be enabled
 		 */
 		public static boolean enableNavbar(Context context) {
-			boolean use = false;
+            if (!mIsAuthorized) {
+                throw new RuntimeException(UNAUTHORIZED);
+            }
+            boolean use = false;
 			ContentResolver cr = context.getContentResolver();
 			
 			try {
@@ -1025,7 +1129,10 @@ public class Toolbox {
 		 * @return true if home should be enabled on lockscreen
 		 */
 		public static boolean lockscreenShowHome(Context context) {
-			boolean show = false;
+            if (!mIsAuthorized) {
+                throw new RuntimeException(UNAUTHORIZED);
+            }
+            boolean show = false;
 			ContentResolver cr = context.getContentResolver();
 			
 			try {
@@ -1044,7 +1151,10 @@ public class Toolbox {
 		 * @return the text to use for the carrier label
 		 */
 		public static int getNavbarHeight(Context context) {
-			int dp = 48;
+            if (!mIsAuthorized) {
+                throw new RuntimeException(UNAUTHORIZED);
+            }
+            int dp = 48;
 			ContentResolver cr = context.getContentResolver();
 			
 			String text = Settings.System.getString(cr,
@@ -1062,7 +1172,10 @@ public class Toolbox {
 		}
 		
 		public static WindowManager.LayoutParams getNavbarLayoutParams(Context context, WindowManager.LayoutParams lp) {
-			lp.height = getNavbarHeight(context);
+            if (!mIsAuthorized) {
+                throw new RuntimeException(UNAUTHORIZED);
+            }
+            lp.height = getNavbarHeight(context);
 			return lp;
 		}
 	}
