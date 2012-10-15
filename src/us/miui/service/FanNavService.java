@@ -9,6 +9,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.os.Binder;
@@ -141,11 +142,14 @@ public class FanNavService extends Service {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     if (mQuicknavPanel.isShowing())
                         mQuicknavPanel.show(false, false);
+                    Resources res = getResources();
+                    int width = res.getDimensionPixelSize(R.dimen.fannav_panel_width);
+                    int height = res.getDimensionPixelSize(R.dimen.fannav_panel_height);
                     int flags = LayoutParams.FLAG_NOT_TOUCH_MODAL | LayoutParams.FLAG_NOT_FOCUSABLE |
                             LayoutParams.FLAG_ALT_FOCUSABLE_IM
                             | LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH;
                     LayoutParams params = new LayoutParams(
-                            300, 150, (int) event.getX() - 150, 0,
+                            width, height, (int) event.getX() - width/2, 0,
                             LayoutParams.TYPE_SYSTEM_ALERT,
                             flags,
                             PixelFormat.TRANSLUCENT);

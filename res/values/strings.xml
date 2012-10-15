@@ -187,4 +187,7 @@
     <string name="menu_settings">Settings</string>
     <string name="title_activity_logcat">LogcatActivity</string>
 
+    <string name="default_hotspot_height">10</string>
+    <string name="default_autohide_time">5000</string>
+
 </resources>

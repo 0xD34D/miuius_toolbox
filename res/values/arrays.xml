@@ -69,16 +69,10 @@
         <item>5dp</item>
         <item>10dp</item>
         <item>20dp</item>
-        <item>30dp</item>
-        <item>40dp</item>
-        <item>50dp</item>
     </string-array>
     <string-array name="dimension_size_values">
         <item>5</item>
         <item>10</item>
         <item>20</item>
-        <item>30</item>
-        <item>40</item>
-        <item>50</item>
     </string-array>
 </resources>

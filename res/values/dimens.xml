@@ -5,10 +5,12 @@
     <dimen name="padding_large">16dp</dimen>
 
     <!-- FanNav dimensions -->
-    <dimen name="fannav_item_size">32dip</dimen>
-    <dimen name="fannav_radius_start">40dip</dimen>
-    <dimen name="fannav_radius_increment">55dip</dimen>
+    <dimen name="fannav_item_size">40dip</dimen>
+    <dimen name="fannav_radius_start">65dip</dimen>
+    <dimen name="fannav_radius_increment">80dip</dimen>
     <dimen name="fannav_slop">10dip</dimen>
     <dimen name="fannav_touch_offset">15dip</dimen>
     <dimen name="fannav_tab_title_height">10dip</dimen>
+    <dimen name="fannav_panel_width">300dip</dimen>
+    <dimen name="fannav_panel_height">150dip</dimen>
 </resources>

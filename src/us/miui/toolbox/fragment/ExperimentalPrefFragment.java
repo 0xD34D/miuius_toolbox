@@ -86,13 +86,13 @@ public class ExperimentalPrefFragment extends PreferenceFragment {
                         editor.putString("pref_key_navbarheight_backup", navbarHeight);
                         editor.commit();
                         Settings.System
-                                .putString(mCR, Toolbox.NAVBAR_HEIGHT, "0dip");
+                                .putString(mCR, Toolbox.NAVBAR_HEIGHT, "0");
                         //SystemHelper.restartSystemUI(getActivity());
                         return true;
                     } else {
                         if (mService.serviceEnabled())
                             mService.disableOverlay();
-                        String navbarHeight = getPreferenceManager().getSharedPreferences().getString("pref_key_navbarheight_backup", "48dip");
+                        String navbarHeight = getPreferenceManager().getSharedPreferences().getString("pref_key_navbarheight_backup", "48");
                         Settings.System
                                 .putString(mCR, Toolbox.NAVBAR_HEIGHT, navbarHeight);
                     }
