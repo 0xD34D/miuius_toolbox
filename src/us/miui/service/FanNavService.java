@@ -102,6 +102,7 @@ public class FanNavService extends Service {
                 flags,
                 PixelFormat.TRANSLUCENT);
         WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
+        params.gravity = Gravity.LEFT | Gravity.BOTTOM;
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         mQuicknavPanel = (QuickNavbarPanel) inflater.inflate(R.layout.fannav_panel, null);
