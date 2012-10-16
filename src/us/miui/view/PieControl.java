@@ -17,6 +17,7 @@
 package us.miui.view;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,7 +27,12 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.TextView;
+import miui.provider.ExtraSettings;
+import us.miui.Toolbox;
 import us.miui.toolbox.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Controller for Quick Controls pie menu
@@ -41,6 +47,11 @@ public class PieControl implements PieMenu.PieController, OnClickListener,
     public static final String NOTIFICATION_BUTTON = "##notification##";
     public static final String SETTINGS_BUTTON = "##settings##";
     public static final String SCREENSHOT_BUTTON = "##screenshot##";
+
+    public static final int MENU_BUTTON_ID = 0;
+    public static final int HOME_BUTTON_ID = 1;
+    public static final int RECENT_BUTTON_ID = 2;
+    public static final int BACK_BUTTON_ID = 3;
 
     protected Context mContext;
     protected PieMenu mPie;
@@ -117,15 +128,35 @@ public class PieControl implements PieMenu.PieController, OnClickListener,
         setClickListener(this, mBack, mHome, mRecent, mMenu, mSearch);
         setLongClickListener(this, mBack);
         // level 1
+        List<Integer> buttonOrder = ExtraSettings.System.getScreenKeyOrder(mContext);
+
         mPie.addItem(mSearch);
+        for (int i = buttonOrder.size() - 1; i >= 0; i--) {
+            switch (buttonOrder.get(i)) {
+                case MENU_BUTTON_ID:
+                    mPie.addItem(mMenu);
+                    break;
+                case HOME_BUTTON_ID:
+                    mPie.addItem(mHome);
+                    break;
+                case RECENT_BUTTON_ID:
+                    mPie.addItem(mRecent);
+                    break;
+                case BACK_BUTTON_ID:
+                    mPie.addItem(mBack);
+                    break;
+            }
+        }
 
-        mPie.addItem(mMenu);
+        //mPie.addItem(mSearch);
 
-        mPie.addItem(mRecent);
+        //mPie.addItem(mMenu);
+
+        //mPie.addItem(mRecent);
         
-        mPie.addItem(mHome);
+        //mPie.addItem(mHome);
 
-        mPie.addItem(mBack);
+        //mPie.addItem(mBack);
     }
 
     @Override
@@ -177,6 +208,8 @@ public class PieControl implements PieMenu.PieController, OnClickListener,
         view.setScaleType(ScaleType.CENTER);
         LayoutParams lp = new LayoutParams(mItemSize, mItemSize);
         view.setLayoutParams(lp);
+        if (Toolbox.useCustomNavbarColor(mContext))
+            view.setColorFilter(Toolbox.getCustomNavbarColor(mContext), PorterDuff.Mode.MULTIPLY);
         return new PieItem(view, l);
     }
 

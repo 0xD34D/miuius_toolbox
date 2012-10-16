@@ -18,31 +18,31 @@ package us.miui.view;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.*;
+import android.database.ContentObserver;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.os.RemoteException;
 import android.os.ServiceManager;
 import android.os.SystemClock;
+import android.preference.Preference;
+import android.provider.Settings;
 import android.util.AttributeSet;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.FrameLayout;
 import com.android.internal.statusbar.IStatusBarService;
 
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
 
+import miui.provider.ExtraSettings;
 import us.miui.toolbox.R;
 import us.miui.toolbox.RootUtils;
 
 
-public class QuickNavbarPanel extends FrameLayout implements OverlayPanel, PieControl.OnNavButtonPressedListener {
+public class QuickNavbarPanel extends FrameLayout implements OverlayPanel, PieControl.OnNavButtonPressedListener,
+        SharedPreferences.OnSharedPreferenceChangeListener {
     private static final boolean DEBUG = true;
     static QuickNavbarPanel mQuickNavbarPanel;
     private Handler mHandler;
@@ -55,6 +55,7 @@ public class QuickNavbarPanel extends FrameLayout implements OverlayPanel, PieCo
     private boolean mLongpressKillsApp = false;
     long mHideTime;
     boolean mAutoHide;
+    DataOutputStream mShell;
 
     ViewGroup mContentFrame;
     Rect mContentArea = new Rect();
@@ -73,6 +74,16 @@ public class QuickNavbarPanel extends FrameLayout implements OverlayPanel, PieCo
         SharedPreferences prefs = context.getSharedPreferences("us.miui.toolbox_preferences", 0);
         mAutoHide = prefs.getBoolean("pref_key_autohide", false);
         mHideTime = Long.parseLong(prefs.getString("pref_key_autohide_time", "5000"));
+        prefs.registerOnSharedPreferenceChangeListener(this);
+
+        OrderChangeObserver observer = new OrderChangeObserver(mHandler);
+        observer.observe();
+
+        try {
+            mShell = RootUtils.getRootShell();
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
     }
 
     @Override
@@ -151,17 +162,18 @@ public class QuickNavbarPanel extends FrameLayout implements OverlayPanel, PieCo
 
     public void onNavButtonPressed(String buttonName) {
         if (buttonName.equals(PieControl.BACK_BUTTON)) {
-            injectKeyDelayed(KeyEvent.KEYCODE_BACK);
+            injectKey(KeyEvent.KEYCODE_BACK);
         } else if (buttonName.equals(PieControl.HOME_BUTTON)) {
-            injectKeyDelayed(KeyEvent.KEYCODE_HOME);
+            injectKey(KeyEvent.KEYCODE_HOME);
         } else if (buttonName.equals(PieControl.MENU_BUTTON)) {
-            injectKeyDelayed(KeyEvent.KEYCODE_MENU);
+            injectKey(KeyEvent.KEYCODE_MENU);
         } else if (buttonName.equals(PieControl.SEARCH_BUTTON)) {
-            injectKeyDelayed(KeyEvent.KEYCODE_SEARCH);
+            injectKey(KeyEvent.KEYCODE_SEARCH);
         } else if (buttonName.equals(PieControl.RECENT_BUTTON)) {
             try {
                 // Using a hidden api to call the statusbar service toggleRecentApps() method
                 IStatusBarService.Stub.asInterface(ServiceManager.getService("statusbar")).toggleRecentApps();
+                mHandler.postDelayed(onRestoreForegroundDelayed,250);
             } catch (RemoteException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
@@ -180,11 +192,20 @@ public class QuickNavbarPanel extends FrameLayout implements OverlayPanel, PieCo
             show(false, false);
     }
 
+    public void injectKey(int keycode) {
+        try {
+            mShell.writeBytes(String.format("input keyevent %d\n", keycode));
+            //RootUtils.execute(String.format("input keyevent %d\n", keycode));
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+    }
+
     public void injectKeyDelayed(int keycode){
     	mInjectKeycode = keycode;
         mDownTime = SystemClock.uptimeMillis();
     	mHandler.removeCallbacks(onInjectKeyDelayed);
-      	mHandler.postDelayed(onInjectKeyDelayed, 100);
+      	mHandler.postDelayed(onInjectKeyDelayed, 50);
     }
 
     final Runnable onInjectKeyDelayed = new Runnable() {
@@ -194,6 +215,14 @@ public class QuickNavbarPanel extends FrameLayout implements OverlayPanel, PieCo
             } catch (IOException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
+        }
+    };
+
+    final Runnable onRestoreForegroundDelayed = new Runnable() {
+        public void run() {
+            WindowManager wm = (WindowManager)getContext().getSystemService(Context.WINDOW_SERVICE);
+            wm.removeView(QuickNavbarPanel.this);
+            wm.addView(QuickNavbarPanel.this, QuickNavbarPanel.this.getLayoutParams());
         }
     };
 
@@ -224,10 +253,41 @@ public class QuickNavbarPanel extends FrameLayout implements OverlayPanel, PieCo
         }
     }
 
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+        if (key.equals("pref_key_autohide")) {
+            mAutoHide = prefs.getBoolean("pref_key_autohide", false);
+        } else if (key.equals("pref_key_autohide_time")) {
+            mHideTime = Long.parseLong(prefs.getString("pref_key_autohide_time", "5000"));
+        }
+    }
+
     public static class AutoHideReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             mQuickNavbarPanel.show(false, true);
+        }
+    }
+
+    private class OrderChangeObserver extends ContentObserver {
+
+        public OrderChangeObserver(Handler handler) {
+            super(handler);
+        }
+
+        void observe() {
+            ContentResolver resolver = getContext().getContentResolver();
+            resolver.registerContentObserver(
+                    Settings.System.getUriFor(ExtraSettings.System.SCREEN_KEY_ORDER),
+                    false, this);
+        }
+
+        @Override
+        public void onChange(boolean b) {
+            mPieControl = new PieControl(getContext());
+            mPieControl.setOnNavButtonPressedListener(QuickNavbarPanel.this);
+            mPieControl.attachToContainer(QuickNavbarPanel.this);
+            mPieControl.forceToTop(QuickNavbarPanel.this);
         }
     }
 }
