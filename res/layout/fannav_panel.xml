@@ -2,8 +2,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
  	xmlns:tools="http://schemas.android.com/tools"
  	android:id="@+id/content_frame"
-  	android:layout_width="150dp"
-  	android:layout_height="150dp"
+  	android:layout_width="@dimen/fannav_panel_width"
+  	android:layout_height="@dimen/fannav_panel_height"
     android:background="#00000000" >
 
 </us.miui.view.QuickNavbarPanel>

@@ -140,7 +140,10 @@ public class FanNavService extends Service {
         button.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                int x = (int) event.getX();
+                int y = (int) event.getY();
+                int action = event.getAction();
+                if (action == MotionEvent.ACTION_DOWN) {
                     if (mQuicknavPanel.isShowing())
                         mQuicknavPanel.show(false, false);
                     Resources res = getResources();
@@ -150,7 +153,7 @@ public class FanNavService extends Service {
                             LayoutParams.FLAG_ALT_FOCUSABLE_IM
                             | LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH;
                     LayoutParams params = new LayoutParams(
-                            width, height, (int) event.getX() - width/2, 0,
+                            width, height, x - width/2, 0,
                             LayoutParams.TYPE_SYSTEM_ALERT,
                             flags,
                             PixelFormat.TRANSLUCENT);
@@ -168,7 +171,7 @@ public class FanNavService extends Service {
         // Add layout to window manager
         wm.addView(mTrigger, params);
         mServiceEnabled = true;
-        createNotification();
+        startForeground(FANNAV_NOTIFICATION_ID, createNotification());
     }
 
     public void disableOverlay() {
@@ -249,7 +252,6 @@ public class FanNavService extends Service {
                 .setWhen(System.currentTimeMillis())
                 .setContentIntent(contentIntent)
                 .build();
-        nm.notify(FANNAV_NOTIFICATION_ID, notice);
         return notice;
 
     }

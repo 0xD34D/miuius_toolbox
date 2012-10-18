@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.util.Calendar;
 
 import miui.provider.ExtraSettings;
+import us.miui.Toolbox;
 import us.miui.toolbox.R;
 import us.miui.toolbox.RootUtils;
 
@@ -72,7 +73,8 @@ public class QuickNavbarPanel extends FrameLayout implements OverlayPanel, PieCo
         mHandler = new Handler();
         mQuickNavbarPanel = this;
         SharedPreferences prefs = context.getSharedPreferences("us.miui.toolbox_preferences", 0);
-        mAutoHide = prefs.getBoolean("pref_key_autohide", false);
+        mHideOnPress = prefs.getBoolean("pref_key_hide_on_keypress", false);
+        mAutoHide = prefs.getBoolean("pref_key_autohide", false) && !mHideOnPress;
         mHideTime = Long.parseLong(prefs.getString("pref_key_autohide_time", "5000"));
         prefs.registerOnSharedPreferenceChangeListener(this);
 
@@ -280,6 +282,9 @@ public class QuickNavbarPanel extends FrameLayout implements OverlayPanel, PieCo
             resolver.registerContentObserver(
                     Settings.System.getUriFor(ExtraSettings.System.SCREEN_KEY_ORDER),
                     false, this);
+
+            resolver.registerContentObserver(
+                    Settings.System.getUriFor(Toolbox.CUSTOM_NAVBAR_COLOR), false, this);
         }
 
         @Override

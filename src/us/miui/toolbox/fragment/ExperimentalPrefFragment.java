@@ -26,6 +26,7 @@ public class ExperimentalPrefFragment extends PreferenceFragment {
     ListPreference mTriggerHeight;
     ListPreference mAutoHideTime;
     CheckBoxPreference mAutoHide;
+    CheckBoxPreference mHideOnPress;
     ColorPickerPreference mTriggerColor;
     int mWidth = 20;
     int mHeight = 20;
@@ -66,6 +67,20 @@ public class ExperimentalPrefFragment extends PreferenceFragment {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 mAutoHideTime.setEnabled((Boolean)newValue);
+                return true;
+            }
+        });
+
+        mHideOnPress = (CheckBoxPreference)findPreference("pref_key_hide_on_keypress");
+        mHideOnPress.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                boolean enabled = (Boolean)newValue;
+                mAutoHide.setEnabled(!enabled);
+                mAutoHideTime.setEnabled(!enabled);
+                if (!enabled)
+                    mAutoHideTime.setEnabled(mAutoHide.isChecked());
                 return true;
             }
         });

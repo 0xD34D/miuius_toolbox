@@ -23,6 +23,12 @@
                 android:title="Hot spot color"/>
         <CheckBoxPreference
                 android:defaultValue="false"
+                android:key="pref_key_hide_on_keypress"
+                android:summary="Automatically hide after pressing a button"
+                android:title="Insta-hide"/>
+
+        <CheckBoxPreference
+                android:defaultValue="false"
                 android:key="pref_key_autohide"
                 android:summary="Automatically hide the Fan-Nav panel after specified time"
                 android:title="Auto-hide"/>
