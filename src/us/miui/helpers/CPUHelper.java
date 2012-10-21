@@ -139,7 +139,9 @@ public class CPUHelper {
 	public static void setGovernor(String governor) {
 		try {
 			RootUtils.execute("echo " + governor + " > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor\n");
-		} catch (IOException e) {
+            if (new File("/sys/devices/system/cpu/cpu1").isDirectory())
+                RootUtils.execute("echo " + governor + " > /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor\n");
+        } catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

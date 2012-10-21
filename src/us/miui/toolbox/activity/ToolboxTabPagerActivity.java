@@ -78,6 +78,7 @@ public class ToolboxTabPagerActivity extends FragmentActivity {
         mTabScroller = (HorizontalScrollView)findViewById(R.id.tab_scroller);
 
         mViewPager = (ViewPager)findViewById(R.id.pager);
+        mViewPager.setOffscreenPageLimit(4);
 
         mTabsAdapter = new TabsAdapter(this, mTabHost, mViewPager, mTabScroller);
         
